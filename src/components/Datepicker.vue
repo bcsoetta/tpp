@@ -1,8 +1,8 @@
 <template>
-    <div class="input-group date">
+    <div :class="['input-group', 'date', size ? 'input-group-'+size : '']">
         <input v-bind="$attrs" type="text" :disabled="disabled" :id="id" class="form-control" :class="{'is-valid': this.state===true, 'is-invalid': this.state===false}" ref="dp">
         <div class="input-group-append">
-            <button type="button" class="btn btn-primary" :disabled="disabled"><font-awesome-icon icon="calendar-alt"></font-awesome-icon></button>
+            <button type="button" style="z-index: 0" class="btn btn-primary" :disabled="disabled"><font-awesome-icon icon="calendar-alt"></font-awesome-icon></button>
         </div>
     </div>
 </template>
@@ -11,7 +11,7 @@
 
 export default {
     inheritAttrs: false,
-    props: ['value','state','id', 'disabled'],
+    props: ['value','state','id', 'disabled', 'size'],
     watch: {
         value: function(newVal, oldVal) {
             $(this.$el).datepicker('update', newVal)
