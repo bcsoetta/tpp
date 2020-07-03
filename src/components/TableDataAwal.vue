@@ -150,7 +150,7 @@
     <template #cell(act)="row">
       <div class="text-center">
         <!-- delete -->
-        <b-button class="shadow" size="sm" variant="danger">
+        <b-button class="shadow" size="sm" variant="danger" @click="$emit('delete', row.index)">
           <font-awesome-icon icon="trash-alt"/>
         </b-button>
       </div>

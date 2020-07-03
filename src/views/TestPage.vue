@@ -96,7 +96,7 @@
       </template>
 
       <div v-if="result">
-        <table-data-awal :items="result" />
+        <table-data-awal :items="result" @delete="handleDelete"/>
 
         <!-- <pre>{{ JSON.stringify(result, null, 2) }}</pre> -->
       </div>
@@ -126,6 +126,26 @@ export default {
       showAlert: false,
       showModal: false
     };
+  },
+
+  methods: {
+    async handleDelete (idx) {
+      if (this.result) {
+        var answer = await this.$bvModal.msgBoxConfirm(
+          `Yakin mau menghapus baris #${idx+1}?`,
+          {
+            title: 'Konfirmasi',
+            size: 'sm',
+            buttonSize: 'sm',
+            okVariant: 'danger',
+            centered: true
+          }
+        )
+
+        if (answer)
+          this.result.splice(idx, 1)
+      }
+    }
   },
 
   computed: {
