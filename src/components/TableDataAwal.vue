@@ -146,6 +146,16 @@
         Jumlah Jenis Barang
     </template>
 
+    <!-- TOMBOL APUS/EDIT? -->
+    <template #cell(act)="row">
+      <div class="text-center">
+        <!-- delete -->
+        <b-button class="shadow" size="sm" variant="danger">
+          <font-awesome-icon icon="trash-alt"/>
+        </b-button>
+      </div>
+    </template>
+
   </b-table>
 </template>
 
@@ -188,6 +198,10 @@ export default {
         {
           label: "Keterangan",
           key: "keterangan_rows"
+        },
+        {
+          label: "",
+          key: "act"
         }
       ];
     }
