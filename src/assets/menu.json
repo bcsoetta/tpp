@@ -1,0 +1,96 @@
+[
+    {
+        "section": "Browse",
+        "role": "PELAKSANA,KASI,CONSOLE"
+    },
+    {
+        "role": "PELAKSANA,KASI,CONSOLE",
+        "list": [
+            {
+                "item": "Data Utama",
+                "icon": "fa-file-alt",
+                "children": [
+                    {
+                        "item": "Entry Manifest",
+                        "icon": "fa-shipping-fast",
+                        "to": "/hawb"
+                    },
+                    {
+                        "item": "Pencacahan",
+                        "icon": "fa-boxes",
+                        "to": "/pencacahan"
+                    }
+                ]
+            }            
+        ]
+    },
+    {
+        "section": "Referensi",
+        "role": "PELAKSANA,KASI,CONSOLE"
+    },
+    {
+        "role": "PELAKSANA,KASI,CONSOLE",
+        "list": [
+            {
+                "item": "Data Referensi",
+                "icon": "fa-database",
+                "children": [
+                    {
+                        "item": "TPS",
+                        "icon": "fa-warehouse",
+                        "to": "/tps"
+                    },
+                    {
+                        "item": "Lokasi/Rak",
+                        "icon": "fa-search-location",
+                        "to": "/tps"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "section": "Tools",
+        "role": "PELAKSANA,CONSOLE"
+    },
+    {
+        "role":"PELAKSANA,CONSOLE",
+        "list": [
+            {
+                "item": "Import Excel",
+                "icon": "fa-file-excel",
+                "children": [
+                    {
+                        "item": "Pengajuan dari TPS",
+                        "icon": "fa-warehouse",
+                        "to": "/import/dataawal"
+                    },
+                    {
+                        "item": "KEP BDN P2",
+                        "icon": "👮",
+                        "to": "/import/kepbdnp2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "section": "Laporan/Berita Acara",
+        "role": "PELAKSANA,KASI,CONSOLE"
+    },
+    {
+        "role": "PELAKSANA,KASI,CONSOLE",
+        "list": [
+            {
+                "item": "Pencacahan",
+                "icon": "fa-boxes",
+                "to": "/ba/pencacahan"
+            },
+            {
+                "item": "Serah Terima",
+                "icon": "🤝🏼",
+                "to": "/ba/serahterima"
+            }
+        ]
+    }
+]

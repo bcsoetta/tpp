@@ -1,0 +1,88 @@
+html, body {
+    min-height: 100vh;
+    background-attachment: fixed !important;
+}
+
+body {
+    background: rgb(238, 238, 238);
+    /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(238, 238, 238, 1) 0%, rgba(204, 204, 204, 1) 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(238, 238, 238, 1)), color-stop(100%, rgba(204, 204, 204, 1)));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(238, 238, 238, 1) 0%, rgba(204, 204, 204, 1) 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(238, 238, 238, 1) 0%, rgba(204, 204, 204, 1) 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(238, 238, 238, 1) 0%, rgba(204, 204, 204, 1) 100%);
+    /* IE10+ */
+    background: linear-gradient(to bottom, rgba(238, 238, 238, 1) 0%, rgba(204, 204, 204, 1) 100%);
+    /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc', GradientType=0);
+    /* IE6-9 */
+}
+
+#app table {
+    background-color: white;
+}
+
+.v-select {
+    background-color: white;
+}
+
+.vs--single .vs__selected-options {
+    pointer-events: none;
+}
+
+li.vs__dropdown-option {
+    white-space: normal !important;
+}
+
+.tab-pane.card-body {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+0,f7f7f7+8,adadad+50,e5e5e5+92,ffffff+100&1+0,0.21+27,0.21+72,0.46+92,1+100 */
+    background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(247, 247, 247, 0.77) 8%, rgba(214, 214, 214, 0.21) 27%, rgba(173, 173, 173, 0.21) 50%, rgba(202, 202, 202, 0.21) 72%, rgba(229, 229, 229, 0.46) 92%, rgba(255, 255, 255, 1) 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(247, 247, 247, 0.77) 8%, rgba(214, 214, 214, 0.21) 27%, rgba(173, 173, 173, 0.21) 50%, rgba(202, 202, 202, 0.21) 72%, rgba(229, 229, 229, 0.46) 92%, rgba(255, 255, 255, 1) 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(247, 247, 247, 0.77) 8%, rgba(214, 214, 214, 0.21) 27%, rgba(173, 173, 173, 0.21) 50%, rgba(202, 202, 202, 0.21) 72%, rgba(229, 229, 229, 0.46) 92%, rgba(255, 255, 255, 1) 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff', GradientType=0);
+    /* IE6-9 */
+}
+
+.datepicker-width {
+    width: 10rem !important;
+}
+
+/* 
+body {
+    transition: background-color 1s ease;
+    animation: bg 1500s infinite;
+    background-attachment: fixed;
+}
+
+@keyframes bg {
+    0% {
+        background-color: rgb(240, 248, 255, .8);
+    }
+    33% {
+        background-color: rgba(239,237,202, .8);
+    }
+    67% {
+        background-color: rgb(255, 228, 196, .8);
+    }
+    100% {
+        background-color: rgb(240, 248, 255, .8);
+    }
+} */
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .3s;
+}
+
+.fade-enter, .fade-leave-to
+/* .fade-leave-active below version 2.1.8 */
+
+    {
+    opacity: 0;
+}

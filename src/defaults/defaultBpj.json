@@ -1,0 +1,35 @@
+{
+    "id": null,
+    "no_dok": null,
+    "tgl_dok": null,
+    "nomor_lengkap": null,
+    "jenis_identitas": null,
+    "no_identitas": null,
+    "alamat": null,
+    "nomor_jaminan": null,
+    "tanggal_jaminan": null,
+    "penjamin": null,
+    "alamat_penjamin": null,
+    "bentuk_jaminan": "TUNAI",
+    "jumlah": 0,
+    "jenis": null,
+    "tanggal_jatuh_tempo": null,
+    "nip_pembuat": null,
+    "nama_pembuat": null,
+    
+    "no_bukti_pengembalian": null,
+    "tgl_bukti_pengembalian": null,
+
+    "kode_agenda": null,
+    "catatan": null,
+    
+    "lokasi": null,
+    
+    "is_locked": false,
+
+    "penumpang": {
+      "data": null
+    },
+
+    "penumpang_id": null
+  }

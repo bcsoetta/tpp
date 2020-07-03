@@ -1,0 +1,12 @@
+{
+    "komersil": false,
+    "pph_tarif": "7.5000",
+    "total_bm": 0,
+    "total_cukai": 0,
+    "total_ppn": 0,
+    "total_pph": 0,
+    "total_ppnbm": 0,
+    "total_bm_pajak": 0,
+    "data_perhitungan": null,
+    "data_pembebasan": null
+  }

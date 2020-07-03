@@ -1,0 +1,42 @@
+{
+    "id": null,
+    "no_dok": null,
+    "tgl_dok": null,
+    "nomor_lengkap": null,
+    "jenis": null,
+    "lokasi": null,
+    "total_fob": null,
+    "total_insurance": null,
+    "total_freight": null,
+    "total_cif": null,
+    "total_nilai_pabean": null,
+    "pembebasan": null,
+    "total_bm": null,
+    "total_ppn": null,
+    "total_ppnbm": null,
+    "total_pph": null,
+    "total_denda": null,
+    "keterangan": null,
+    "links": null,
+    "nama_pejabat": null,
+    "nip_pejabat": null,
+    "pemilik_barang": null,
+    "last_status": null,
+    "is_locked": true,
+    "package_summary": null,
+    "package_summary_string": null,
+    "total_brutto": null,
+    "uraian_summary": null,
+    "kurs": {
+      "data": {
+        "id": null
+      }
+    },
+    "negara_asal": {
+      "data": {
+        "id": null,
+        "kode": null
+      }
+    },
+    "cd": null
+  }

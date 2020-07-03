@@ -1,0 +1,16 @@
+{
+    "id": null,
+    "no_dok": null,
+    "tgl_dok": null,
+    "nomor_lengkap": null,
+    "isi": "",
+    "pemeriksa_id": null,
+    "pemeriksa": null,
+    "lokasi": "KANTOR",
+    "instructable_uri": null,
+    "last_status": null,
+    "is_locked": false,
+    "lampiran": {
+        "data": []
+    }
+}
