@@ -13,6 +13,8 @@ import TestPage from '@/views/TestPage'
 
 import ImportDataAwal from '@/views/ImportDataAwal'
 
+import BrowseTps from '@/views/BrowseTps'
+
 import store from '../store'
 
 // const axios = require('axios').default
@@ -61,6 +63,15 @@ const router = new Router({
             title: 'Test Page'
           }
         },
+        {
+          path: 'tps',
+          name: 'BrowseTps',
+          component: BrowseTps,
+          meta: {
+            title: 'Browse TPS',
+            breadcrumb: '🔍Browse TPS'
+          }
+        }
       ]
     },
     {
