@@ -2,8 +2,7 @@
   <div>
     <b-form-group description="Ukuran file max 16 Mb">
       <template #label>
-        Browse File Excel (
-        <a href="/static/assets/contoh-data-awal-gudang.xlsx">Contoh File Excel</a>)
+        Browse File Excel (<a href="/static/assets/contoh-data-awal-gudang.xlsx">Contoh File Excel</a>)
       </template>
       <!-- body -->
       <b-form-file
@@ -74,13 +73,14 @@
           Import Data Awal (Excel) | Rows: {{ result.length }}
         </h5>
 
-        
-        <b-form-group label="TPS Asal" label-cols-md="4" style="min-width: 240px">
-          <b-form-select >
-            <option value="2">Some shit</option>
-            <option value="3">Some Other shit</option>
-          </b-form-select>
-        </b-form-group>
+        <div style="min-width: 500px" >
+            <b-form-group label="TPS Asal" label-cols="2">
+            <select-tps
+                v-model="kode_gudang"
+                :reduce="e => e.kode"
+            />
+            </b-form-group>
+        </div>
       </template>
 
       <!-- MODAL FOOTER -->
@@ -89,7 +89,7 @@
           <font-awesome-icon icon="times"/>
           Cancel
         </b-button>
-        <b-button variant="primary" size="sm" @click="cancel">
+        <b-button variant="primary" size="sm" @click="handleUpload">
           <font-awesome-icon icon="save"/>
           Upload
         </b-button>
@@ -105,23 +105,28 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import axiosErrorHandler from "../mixins/axiosErrorHandler";
 
 import TableDataAwal from "@/components/TableDataAwal";
+import SelectTps from '@/components/SelectTps'
 
 export default {
   mixins: [axiosErrorHandler],
 
   components: {
-    TableDataAwal
+    TableDataAwal,
+    SelectTps
   },
 
   data() {
     return {
       excelFile: null,
       uploading: 0,
+
       result: null,
+      kode_gudang: null,
+
       tableReady: false,
       showAlert: false,
       showModal: false
@@ -129,6 +134,8 @@ export default {
   },
 
   methods: {
+      ...mapMutations(['setBusyState']),
+
     async handleDelete (idx) {
       if (this.result) {
         var answer = await this.$bvModal.msgBoxConfirm(
@@ -145,6 +152,42 @@ export default {
         if (answer)
           this.result.splice(idx, 1)
       }
+    },
+
+    handleUpload () {
+        // gotta check if everything is set
+        if (!this.kode_gudang) {
+            this.showToast('Error', 'Kode Gudang belum dipilih!', 'danger')
+            return
+        }
+
+        if (!this.result || !this.result.length) {
+            this.showToast('Error', 'belum ada data excel yang diimport', 'danger')
+            return
+        }
+
+        this.showToast('Test', JSON.stringify({
+            tujuan: this.kode_gudang,
+            total_data: this.result.length
+        }, null, 2), 'info')
+
+        // test
+        this.setBusyState(true)
+        // this.showModal = false
+
+        const vm = this
+
+        setTimeout(() => {
+            vm.setBusyState(false)
+            vm.showToast('Uploaded', `${this.result.length} data uploaded!`, 'success')
+            
+            vm.$bvModal.hide('modal-data-awal')
+
+            this.$nextTick(() => {
+                vm.result = null
+            })
+            // vm.result = null
+        },7000)
     }
   },
 

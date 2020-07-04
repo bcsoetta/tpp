@@ -1,14 +1,14 @@
 [
     {
-        "section": "Browse",
+        "section": "Operator TPP",
         "role": "PELAKSANA,KASI,CONSOLE"
     },
     {
         "role": "PELAKSANA,KASI,CONSOLE",
         "list": [
             {
-                "item": "Data Utama",
-                "icon": "fa-file-alt",
+                "item": "Browse",
+                "icon": "fa-search",
                 "children": [
                     {
                         "item": "Entry Manifest",
@@ -18,10 +18,41 @@
                     {
                         "item": "Pencacahan",
                         "icon": "fa-boxes",
-                        "to": "/pencacahan"
+                        "to": "/pencacahan/browse"
                     }
                 ]
-            }            
+            },
+            {
+                "item": "Kegiatan",
+                "icon": "fa-tasks",
+                "children":[
+                    {
+                        "item": "Penetapan BTD",
+                        "icon": "fa-stamp",
+                        "to": "/penetapan-btd"
+                    },
+                    {
+                        "item": "Gate In",
+                        "icon": "fa-dolly-flatbed",
+                        "to": "/gate-in"
+                    },
+                    {
+                        "item": "Rekam BAST",
+                        "icon": "fa-handshake",
+                        "to": "/bast"
+                    },
+                    {
+                        "item": "Pencacahan",
+                        "icon": "fa-boxes",
+                        "to": "/pencacahan"
+                    },
+                    {
+                        "item": "Laporan Pencacahan",
+                        "icon": "fa-clipboard-check",
+                        "to": "/laporan-pencacahan"
+                    }
+                ]
+            }         
         ]
     },
     {
