@@ -16,9 +16,20 @@
                         "to": "/hawb"
                     },
                     {
-                        "item": "Pencacahan",
-                        "icon": "fa-boxes",
-                        "to": "/pencacahan/browse"
+                        "item": "Laporan/Berita Acara",
+                        "icon": "fa-file-alt",
+                        "children": [
+                            {
+                                "item": "Pencacahan",
+                                "icon": "fa-boxes",
+                                "to": "/ba/pencacahan"
+                            },
+                            {
+                                "item": "Serah Terima",
+                                "icon": "🤝🏼",
+                                "to": "/ba/serahterima"
+                            }
+                        ]
                     }
                 ]
             },
@@ -38,7 +49,7 @@
                     },
                     {
                         "item": "Rekam BAST",
-                        "icon": "fa-handshake",
+                        "icon": "🤝🏼",
                         "to": "/bast"
                     },
                     {
@@ -74,7 +85,7 @@
                     {
                         "item": "Lokasi/Rak",
                         "icon": "fa-search-location",
-                        "to": "/tps"
+                        "to": "/lokasi"
                     }
                 ]
             }
@@ -102,25 +113,6 @@
                         "to": "/import/kepbdnp2"
                     }
                 ]
-            }
-        ]
-    },
-    {
-        "section": "Laporan/Berita Acara",
-        "role": "PELAKSANA,KASI,CONSOLE"
-    },
-    {
-        "role": "PELAKSANA,KASI,CONSOLE",
-        "list": [
-            {
-                "item": "Pencacahan",
-                "icon": "fa-boxes",
-                "to": "/ba/pencacahan"
-            },
-            {
-                "item": "Serah Terima",
-                "icon": "🤝🏼",
-                "to": "/ba/serahterima"
             }
         ]
     }
