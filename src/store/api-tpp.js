@@ -125,6 +125,18 @@ class ApiTpp {
             params: params 
         })
     }
+
+    createTps (data) {
+        return this.instance.post('/tps', data)
+    }
+
+    updateTps (data) {
+        return this.instance.put('/tps/' + data.id, data)
+    }
+
+    deleteTps (data) {
+        return this.instance.delete('/tps/' + data.id)
+    }
 }
 
 export {
