@@ -118,6 +118,13 @@ class ApiTpp {
             timeout : timeout || this.instance.timeout
         })
     }
+
+    // =====================TPS ENDPOINTS=========================================================
+    getTps (params) {
+        return this.instance.get('/tps', {
+            params: params 
+        })
+    }
 }
 
 export {

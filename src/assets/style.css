@@ -54,6 +54,10 @@ li.vs__dropdown-option {
     width: 10rem !important;
 }
 
+.fullscreen.modal-dialog {
+    max-width: 100% !important;
+}
+
 /* 
 body {
     transition: background-color 1s ease;

@@ -11,6 +11,8 @@ import Forbidden from '@/views/Forbidden'
 
 import TestPage from '@/views/TestPage'
 
+import ImportDataAwal from '@/views/ImportDataAwal'
+
 import store from '../store'
 
 // const axios = require('axios').default
@@ -40,6 +42,15 @@ const router = new Router({
           component: HomePage,
           meta: {
             title: 'Home Page'
+          }
+        },
+        {
+          path: '/import/dataawal',
+          name: 'ImportDataAwal',
+          component: ImportDataAwal,
+          meta: {
+            title: 'Import Data Awal',
+            breadcrumb: '📋Import Data Awal (Excel)'
           }
         },
         {

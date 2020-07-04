@@ -23,7 +23,11 @@ export default new Vuex.Store({
         api: new ApiTpp(process.env.API_URL, process.env.API_TIMEOUT),
         sso: new SSO(process.env.NODE_ENV == 'production'),
         
-        sidebarActive: false
+        sidebarActive: false,
+
+        // referensi
+        tps: [], // masih kosong,
+        fetchTps: null
     },
     mutations: {
         setSidebarActive(state, payload) {
@@ -52,6 +56,17 @@ export default new Vuex.Store({
             // state.lokasi = null
             localStorage.clear()
         },
+
+        setTps(state, payload) {
+            state.tps = payload
+        },
+
+        setFetchTps(state, payload) {
+            state.fetchTps = payload
+            state.fetchTps.then(e => {
+                state.tps = e.data.data
+            })
+        }
     },
     getters: {
         sidebar: (state) => (state.sidebarActive),
@@ -110,31 +125,21 @@ export default new Vuex.Store({
         },
 
         // activate safe mode for pemeriksa
-        safeMode: (state, getters) => {
-            return getters.hasRole('PELAKSANA')
-        }
+        tps: (state) => {
+            return state.tps
+        },
     },
     actions: {
-        extractError(context, e) {
-            // normal error
-            if (e.response) {
-                if (e.response.data) {
-                    return {
-                        code: e.response.data.error.http_code,
-                        message: e.response.data.error.message
-                    }
-                } else {
-                    return {
-                        code: e.status,
-                        message: e.statusText
-                    }
-                }
+        fetchTps (context) {
+            // only does this if we're not fetching already
+            if (!context.state.fetchTps) {
+                context.commit('setFetchTps', context.getters.api.getTps({
+                        number: 500
+                    })
+                )
             }
 
-            return {
-                code: 999,
-                message: e.toString()
-            }
-        },
+            return context.state.fetchTps
+        }
     }
 })
