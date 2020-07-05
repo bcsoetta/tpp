@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="-0.5 -0.5 746 543">
+    <defs>
+        <linearGradient x1="0%" y1="100%" x2="0%" y2="0%" id="mx-gradient-ffffff-1-cccccc-1-s-0">
+            <stop offset="0%" style="stop-color:#cccccc"/>
+            <stop offset="100%" style="stop-color:#ffffff"/>
+        </linearGradient>
+    </defs>
+    <g>
+        <g id="cell-Vr4OgRWiISIr8o6ZZPLh-3">
+            <path d="M 11 9 L 731 9 L 731 189 L 641 189 L 641 499 L 11 499 Z" fill="url(#mx-gradient-ffffff-1-cccccc-1-s-0)" stroke="#000000" stroke-miterlimit="10" pointer-events="all"/>
+        </g>
+        <g id="cell-WGXRQ2B47uldW7RVakDO-3">
+            <path d="M 276 464 L 276 -276 L 466 -276 L 466 -266 L 286 -266 L 286 464 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" transform="translate(2,3)rotate(90,371,94)" opacity="0.25"/>
+            <path d="M 276 464 L 276 -276 L 466 -276 L 466 -266 L 286 -266 L 286 464 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" transform="rotate(90,371,94)" pointer-events="all"/>
+        </g>
+        <g id="cell-WGXRQ2B47uldW7RVakDO-4">
+            <rect x="-239" y="249" width="490" height="10" fill="#000000" stroke="#000000" transform="translate(2,3)rotate(90,6,254)" opacity="0.25"/>
+            <rect x="-239" y="249" width="490" height="10" fill="#000000" stroke="#000000" transform="rotate(90,6,254)" pointer-events="all"/>
+        </g>
+        <g id="cell-WGXRQ2B47uldW7RVakDO-6">
+            <path d="M 641 289 L 641 189 L 741 189 L 741 199 L 651 199 L 651 289 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" transform="translate(2,3)" opacity="0.25"/>
+            <path d="M 641 289 L 641 189 L 741 189 L 741 199 L 651 199 L 651 289 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all"/>
+        </g>
+        <g id="cell-WGXRQ2B47uldW7RVakDO-7">
+            <path d="M 311 509 L 311 289 L 651 289 L 651 299 L 321 299 L 321 509 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" transform="translate(2,3)rotate(180,481,399)" opacity="0.25"/>
+            <path d="M 311 509 L 311 289 L 651 289 L 651 299 L 321 299 L 321 509 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" transform="rotate(180,481,399)" pointer-events="all"/>
+        </g>
+        <g id="cell-WGXRQ2B47uldW7RVakDO-10">
+            <rect x="231" y="499" width="80" height="5" fill="#ffffff" stroke="#000000" pointer-events="all"/>
+            <path d="M 271 499 L 271 504 M 271 504 C 271 526.09 253.09 544 231 544 L 231 504 M 271 504 C 271 526.09 288.91 544 311 544 L 311 504" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all"/>
+        </g>
+        <g id="cell-WGXRQ2B47uldW7RVakDO-14">
+            <rect x="1" y="499" width="230" height="10" fill="#000000" stroke="#000000" transform="translate(2,3)" opacity="0.25"/>
+            <rect x="1" y="499" width="230" height="10" fill="#000000" stroke="#000000" pointer-events="all"/>
+        </g>
+        <g id="cell-WGXRQ2B47uldW7RVakDO-17" content="&lt;object label=&quot;&quot; name=&quot;RACK-02&quot;/&gt;" data-label="" data-name="RACK-02">
+            <rect x="241" y="19" width="100" height="60" fill="#d5e8d4" stroke="#82b366" pointer-events="all"/>
+            <path d="M 241 74 L 341 74 M 291 74 L 291 79" fill="none" stroke="#82b366" stroke-miterlimit="10" pointer-events="all"/>
+            <rect x="261" y="79" width="10" height="5" fill="#d5e8d4" stroke="#82b366" pointer-events="all"/>
+            <rect x="311" y="79" width="10" height="5" fill="#d5e8d4" stroke="#82b366" pointer-events="all"/>
+        </g>
+        <g id="cell-WGXRQ2B47uldW7RVakDO-18" content="&lt;object label=&quot;&quot; name=&quot;RACK-01&quot;/&gt;" data-label="" data-name="RACK-01">
+            <rect x="391" y="19" width="100" height="60" fill="#f8cecc" stroke="#b85450" pointer-events="all"/>
+            <path d="M 391 74 L 491 74 M 441 74 L 441 79" fill="none" stroke="#b85450" stroke-miterlimit="10" pointer-events="all"/>
+            <rect x="411" y="79" width="10" height="5" fill="#f8cecc" stroke="#b85450" pointer-events="all"/>
+            <rect x="461" y="79" width="10" height="5" fill="#f8cecc" stroke="#b85450" pointer-events="all"/>
+        </g>
+        <g id="cell-WGXRQ2B47uldW7RVakDO-19" content="&lt;object label=&quot;&quot; name=&quot;RACK-03&quot;/&gt;" data-label="" data-name="RACK-03">
+            <rect x="81" y="19" width="100" height="60" fill="#fff2cc" stroke="#d6b656" pointer-events="all"/>
+            <path d="M 81 74 L 181 74 M 131 74 L 131 79" fill="none" stroke="#d6b656" stroke-miterlimit="10" pointer-events="all"/>
+            <rect x="101" y="79" width="10" height="5" fill="#fff2cc" stroke="#d6b656" pointer-events="all"/>
+            <rect x="151" y="79" width="10" height="5" fill="#fff2cc" stroke="#d6b656" pointer-events="all"/>
+        </g>
+    </g>
+</svg>

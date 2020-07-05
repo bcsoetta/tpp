@@ -1,17 +1,29 @@
 <template>
   <div>
-    <b-form-group label="Pilih TPS">
-      <select-tps  
-        v-model="kode"
-        :reduce = "e => e.kode"
-        class="w-50"
-      />
-    </b-form-group>
-    <b-form-group label="TPS">
-      <b-form-input v-model="kode"/>
-    </b-form-group>
-    <div>
-      <pre>{{ kode }}</pre>
+    <b-form-row>
+      <b-col md="6">
+        <img svg-inline src="../assets/tpp.svg"/>
+      </b-col>
+      <b-col md="6">
+        <h5>Rack occupancy rate</h5>
+        <div>
+          <b-form-group :label="'RACK-'+(id+1) +`: ${rack} %`" v-for="(rack, id) in rackOccupancy" :key="'rackk-'+id">
+            <b-form-input type="range" min="0" max="100" v-model="rackOccupancy[id]" :id="'rack-'+id" lazy class="shadow"/>
+          </b-form-group>
+          
+        </div>
+      </b-col>
+    </b-form-row>
+
+    <div v-if="rackElems">
+      <template v-for="(rack,id) in rackElems">
+        <b-popover :target="rack" triggers="hover" placement="top" :key="'rack'+id">
+          <template #title>
+            Am I shown?
+          </template>
+          What's guuud niggeeerr?!
+        </b-popover>
+      </template>
     </div>
   </div>
 </template>
@@ -26,8 +38,75 @@ export default {
 
   data () {
     return {
-      kode: null
+      rackOccupancy: [
+        10,
+        20,
+        30
+      ],
+      rackElems: null,
+      gTarget: null
+    }
+  },
+
+  methods: {
+    handleClick (e) {
+      console.log(e)
+
+      // grab closest
+      const c = e.target.closest('g')
+      console.log('closest g elem', c)
+      this.gTarget = c
+    }
+  },
+
+  mounted: function () {
+    this.$nextTick(() => {
+      this.rackElems = this.$el.querySelectorAll('g[data-name]')
+      console.log('racks: ', this.rackElems)
+
+      this.rackElems.forEach(e => {
+        e.onclick = this.handleClick
+        if (!this.gTarget) this.gTarget = e
+      });
+    })
+  },
+
+  watch: {
+    rackOccupancy: {
+      deep: true,
+      handler(nv) {
+        if (this.rackElems) {
+          // update em all
+          for (var i=0; i<this.rackElems.length; i++) {
+            this.rackElems[i].style.opacity = (100.0-nv[i])/100.0
+          }
+        }
+      }
     }
   }
 }
 </script>
+
+<style>
+svg {
+  outline: none;
+}
+
+g[data-name]{
+  transition: all 2s;
+}
+
+g path {
+  transition: all 0.5s;
+}
+
+g[data-name]:hover path {
+  /* border: 1px dashed rgba(200, 10, 10, 0.5); */
+  fill: rgba(200, 10, 10, 0.5);
+}
+
+g[data-name]:hover {
+  cursor: pointer;
+  opacity: 1 !important;
+}
+</style>
