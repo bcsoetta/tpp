@@ -15,6 +15,8 @@ import ImportDataAwal from '@/views/ImportDataAwal'
 
 import BrowseTps from '@/views/BrowseTps'
 
+import Penetapan from '@/views/Penetapan'
+
 import store from '../store'
 
 // const axios = require('axios').default
@@ -47,12 +49,21 @@ const router = new Router({
           }
         },
         {
-          path: '/import/dataawal',
+          path: 'import/dataawal',
           name: 'ImportDataAwal',
           component: ImportDataAwal,
           meta: {
             title: 'Import Data Awal',
             breadcrumb: '📋Import Data Awal (Excel)'
+          }
+        },
+        {
+          path: 'penetapan-btd',
+          name: 'Penetapan',
+          component: Penetapan,
+          meta: {
+            title: 'Penetapan BTD',
+            breadcrumb: '🖊️Penetapan Barang Tidak Dikuasai'
           }
         },
         {

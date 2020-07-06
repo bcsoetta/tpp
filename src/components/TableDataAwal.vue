@@ -16,7 +16,7 @@
     v-on="$listeners"
   >
     <!-- custom cell rendering -->
-    <template #cell(index)="row">{{ row.index+1 }}</template>
+    <template #cell(index)="row">{{ row.index+start }}</template>
 
     <!-- Nama + Alamat Importir -->
     <template #cell(nama_importir)="row">
@@ -25,12 +25,14 @@
         size="sm"
         v-model="row.item.nama_importir"
         style="background-color: rgba(0,120,255,0.1)"
+        :disabled="readOnly"
       />
       <b-form-textarea
         :debounce="debounce"
         size="sm"
         v-model="row.item.alamat_importir"
         style="background-color: rgba(255,50,0,0.1)"
+        :disabled="readOnly"
       />
     </template>
 
@@ -42,24 +44,24 @@
     <!-- Keterangan (full) -->
     <template #cell(keterangan_rows)="row">
       <div v-for="(k, id) in row.item.keterangan.data" :key="row.index+'_ket_'+id">
-        <b-form-textarea :debounce="debounce" size="sm" v-model="k.keterangan" />
+        <b-form-textarea :debounce="debounce" size="sm" v-model="k.keterangan" :disabled="readOnly"/>
       </div>
     </template>
 
     <!-- No BC11 -->
     <template #cell(no_bc11)="row">
-      <b-form-input :debounce="debounce" size="sm" v-model="row.item.no_bc11" style="width: 60px" />
+      <b-form-input :debounce="debounce" size="sm" v-model="row.item.no_bc11" style="width: 60px" :disabled="readOnly"/>
       <!-- Tgl BC11 -->
-      <datepicker v-model="row.item.tgl_bc11" size="sm" style="width: 130px" />
+      <datepicker v-model="row.item.tgl_bc11" size="sm" style="width: 130px" :disabled="readOnly"/>
       <b-row no-gutters style="width: 150px">
         <b-col md="4">
-          <b-form-input :debounce="debounce" size="sm" v-model="row.item.pos" />
+          <b-form-input :debounce="debounce" size="sm" v-model="row.item.pos" :disabled="readOnly"/>
         </b-col>
         <b-col md="4">
-          <b-form-input :debounce="debounce" size="sm" v-model="row.item.subpos" />
+          <b-form-input :debounce="debounce" size="sm" v-model="row.item.subpos" :disabled="readOnly"/>
         </b-col>
         <b-col md="4">
-          <b-form-input :debounce="debounce" size="sm" v-model="row.item.subsubpos" />
+          <b-form-input :debounce="debounce" size="sm" v-model="row.item.subsubpos" :disabled="readOnly"/>
         </b-col>
       </b-row>
     </template>
@@ -75,6 +77,7 @@
           v-model="row.item.kd_flight"
           class="d-inline-block"
           style="width: 90px"
+          :disabled="readOnly"
         />
       </div>
     </template>
@@ -88,6 +91,7 @@
           v-model="row.item.koli"
           style="width: 50px"
           class="d-inline-block"
+          :disabled="readOnly"
         />
       </div>
     </template>
@@ -101,6 +105,7 @@
           v-model="row.item.brutto"
           class="d-inline-block"
           style="width: 80px"
+          :disabled="readOnly"
         />
       </div>
     </template>
@@ -112,8 +117,8 @@
 
     <!-- MAWB -->
     <template #cell(mawb)="row">
-      <b-form-input :debounce="debounce" size="sm" v-model="row.item.mawb" />
-      <b-form-input :debounce="debounce" size="sm" v-model="row.item.hawb" />
+      <b-form-input :debounce="debounce" size="sm" v-model="row.item.mawb" :disabled="readOnly"/>
+      <b-form-input :debounce="debounce" size="sm" v-model="row.item.hawb" :disabled="readOnly"/>
     </template>
 
     <template #head(mawb)>
@@ -128,15 +133,15 @@
         <b-row no-gutters style="max-width: 200px" class="mx-auto">
           <!-- jumlah jenis di row pertama? -->
           <b-col md="4">
-            <b-form-input :debounce="debounce" size="sm" v-model="barang.jumlah"/>
+            <b-form-input :debounce="debounce" size="sm" v-model="barang.jumlah" :disabled="readOnly"/>
           </b-col>
           <b-col md="4">
-            <b-form-input :debounce="debounce" size="sm" v-model="barang.jenis"/>
+            <b-form-input :debounce="debounce" size="sm" v-model="barang.jenis" :disabled="readOnly"/>
           </b-col>
 
           <!-- Uraian di bawah -->
           <b-col md="12">
-            <b-form-textarea :debounce="debounce" rows="2" size="sm" v-model="barang.uraian" />
+            <b-form-textarea :debounce="debounce" rows="2" size="sm" v-model="barang.uraian" :disabled="readOnly"/>
           </b-col>
         </b-row>
       </div>
@@ -164,6 +169,18 @@ import Datepicker from "@/components/Datepicker";
 
 export default {
   inheritAttrs: false,
+
+  props: {
+    readOnly: {
+      type: Boolean,
+      default: false
+    },
+
+    start: {
+      type: Number,
+      default: 1
+    }
+  },
 
   components: {
     Datepicker

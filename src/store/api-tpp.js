@@ -126,6 +126,12 @@ class ApiTpp {
         })
     }
 
+    getTpsByKode (kode, params) {
+        return this.instance.get('/tps/' + kode, {
+            params: params
+        })
+    }
+
     createTps (data) {
         return this.instance.post('/tps', data)
     }
@@ -151,10 +157,20 @@ class ApiTpp {
         })
     }
 
+    getAwbSiapPenetapan (kode_tps, params) {
+        return this.instance.get(`/tps/${kode_tps}/siap_penetapan`, {
+            params: params
+        })
+    }
+
     storeAwb (data, params) {
         return this.instance.post('/awb', data, {
             params: params
         })
+    }
+
+    deleteAwb (id) {
+        return this.instance.delete('/awb/' + id)
     }
 }
 
