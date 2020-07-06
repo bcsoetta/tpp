@@ -3,6 +3,8 @@
         v-bind="$attrs"
         v-on="$listeners"
 
+        :reduce="reduce"
+
         :options="tps"
         label="kode"
         :filter-by="filterTps"
@@ -32,6 +34,13 @@ export default {
     
     components: {
         vSelect
+    },
+
+    props: {
+        reduce: {
+            type: Function,
+            default: (e) => (e.id)
+        }
     },
 
     computed: {

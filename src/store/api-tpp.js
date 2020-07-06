@@ -137,6 +137,25 @@ class ApiTpp {
     deleteTps (data) {
         return this.instance.delete('/tps/' + data.id)
     }
+
+    // =====================AWB ENDPOINTS=========================================================
+    getAwb (params) {
+        return this.instance.get('/awb', {
+            params: params
+        })
+    }
+
+    getAwbById (id, params) {
+        return this.instance.get('/awb/' + id, {
+            params: params
+        })
+    }
+
+    storeAwb (data, params) {
+        return this.instance.post('/awb', data, {
+            params: params
+        })
+    }
 }
 
 export {

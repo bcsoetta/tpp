@@ -12,6 +12,14 @@
           </b-form-group>
           
         </div>
+
+        <h5>Test Default prop override</h5>
+        <b-form-group :label="'Select TPS (ID): ' + tps_id">
+          <select-tps v-model="tps_id" />
+        </b-form-group>
+        <b-form-group :label="'Select TPS (Kode): ' + tps_kode">
+          <select-tps v-model="tps_kode" :reduce="e => e.kode" />
+        </b-form-group>
       </b-col>
     </b-form-row>
 
@@ -44,7 +52,9 @@ export default {
         30
       ],
       rackElems: null,
-      gTarget: null
+      gTarget: null,
+      tps_id: null,
+      tps_kode: null
     }
   },
 

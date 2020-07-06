@@ -177,17 +177,32 @@ export default {
 
         const vm = this
 
-        setTimeout(() => {
+        vm.api.storeAwb({
+          tps_kode: vm.kode_gudang,
+          entry_manifest: vm.result 
+        })
+        .then(e => {
+          vm.setBusyState(false)
+          vm.showToast('Uploaded', `${e.data.inserted} data uploaded!`, 'success')
+
+          vm.$bvModal.hide('modal-data-awal')
+        })
+        .catch(e => {
+          vm.setBusyState(false)
+          vm.handleError(e)
+        })
+
+        /* setTimeout(() => {
             vm.setBusyState(false)
             vm.showToast('Uploaded', `${this.result.length} data uploaded!`, 'success')
             
             vm.$bvModal.hide('modal-data-awal')
 
             this.$nextTick(() => {
-                vm.result = null
+                // vm.result = null
             })
             // vm.result = null
-        },7000)
+        },7000) */
     }
   },
 
