@@ -24,6 +24,14 @@
                     <datepicker size="sm" />
                 </b-form-group>
             </b-col>
+
+            <b-col md="4">
+                <b-form-group label="Kepala Seksi">
+                    <select-kasi
+                        search-on-empty
+                    />
+                </b-form-group>
+            </b-col>
         </b-row>
 
         <!-- table data awal -->
@@ -65,6 +73,7 @@ import TableDataAwal from '@/components/TableDataAwal'
 import { mapGetters, mapMutations } from 'vuex'
 import axiosErrorHandler from '../mixins/axiosErrorHandler'
 import PaginatedBrowser from '@/components/PaginatedBrowser'
+import SelectKasi from '@/components/SelectKasi'
 
 export default {
     inheritAttrs: false,
@@ -81,7 +90,8 @@ export default {
     components: {
         Datepicker,
         TableDataAwal,
-        PaginatedBrowser
+        PaginatedBrowser,
+        SelectKasi
     },
 
     computed: {

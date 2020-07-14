@@ -20,6 +20,12 @@
         <b-form-group :label="'Select TPS (Kode): ' + tps_kode">
           <select-tps v-model="tps_kode" :reduce="e => e.kode" />
         </b-form-group>
+
+        <b-form-group label="Select Kasi">
+          <select-kasi
+            search-on-empty
+          />
+        </b-form-group>
       </b-col>
     </b-form-row>
 
@@ -38,10 +44,12 @@
 
 <script>
 import SelectTps from '@/components/SelectTps'
+import SelectKasi from '@/components/SelectKasi'
 
 export default {
   components: {
-    SelectTps
+    SelectTps,
+    SelectKasi
   },
 
   data () {

@@ -172,6 +172,13 @@ class ApiTpp {
     deleteAwb (id) {
         return this.instance.delete('/awb/' + id)
     }
+
+    // =====================SSO USER ENDPOINTS=========================================================
+    getKasi (params) {
+        return this.instance.get('/kasi', {
+            params: params
+        })
+    }
 }
 
 export {
