@@ -18,6 +18,7 @@ import BrowseTps from '@/views/BrowseTps'
 import Penetapan from '@/views/Penetapan'
 
 import BrowseAwbGateIn from '@/views/BrowseAwbGateIn'
+import BrowseAwb from '@/views/BrowseAwb'
 
 import store from '../store'
 
@@ -75,6 +76,15 @@ const router = new Router({
           meta: {
             title: 'Browse AWB Siap Gate In',
             breadcrumb: '📦Gate In AWB'
+          }
+        },
+        {
+          path: 'hawb',
+          name: 'BrowseAwb',
+          component: BrowseAwb,
+          meta: {
+            title: 'Browse AWB',
+            breadcrumb: '🔎Browse AWB'
           }
         },
         {
