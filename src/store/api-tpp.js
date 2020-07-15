@@ -179,11 +179,20 @@ class ApiTpp {
         return this.instance.delete('/awb/' + id)
     }
 
+    gateInAwb (id) {
+        return this.instance.put(`/awb/${id}/gate-in`)
+    }
+
     // =====================SSO USER ENDPOINTS=========================================================
     getKasi (params) {
         return this.instance.get('/kasi', {
             params: params
         })
+    }
+
+    // ========================PENETAPAN===============================================================
+    createPenetapan (kode_tps, data) {
+        return this.instance.put(`/tps/${kode_tps}/penetapan`, data)
     }
 }
 

@@ -2,7 +2,9 @@
     <div>
         <!-- Paginated Browser here -->
         <paginated-browser
-        :data-callback="fetchTpsSiapPenetapan">
+        :data-callback="fetchTpsSiapPenetapan"
+        ref="browser"
+        >
             <!-- custom rendering here -->
             <template #default="{ data, pagination }">
             <b-form-row>
@@ -17,8 +19,6 @@
                         <template #header>
                             <h5>🏤 #{{ tps.id }} {{ tps.kode }}</h5>
                         </template>
-
-                        
 
                         <b-alert variant="info" show>
                             Terdapat <b-badge variant="light">{{ tps.total }}</b-badge> Entry Manifest yang belum ditetapkan
@@ -42,6 +42,7 @@
         :data="dataPenetapan" 
         v-if="dataPenetapan" 
         @delete="handleDelete"
+        @penetapan="onPenetapanDone"
         />
     </div>
 </template>
@@ -125,6 +126,14 @@ export default {
         // handle delete from inside table
         handleDelete (e) {
             console.log('delete', e)
+        },
+
+        // when penetapan is done
+        onPenetapanDone (e) {
+            // we simply refresh the browser
+            this.$nextTick(() => {
+                this.$refs.browser.stayAtCurrentPage(-1)
+            })
         }
     }
 }

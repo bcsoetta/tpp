@@ -21,9 +21,10 @@
           <select-tps v-model="tps_kode" :reduce="e => e.kode" />
         </b-form-group>
 
-        <b-form-group label="Select Kasi">
+        <b-form-group :label="'Select Kasi : ' + pejabat_id">
           <select-kasi
             search-on-empty
+            v-model="pejabat_id"
           />
         </b-form-group>
       </b-col>
@@ -62,7 +63,8 @@ export default {
       rackElems: null,
       gTarget: null,
       tps_id: null,
-      tps_kode: null
+      tps_kode: null,
+      pejabat_id: null
     }
   },
 

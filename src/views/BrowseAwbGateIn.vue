@@ -18,7 +18,12 @@
                     <!-- slot for controls (total override) -->
                     <template #controls="{ row }">
                         <div class="text-center">
-                            <b-button size="sm" variant="primary" class="shadow" v-b-tooltip.hover title="Proses Gate In">
+                            <b-button 
+                                size="sm" 
+                                variant="primary" 
+                                class="shadow" 
+                                v-b-tooltip.hover title="Proses Gate In"
+                                @click="prosesGateIn(row.item)">
                                 <font-awesome-icon icon="warehouse"/>
                             </b-button>
                         </div>
@@ -84,6 +89,7 @@ export default {
             })
         },
 
+        // generate random consistent badge
         badgeVariant(text) {
             // make it a number?
             const variants = [
@@ -96,6 +102,40 @@ export default {
             }
             n = n % variants.length
             return variants[n]
+        },
+
+        // proses gate in
+        async prosesGateIn(awb) {
+            console.log('Gate in: ', awb)
+            var answer = await this.$bvModal.msgBoxConfirm(
+                `Gate In (${awb.hawb})?`,
+                {
+                    title: 'Konfirmasi',
+                    size: 'sm',
+                    buttonSize: 'sm',
+                    okVariant: 'danger',
+                    centered: true
+                }
+            )
+
+            if (answer) {
+                this.setBusyState(true)
+                // do shit here
+                this.api.gateInAwb(awb.id)
+                .then(e => {
+                    this.setBusyState(false)
+                    // success? show toast
+                    this.showToast(`AWB Gated In`, `AWB ${awb.hawb} telah digate-in`, 'success')
+                    this.$nextTick(() => {
+                        // refresh browser
+                        this.$refs.browser.stayAtCurrentPage(-1)
+                    })
+                })
+                .catch(e => {
+                    this.setBusyState(false)
+                    this.handleError(e)
+                })
+            }
         }
     }
 }

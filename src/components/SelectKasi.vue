@@ -4,7 +4,8 @@
         v-bind="$attrs"
 
         :search-callback="searchKasi"
-        :reduce="e => e.id"
+        :sync-callback="searchKasi"
+        :reduce="e => e.user_id"
     >
         <!-- custom rendering -->
         <template #option="opt">

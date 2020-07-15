@@ -4,6 +4,7 @@
         v-on="$listeners"
         header-bg-variant="light"
         footer-bg-variant="light"
+        ref="modal"
     >
         <!-- custom rendering -->
         <template #modal-title>
@@ -15,13 +16,13 @@
             <!-- no + tgl surat -->
             <b-col md="6">
                 <b-form-group label="No surat" description="isi apabila nomor surat manual, kosongkan apabila ingin penomoran otomatis">
-                    <b-form-input size="sm" />
+                    <b-form-input size="sm" v-model="no_dok_lengkap" />
                 </b-form-group>
             </b-col>
 
             <b-col md="2">
                 <b-form-group label="Tgl surat">
-                    <datepicker size="sm" />
+                    <datepicker size="sm" v-model="tgl_dok" />
                 </b-form-group>
             </b-col>
 
@@ -29,6 +30,7 @@
                 <b-form-group label="Kepala Seksi">
                     <select-kasi
                         search-on-empty
+                        v-model="pejabat_id"
                     />
                 </b-form-group>
             </b-col>
@@ -59,7 +61,7 @@
 
         <!-- footer -->
         <template #modal-footer>
-            <b-button variant="primary" size="sm">
+            <b-button variant="primary" size="sm" @click="createPenetapan">
                 <font-awesome-icon icon="stamp"/>
                 Tetapkan
             </b-button>
@@ -94,6 +96,14 @@ export default {
         SelectKasi
     },
 
+    data () {
+        return {
+            no_dok_lengkap: null,
+            tgl_dok: null,
+            pejabat_id: null
+        }
+    },
+
     computed: {
         ...mapGetters(['api'])
     },
@@ -101,6 +111,7 @@ export default {
     methods: {
         ...mapMutations(['setBusyState']),
 
+        // grab data
         fetchAwbSiapPenetapan(q, spinner, vm) {
             spinner(true)
 
@@ -116,6 +127,7 @@ export default {
             })
         },
 
+        // when delete button pressed
         async handleDelete (e) {
             console.log('deleting', e)
 
@@ -149,6 +161,33 @@ export default {
                     this.handleError(e)
                 })
             }
+        },
+
+        // create penetapan
+        createPenetapan () {
+            this.setBusyState(true)
+
+            // call api
+            this.api.createPenetapan(this.data.kode, {
+                nomor_lengkap_dok: this.no_dok_lengkap,
+                tgl_dok: this.tgl_dok,
+                pejabat_id: this.pejabat_id
+            })
+            .then(e => {
+                this.setBusyState(false)
+                // show toast
+                this.showToast('Done', `Berhasil menetapkan ${e.data.total} AWB`, 'success')
+                // close modal
+                this.$nextTick(() => {
+                    this.$refs.modal.hide()
+                    // also emit something changed?
+                    this.$emit('penetapan', e.data)
+                })
+            })
+            .catch(e => {
+                this.setBusyState(false)
+                this.handleError(e)
+            })
         }
     }
 }
