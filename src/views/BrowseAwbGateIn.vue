@@ -125,7 +125,7 @@ export default {
                 .then(e => {
                     this.setBusyState(false)
                     // success? show toast
-                    this.showToast(`AWB Gated In`, `AWB ${awb.hawb} telah digate-in`, 'success')
+                    this.showToast(`AWB Gated In (${e.data.bcp})`, `AWB ${awb.hawb} telah digate-in, nomor BCP: ${e.data.bcp}`, 'success')
                     this.$nextTick(() => {
                         // refresh browser
                         this.$refs.browser.stayAtCurrentPage(-1)
