@@ -169,6 +169,12 @@ class ApiTpp {
         })
     }
 
+    getAwbSiapRekamBAST (kode_tps, params) {
+        return this.instance.get(`/tps/${kode_tps}/siap_rekam_bast`, {
+            params: params
+        })
+    }
+
     storeAwb (data, params) {
         return this.instance.post('/awb', data, {
             params: params
@@ -191,8 +197,25 @@ class ApiTpp {
     }
 
     // ========================PENETAPAN===============================================================
+    getPenetapan (params) {
+        return this.instance.get('/penetapan', {
+            params: params
+        })
+    }
+
+    getPenetapanAwb (id, params) {
+        return this.instance.get(`/penetapan/${id}/awb`, {
+            params: params
+        })
+    }
+
     createPenetapan (kode_tps, data) {
         return this.instance.put(`/tps/${kode_tps}/penetapan`, data)
+    }
+
+    // ========================BAST===============================================================
+    createBAST (kode_tps, data) {
+        return this.instance.put(`tps/${kode_tps}/bast`, data)
     }
 }
 

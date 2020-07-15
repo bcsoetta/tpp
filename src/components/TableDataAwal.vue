@@ -210,7 +210,7 @@
             <font-awesome-icon icon="pencil-alt" />
           </b-button>
           <!-- delete -->
-          <b-button class="shadow" size="sm" variant="danger" @click="$emit('delete', row.index)">
+          <b-button class="shadow" size="sm" variant="danger" @click="$emit('delete', row.index)" :disabled="disableControls">
             <font-awesome-icon icon="trash-alt" />
           </b-button>
         </div>
@@ -242,6 +242,11 @@ export default {
     },
 
     editable: {
+      type: Boolean,
+      default: false
+    },
+
+    disableControls: {
       type: Boolean,
       default: false
     },

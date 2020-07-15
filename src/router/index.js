@@ -19,6 +19,9 @@ import Penetapan from '@/views/Penetapan'
 
 import BrowseAwbGateIn from '@/views/BrowseAwbGateIn'
 import BrowseAwb from '@/views/BrowseAwb'
+import BrowseRekamBast from '@/views/BrowseRekamBast'
+
+import BrowsePenetapanBtd from '@/views/BrowsePenetapanBtd'
 
 import store from '../store'
 
@@ -79,6 +82,15 @@ const router = new Router({
           }
         },
         {
+          path: 'bast',
+          name: 'RekamBAST',
+          component: BrowseRekamBast,
+          meta: {
+            title: 'Rekam Berita Acara Serah Terima',
+            breadcrumb: '🤝🏼Rekam Berita Acara Serah Terima'
+          }
+        },
+        {
           path: 'hawb',
           name: 'BrowseAwb',
           component: BrowseAwb,
@@ -102,6 +114,15 @@ const router = new Router({
           meta: {
             title: 'Browse TPS',
             breadcrumb: '🔍Browse TPS'
+          }
+        },
+        {
+          path: 'browse-penetapan-btd',
+          name: 'BrowsePenetapanBtd',
+          component: BrowsePenetapanBtd,
+          meta: {
+            title: 'Browse Penetapan BTD',
+            breadcrumb: '🔍Browse Penetapan BTD'
           }
         }
       ]

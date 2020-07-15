@@ -16,18 +16,23 @@
                         "to": "/hawb"
                     },
                     {
+                        "item": "Penetapan BTD",
+                        "icon": "fa-stamp",
+                        "to": "/browse-penetapan-btd"
+                    },
+                    {
                         "item": "Laporan/Berita Acara",
                         "icon": "fa-file-alt",
                         "children": [
                             {
-                                "item": "Pencacahan",
-                                "icon": "fa-boxes",
-                                "to": "/ba/pencacahan"
-                            },
-                            {
                                 "item": "Serah Terima",
                                 "icon": "🤝🏼",
-                                "to": "/ba/serahterima"
+                                "to": "/browse-bast"
+                            },
+                            {
+                                "item": "Pencacahan",
+                                "icon": "fa-boxes",
+                                "to": "/browse-bap"
                             }
                         ]
                     }
