@@ -17,6 +17,8 @@ import BrowseTps from '@/views/BrowseTps'
 
 import Penetapan from '@/views/Penetapan'
 
+import BrowseAwbGateIn from '@/views/BrowseAwbGateIn'
+
 import store from '../store'
 
 // const axios = require('axios').default
@@ -64,6 +66,15 @@ const router = new Router({
           meta: {
             title: 'Penetapan BTD',
             breadcrumb: '🖊️Penetapan Barang Tidak Dikuasai'
+          }
+        },
+        {
+          path: 'gate-in',
+          name: 'GateIn',
+          component: BrowseAwbGateIn,
+          meta: {
+            title: 'Browse AWB Siap Gate In',
+            breadcrumb: '📦Gate In AWB'
           }
         },
         {

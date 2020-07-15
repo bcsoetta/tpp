@@ -151,6 +151,12 @@ class ApiTpp {
         })
     }
 
+    getAwbSiapGateIn (params) {
+        return this.instance.get('/awb/siap_gate_in', {
+            params: params
+        })
+    }
+
     getAwbById (id, params) {
         return this.instance.get('/awb/' + id, {
             params: params

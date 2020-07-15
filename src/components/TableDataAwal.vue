@@ -15,8 +15,13 @@
     v-bind="$attrs"
     v-on="$listeners"
   >
+    <!-- Pass thru all scoped slots -->
+    <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
+      <slot :name="slot" v-bind="scope" />
+    </template>
+
     <!-- custom cell rendering -->
-    <template #cell(index)="row">{{ row.index+start }}</template>
+    <template #cell(index)="row" v-if="showNumber">{{ row.index+start }}</template>
 
     <!-- Nama + Alamat Importir -->
     <template #cell(nama_importir)="row">
@@ -42,26 +47,47 @@
     </template>
 
     <!-- Keterangan (full) -->
-    <template #cell(keterangan_rows)="row">
+    <template #cell(keterangan_rows)="row" v-if="showKeterangan">
       <div v-for="(k, id) in row.item.keterangan.data" :key="row.index+'_ket_'+id">
-        <b-form-textarea :debounce="debounce" size="sm" v-model="k.keterangan" :disabled="readOnly"/>
+        <b-form-textarea
+          :debounce="debounce"
+          size="sm"
+          v-model="k.keterangan"
+          :disabled="readOnly"
+        />
       </div>
     </template>
 
     <!-- No BC11 -->
     <template #cell(no_bc11)="row">
-      <b-form-input :debounce="debounce" size="sm" v-model="row.item.no_bc11" style="width: 60px" :disabled="readOnly"/>
+      <b-form-input
+        :debounce="debounce"
+        size="sm"
+        v-model="row.item.no_bc11"
+        style="width: 60px"
+        :disabled="readOnly"
+      />
       <!-- Tgl BC11 -->
-      <datepicker v-model="row.item.tgl_bc11" size="sm" style="width: 130px" :disabled="readOnly"/>
+      <datepicker v-model="row.item.tgl_bc11" size="sm" style="width: 130px" :disabled="readOnly" />
       <b-row no-gutters style="width: 150px">
         <b-col md="4">
-          <b-form-input :debounce="debounce" size="sm" v-model="row.item.pos" :disabled="readOnly"/>
+          <b-form-input :debounce="debounce" size="sm" v-model="row.item.pos" :disabled="readOnly" />
         </b-col>
         <b-col md="4">
-          <b-form-input :debounce="debounce" size="sm" v-model="row.item.subpos" :disabled="readOnly"/>
+          <b-form-input
+            :debounce="debounce"
+            size="sm"
+            v-model="row.item.subpos"
+            :disabled="readOnly"
+          />
         </b-col>
         <b-col md="4">
-          <b-form-input :debounce="debounce" size="sm" v-model="row.item.subsubpos" :disabled="readOnly"/>
+          <b-form-input
+            :debounce="debounce"
+            size="sm"
+            v-model="row.item.subsubpos"
+            :disabled="readOnly"
+          />
         </b-col>
       </b-row>
     </template>
@@ -117,8 +143,8 @@
 
     <!-- MAWB -->
     <template #cell(mawb)="row">
-      <b-form-input :debounce="debounce" size="sm" v-model="row.item.mawb" :disabled="readOnly"/>
-      <b-form-input :debounce="debounce" size="sm" v-model="row.item.hawb" :disabled="readOnly"/>
+      <b-form-input :debounce="debounce" size="sm" v-model="row.item.mawb" :disabled="readOnly" />
+      <b-form-input :debounce="debounce" size="sm" v-model="row.item.hawb" :disabled="readOnly" />
     </template>
 
     <template #head(mawb)>
@@ -128,39 +154,68 @@
 
     <!-- BARANG -->
     <template #cell(barang)="row">
-      <div class="text-center" v-for="(barang, id) in row.item.barang.data" :key="row.index+'_brg_'+id">
-        <hr v-if="id > 0"/>
+      <div
+        class="text-center"
+        v-for="(barang, id) in row.item.barang.data"
+        :key="row.index+'_brg_'+id"
+      >
+        <hr v-if="id > 0" />
         <b-row no-gutters style="max-width: 200px" class="mx-auto">
           <!-- jumlah jenis di row pertama? -->
           <b-col md="4">
-            <b-form-input :debounce="debounce" size="sm" v-model="barang.jumlah" :disabled="readOnly"/>
+            <b-form-input
+              :debounce="debounce"
+              size="sm"
+              v-model="barang.jumlah"
+              :disabled="readOnly"
+            />
           </b-col>
           <b-col md="4">
-            <b-form-input :debounce="debounce" size="sm" v-model="barang.jenis" :disabled="readOnly"/>
+            <b-form-input
+              :debounce="debounce"
+              size="sm"
+              v-model="barang.jenis"
+              :disabled="readOnly"
+            />
           </b-col>
 
           <!-- Uraian di bawah -->
           <b-col md="12">
-            <b-form-textarea :debounce="debounce" rows="2" size="sm" v-model="barang.uraian" :disabled="readOnly"/>
+            <b-form-textarea
+              :debounce="debounce"
+              rows="2"
+              size="sm"
+              v-model="barang.uraian"
+              :disabled="readOnly"
+            />
           </b-col>
         </b-row>
       </div>
     </template>
 
-    <template #head(barang)>
-        Jumlah Jenis Barang
-    </template>
+    <template #head(barang)>Jumlah Jenis Barang</template>
 
     <!-- TOMBOL APUS/EDIT? -->
     <template #cell(act)="row">
-      <div class="text-center">
-        <!-- delete -->
-        <b-button class="shadow" size="sm" variant="danger" @click="$emit('delete', row.index)">
-          <font-awesome-icon icon="trash-alt"/>
-        </b-button>
-      </div>
+      <slot name="controls" :row="row">
+        <div class="text-center">
+          <!-- edit -->
+          <b-button
+            v-if="editable"
+            class="shadow"
+            size="sm"
+            variant="primary"
+            @click="$emit('edit', row.index)"
+          >
+            <font-awesome-icon icon="pencil-alt" />
+          </b-button>
+          <!-- delete -->
+          <b-button class="shadow" size="sm" variant="danger" @click="$emit('delete', row.index)">
+            <font-awesome-icon icon="trash-alt" />
+          </b-button>
+        </div>
+      </slot>
     </template>
-
   </b-table>
 </template>
 
@@ -176,9 +231,29 @@ export default {
       default: false
     },
 
+    showNumber: {
+      type: Boolean,
+      default: true
+    },
+
+    showKeterangan: {
+      type: Boolean,
+      default: true
+    },
+
+    editable: {
+      type: Boolean,
+      default: false
+    },
+
     start: {
       type: Number,
       default: 1
+    },
+
+    appendFields: {
+      type: Array,
+      default: () => []
     }
   },
 
@@ -194,11 +269,15 @@ export default {
 
   computed: {
     fields() {
-      return [
-        {
-          label: "No",
-          key: "index"
-        },
+      var labels = [
+        ...(this.showNumber
+          ? [
+              {
+                label: "No",
+                key: "index"
+              }
+            ]
+          : []),
         "no_bc11",
         {
           label: "Kode Flight",
@@ -212,15 +291,18 @@ export default {
           label: "Barang",
           key: "barang"
         },
-        {
+        ...(this.showKeterangan? [{
           label: "Keterangan",
           key: "keterangan_rows"
-        },
+        }]:[]),
+        ...this.appendFields,
         {
           label: "",
           key: "act"
         }
       ];
+
+      return labels;
     }
   }
 };
