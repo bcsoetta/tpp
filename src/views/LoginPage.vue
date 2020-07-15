@@ -150,7 +150,7 @@ export default {
                     // redirect to home?
                     this.$router.push({
                         path: '/'
-                    })
+                    }, () => {})
                 })
                 .catch( (e) => {
                     console.log('login error')
