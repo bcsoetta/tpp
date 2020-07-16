@@ -18,7 +18,13 @@
                     <!-- slot for controls (total override) -->
                     <template #controls="{ row }">
                         <div class="text-center">
-                            <b-button size="sm" variant="primary" class="shadow" v-b-tooltip.hover title="Edit/Lihat Detil">
+                            <b-button 
+                            size="sm" 
+                            variant="primary" 
+                            class="shadow" 
+                            v-b-tooltip.hover title="Edit/Lihat Detil"
+                            :to="`/hawb/${row.item.id}`"
+                            >
                                 <font-awesome-icon icon="pencil-alt"/>
                             </b-button>
                         </div>

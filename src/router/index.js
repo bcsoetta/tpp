@@ -23,6 +23,8 @@ import BrowseRekamBast from '@/views/BrowseRekamBast'
 
 import BrowsePenetapanBtd from '@/views/BrowsePenetapanBtd'
 
+import ViewEntryManifest from '@/views/ViewEntryManifest'
+
 import store from '../store'
 
 // const axios = require('axios').default
@@ -92,12 +94,33 @@ const router = new Router({
         },
         {
           path: 'hawb',
-          name: 'BrowseAwb',
-          component: BrowseAwb,
           meta: {
-            title: 'Browse AWB',
+            // title: 'Browse AWB',
             breadcrumb: '🔎Browse AWB'
-          }
+          },
+          component: DummyView,
+          children: [
+            {
+              // the browse view
+              path: ':id',
+              name: 'ViewEntryManifest',
+              meta: {
+                title: 'View Detail AWB',
+                breadcrumb: '👁️View Detail AWB'
+              },
+              component: ViewEntryManifest,
+              props: true
+            },
+            {
+              // the browse view
+              path: '',
+              name: 'BrowseAwb',
+              meta: {
+                title: 'Browse AWB'
+              },
+              component: BrowseAwb
+            }
+          ]
         },
         {
           path: 'test',
