@@ -22,6 +22,7 @@
           <!-- action -->
           <template #cell(act)="row">
             <div class="text-center">
+              <!-- open modal -->
               <b-button
                 size="sm"
                 variant="primary"
@@ -31,6 +32,18 @@
                 @click="viewPenetapanDetail(row.item)"
               >
                 <font-awesome-icon icon="eye" />
+              </b-button>
+
+              <!-- print -->
+              <b-button
+                size="sm"
+                variant="dark"
+                class="shadow"
+                v-b-tooltip.hover
+                title="Unduh Lampiran (Excel)"
+                @click="downloadLampiranPenetapan(row.item)"
+              >
+                <font-awesome-icon icon="print" />
               </b-button>
             </div>
           </template>
@@ -72,6 +85,8 @@ import PaginatedBrowser from "@/components/PaginatedBrowser";
 import PenetapanDetailContents from "@/components/PenetapanDetailContents";
 import PenetapanContents from "@/components/PenetapanContents";
 
+const fileDownload = require('js-file-download');
+
 export default {
   mixins: [axiosErrorHandler],
 
@@ -112,6 +127,21 @@ export default {
     viewPenetapanDetail(penetapan) {
       this.detailShown = penetapan;
       this.$refs.modal.show();
+    },
+
+    // download lampiran penetapan
+    downloadLampiranPenetapan(penetapan) {
+      this.setBusyState(true)
+      this.api.downloadUri(`/penetapan/${penetapan.id}/excel`)
+      .then(e => {
+        this.setBusyState(false)
+        const filename = penetapan.nomor_lengkap.replace('/\//gi', '-') + '.xlsx'
+        fileDownload(e.data, filename)
+      })
+      .catch(e => {
+        this.setBusyState(false)
+        this.handleError(e)
+      })
     }
   },
 
