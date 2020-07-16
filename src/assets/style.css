@@ -58,6 +58,10 @@ li.vs__dropdown-option {
     max-width: 100% !important;
 }
 
+.thick, .thick .form-control {
+    font-weight: 550 !important;
+}
+
 /* 
 body {
     transition: background-color 1s ease;

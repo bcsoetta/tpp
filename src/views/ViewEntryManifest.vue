@@ -19,11 +19,14 @@
             <b-tabs card lazy>
                 <!-- Header -->
                 <b-tab title="Header" :active="activeTab == 'header'">
-                    Peepee poopoo
+                    <entry-manifest-contents
+                    v-if="dataAwb"
+                    :data="dataAwb"
+                    />
                 </b-tab>
 
                 <!-- Pencacahan -->
-                <b-tab title="Pencacahan" :active="activeTab == 'pencacahan'">
+                <b-tab title="Pencacahan" :active="activeTab == 'pencacahan'" v-if="dataAwb.pencacahan">
                     some mundane shit here
                 </b-tab>
 
@@ -42,13 +45,16 @@ import DocBanner from '@/components/DocBanner'
 import { mapGetters, mapMutations } from 'vuex'
 import axiosErrorHandler from '../mixins/axiosErrorHandler'
 
+import EntryManifestContents from '@/components/EntryManifestContents'
+
 export default {
     mixins: [
-        axiosErrorHandler
+        axiosErrorHandler,
     ],
 
     components: {
-        DocBanner
+        DocBanner,
+        EntryManifestContents
     },
 
     props: {
