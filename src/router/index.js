@@ -22,6 +22,8 @@ import BrowseAwbGateIn from '@/views/BrowseAwbGateIn'
 import BrowseAwb from '@/views/BrowseAwb'
 import BrowseRekamBast from '@/views/BrowseRekamBast'
 
+import BrowseAwbSiapBast from '@/views/BrowseAwbSiapBast'
+
 import BrowsePenetapanBtd from '@/views/BrowsePenetapanBtd'
 
 import ViewEntryManifest from '@/views/ViewEntryManifest'
@@ -100,6 +102,15 @@ const router = new Router({
           meta: {
             title: 'Rekam Berita Acara Serah Terima',
             breadcrumb: '🤝🏼Rekam Berita Acara Serah Terima'
+          }
+        },
+        {
+          path: 'bast-p2',
+          name: 'RekamBASTP2',
+          component: BrowseAwbSiapBast,
+          meta: {
+            title: 'Rekam Berita Acara Serah Terima - Ex P2',
+            breadcrumb: '🤝🏼Rekam Berita Acara Serah Terima - Ex P2'
           }
         },
         {

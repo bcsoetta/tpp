@@ -55,7 +55,18 @@
                     {
                         "item": "Rekam BAST",
                         "icon": "🤝🏼",
-                        "to": "/bast"
+                        "children":[
+                            {
+                                "item":"Dari TPS",
+                                "icon": "fa-warehouse",
+                                "to": "/bast"
+                            },
+                            {
+                                "item":"Dari P2",
+                                "icon": "👮",
+                                "to": "/bast-p2"
+                            }
+                        ]
                     },
                     {
                         "item": "Pencacahan",

@@ -33,6 +33,7 @@
                     <!-- additional column -->
                     <template #cell(tps)="row">
                         <b-badge 
+                            v-if="row.item.tps"
                             :id="`badge-${row.item.id}`" 
                             :variant="badgeVariant(row.item.tps.data.kode)"
                             v-b-tooltip.hover :title="row.item.tps.data.nama"
