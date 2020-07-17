@@ -2,7 +2,7 @@
   <div>
     <b-form-group description="Ukuran file max 16 Mb">
       <template #label>
-        Browse File Excel (<a href="/static/assets/contoh-data-awal-gudang.xlsx">Contoh File Excel</a>)
+        Browse File Excel (<a href="/static/assets/contoh-format-kep-bdn.xlsx">Contoh File Excel</a>)
       </template>
       <!-- body -->
       <b-form-file
@@ -70,17 +70,17 @@
       <template #modal-header>
         <h5>
           <font-awesome-icon icon="file-excel" />
-          Import Data Awal (Excel) | Rows: {{ result.length }}
+          Import Data Kep BDN (Excel) | Rows: {{ result.length }}
         </h5>
 
-        <div style="min-width: 500px" >
+        <!-- <div style="min-width: 500px" >
             <b-form-group label="TPS Asal" label-cols="2">
             <select-tps
                 v-model="kode_gudang"
                 :reduce="e => e.kode"
             />
             </b-form-group>
-        </div>
+        </div> -->
       </template>
 
       <!-- MODAL FOOTER -->
@@ -96,7 +96,30 @@
       </template>
 
       <div v-if="result">
-        <table-data-awal :items="result" @delete="handleDelete"/>
+        <table-data-awal 
+          :items="result" 
+          @delete="handleDelete"
+          hideDataBc11
+          :prependFields="bcpFields"
+        >
+          <!-- render no bcp -->
+          <template #cell(no_bcp)="row">
+            <b-form-input
+              size="sm"
+              v-model="row.item.bcp.data.nomor_lengkap"
+              class="text-center"
+            />
+          </template>
+
+          <!-- render tgl bcp -->
+          <template #cell(tgl_bcp)="row">
+            <datepicker
+              size="sm"
+              v-model="row.item.bcp.data.tgl_dok"
+              style="width: 130px; text-align:center;"
+            />
+          </template>
+        </table-data-awal>
 
         <!-- <pre>{{ JSON.stringify(result, null, 2) }}</pre> -->
       </div>
@@ -109,14 +132,16 @@ import { mapGetters, mapMutations } from "vuex";
 import axiosErrorHandler from "../mixins/axiosErrorHandler";
 
 import TableDataAwal from "@/components/TableDataAwal";
-import SelectTps from '@/components/SelectTps'
+// import SelectTps from '@/components/SelectTps'
+import Datepicker from '@/components/Datepicker'
 
 export default {
   mixins: [axiosErrorHandler],
 
   components: {
     TableDataAwal,
-    SelectTps
+    // SelectTps
+    Datepicker
   },
 
   data() {
@@ -125,7 +150,7 @@ export default {
       uploading: 0,
 
       result: null,
-      kode_gudang: null,
+      // kode_gudang: null,
 
       tableReady: false,
       showAlert: false,
@@ -156,17 +181,17 @@ export default {
 
     handleUpload () {
         // gotta check if everything is set
-        if (!this.kode_gudang) {
+        /* if (!this.kode_gudang) {
             this.showToast('Error', 'Kode Gudang belum dipilih!', 'danger')
             return
-        }
+        } */
 
         if (!this.result || !this.result.length) {
             this.showToast('Error', 'belum ada data excel yang diimport', 'danger')
             return
         }
 
-        this.showToast('Uploading...', `Uploading ${this.result.length} entries from '${this.kode_gudang}'`, 'info')
+        this.showToast('Uploading...', `Uploading ${this.result.length} entries...` , 'info')
 
         // test
         this.setBusyState(true)
@@ -175,8 +200,9 @@ export default {
         const vm = this
 
         vm.api.storeAwb({
-          tps_kode: vm.kode_gudang,
           entry_manifest: vm.result 
+        }, {
+          source: 'kep-bdn'
         })
         .then(e => {
           vm.setBusyState(false)
@@ -208,6 +234,13 @@ export default {
 
     busy() {
       return this.uploading > 0 && this.uploading < 100;
+    },
+
+    bcpFields() {
+      return [
+        { label: 'No BCP', key: 'no_bcp' },
+        { label: 'Tgl', key: 'tgl_bcp' }
+      ];
     }
   },
 
@@ -221,7 +254,7 @@ export default {
           this.showAlert = false;
           // call the api?
           this.api
-            .attachRawFileToUri("/excel/dataawal", this.excelFile, e => {
+            .attachRawFileToUri("/excel/kepbdn", this.excelFile, e => {
               this.uploading = Math.round((e.loaded * 100) / e.total);
             })
             .then(e => {

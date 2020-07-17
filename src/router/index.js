@@ -12,6 +12,7 @@ import Forbidden from '@/views/Forbidden'
 import TestPage from '@/views/TestPage'
 
 import ImportDataAwal from '@/views/ImportDataAwal'
+import ImportKepBdn from '@/views/ImportKepBdn'
 
 import BrowseTps from '@/views/BrowseTps'
 
@@ -57,12 +58,21 @@ const router = new Router({
           }
         },
         {
-          path: 'import/dataawal',
+          path: 'import-data-awal',
           name: 'ImportDataAwal',
           component: ImportDataAwal,
           meta: {
             title: 'Import Data Awal',
             breadcrumb: '📋Import Data Awal (Excel)'
+          }
+        },
+        {
+          path: 'import-kep-bdn',
+          name: 'ImportKepBdn',
+          component: ImportKepBdn,
+          meta: {
+            title: 'Import Kep BDN',
+            breadcrumb: '📋Import Kep BDN dari P2'
           }
         },
         {

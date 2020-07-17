@@ -110,12 +110,12 @@
                     {
                         "item": "Pengajuan dari TPS",
                         "icon": "fa-warehouse",
-                        "to": "/import/dataawal"
+                        "to": "/import-data-awal"
                     },
                     {
                         "item": "KEP BDN P2",
                         "icon": "👮",
-                        "to": "/import/kepbdnp2"
+                        "to": "/import-kep-bdn"
                     }
                 ]
             }

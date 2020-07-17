@@ -259,6 +259,16 @@ export default {
     appendFields: {
       type: Array,
       default: () => []
+    },
+
+    prependFields: {
+      type: Array,
+      default: () => []
+    },
+
+    hideDataBc11: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -275,6 +285,7 @@ export default {
   computed: {
     fields() {
       var labels = [
+        // should we show number?
         ...(this.showNumber
           ? [
               {
@@ -283,11 +294,20 @@ export default {
               }
             ]
           : []),
-        "no_bc11",
-        {
-          label: "Kode Flight",
-          key: "kd_flight"
-        },
+        // prepended fields
+        ...this.prependFields,
+        // should we show data bc11?
+        ...(this.hideDataBc11 ? 
+          []
+          :
+          [
+            "no_bc11",
+            {
+              label: "Kode Flight",
+              key: "kd_flight"
+            }
+          ]
+        ),
         "koli",
         "brutto",
         "mawb",
