@@ -23,6 +23,7 @@ import BrowseAwb from '@/views/BrowseAwb'
 import BrowseRekamBast from '@/views/BrowseRekamBast'
 
 import BrowseAwbSiapBast from '@/views/BrowseAwbSiapBast'
+import BrowseBast from '@/views/BrowseBast'
 
 import BrowsePenetapanBtd from '@/views/BrowsePenetapanBtd'
 
@@ -167,6 +168,15 @@ const router = new Router({
           meta: {
             title: 'Browse Penetapan (BTD/BDN)',
             breadcrumb: '🔍Browse Penetapan (BTD/BDN)'
+          }
+        },
+        {
+          path: 'browse-bast',
+          name: 'BrowseBast',
+          component: BrowseBast,
+          meta: {
+            title: 'Browse Berita Acara Penarikan/Serah Terima',
+            breadcrumb: '🔍Browse BAP/BAST'
           }
         }
       ]

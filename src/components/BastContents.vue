@@ -3,7 +3,7 @@
     <b-row>
       <!-- nomor + tgl -->
       <b-col md="8">
-        <b-form-group label="Nomor Surat Penetapan">
+        <b-form-group label="Nomor Berita Acara">
           <b-form-input 
           :disabled="disabled" 
           v-model="data.nomor_lengkap" 
@@ -13,7 +13,7 @@
       </b-col>
       <!-- tanggal -->
       <b-col md="4">
-          <b-form-group label="Tanggal Surat">
+          <b-form-group label="Tanggal">
             <datepicker 
             :disabled="disabled"
             v-model="data.tgl_dok"
@@ -25,27 +25,16 @@
     <!-- pejabat info -->
     <b-row>
       <b-col md="6">
-        <b-form-group label="Pejabat Penetapan">
+        <b-form-group label="Petugas">
           <select-kasi
             :disabled="disabled"
-            v-model="data.pejabat.data.user_id"
-            :initial-options="data.pejabat.data"
+            v-model="data.petugas.data.user_id"
+            :initial-options="data.petugas.data"
           />
         </b-form-group>
       </b-col>
     </b-row>
     <!-- another to show details -->
-    <div>
-        <b-alert show variant="primary" class="d-inline-block">
-            Total AWB <b-badge>{{ data.total_gate_in }}</b-badge>
-        </b-alert>
-        <b-alert show variant="success" class="d-inline-block">
-            Sudah Gate In <b-badge>{{ data.total_gate_in }}</b-badge>
-        </b-alert>
-        <b-alert show variant="danger" class="d-inline-block">
-            Belum Gate In <b-badge>{{ data.total_belum_gate_in }}</b-badge>
-        </b-alert>
-    </div>
   </div>
 </template>
 

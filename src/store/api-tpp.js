@@ -214,6 +214,18 @@ class ApiTpp {
     }
 
     // ========================BAST===============================================================
+    getBAST (params) {
+        return this.instance.get('/bast', {
+            params: params
+        })
+    }
+
+    getBASTAwb (id, params) {
+        return this.instance.get(`/bast/${id}/awb`, {
+            params: params
+        })
+    }
+
     createBAST (kode_tps, data) {
         return this.instance.put(`tps/${kode_tps}/bast`, data)
     }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <paginated-browser ref="browser" :data-callback="fetchPenetapan">
+    <paginated-browser ref="browser" :data-callback="fetchBast">
       <template #default="{ data, pagination }">
         <!-- put a table in the middle -->
         <b-table
@@ -16,15 +16,17 @@
           
         >
           <!-- pejabat -->
-          <template #cell(pejabat)="row">
-            <div>{{ row.item.pejabat.data.name }}</div>
-            <div>{{ row.item.pejabat.data.nip }}</div>
+          <template #cell(petugas)="row">
+            <div>{{ row.item.petugas.data.name }}</div>
+            <div>{{ row.item.petugas.data.nip }}</div>
           </template>
 
           <!-- jenis -->
-          <template #cell(jenis)="{ value }">
+          <template #cell(ex_p2)="{ value }">
             <div class="text-center">
-              <b-badge :variant="value=='KEP_BDN' ? 'danger' : 'info'">{{ value }}</b-badge>
+              <b-badge :variant="value ? 'danger' : 'info'">
+                {{ value ? 'DARI KEP-BDN' : 'DARI PENETAPAN BTD' }}
+              </b-badge>
             </div>
           </template>
 
@@ -37,21 +39,20 @@
                 variant="primary"
                 class="shadow"
                 v-b-tooltip.hover
-                title="Lihat Detil Penetapan"
-                @click="viewPenetapanDetail(row.item)"
+                title="Lihat Detil BAST"
+                @click="viewBastDetail(row.item)"
               >
                 <font-awesome-icon icon="eye" />
               </b-button>
-
               <!-- print -->
               <b-button
-                :disabled="row.item.jenis != 'PENETAPAN_BTD'"
+                :disabled="row.item.ex_p2"
                 size="sm"
                 variant="dark"
                 class="shadow"
                 v-b-tooltip.hover
                 title="Unduh Lampiran (Excel)"
-                @click="downloadLampiranPenetapan(row.item)"
+                @click="downloadLampiranBast(row.item)"
               >
                 <font-awesome-icon icon="print" />
               </b-button>
@@ -62,7 +63,7 @@
     </paginated-browser>
     <!-- Modal to show detail? -->
     <b-modal
-      id="modal-detail-penetapan"
+      id="modal-detail-bast"
       ref="modal"
       header-bg-variant="light"
       footer-bg-variant="light"
@@ -70,16 +71,16 @@
       hide-footer
     >
       <!-- custom title? -->
-      <template #modal-title v-if="detailShown">Detail Penetapan #{{ detailShown.id }}</template>
+      <template #modal-title v-if="detailShown">Detail BAST #{{ detailShown.id }}</template>
       <!-- custom body -->
       <template v-if="detailShown">
         <b-card no-body>
           <b-tabs card lazy>
             <b-tab title="Header" active>
-              <penetapan-contents :data="detailShown" disabled />
+              <bast-contents :data="detailShown" disabled />
             </b-tab>
             <b-tab :title="`AWB (${detailShown.total_entry_manifest})`">
-              <penetapan-detail-contents :id="detailShown.id" :bdn-mode="detailShown.jenis=='KEP_BDN'"/>
+              <bast-detail-contents :id="detailShown.id" />
             </b-tab>
           </b-tabs>
         </b-card>
@@ -92,8 +93,10 @@
 import axiosErrorHandler from "../mixins/axiosErrorHandler";
 import { mapGetters, mapMutations } from "vuex";
 import PaginatedBrowser from "@/components/PaginatedBrowser";
-import PenetapanDetailContents from "@/components/PenetapanDetailContents";
-import PenetapanContents from "@/components/PenetapanContents";
+
+import BastContents from '@/components/BastContents'
+import BastDetailContents from '@/components/BastDetailContents'
+
 
 const fileDownload = require('js-file-download');
 
@@ -102,8 +105,8 @@ export default {
 
   components: {
     PaginatedBrowser,
-    PenetapanDetailContents,
-    PenetapanContents
+    BastContents,
+    BastDetailContents
   },
 
   data() {
@@ -115,13 +118,13 @@ export default {
   methods: {
     ...mapMutations(["setBusyState"]),
 
-    // query data penetapan
-    fetchPenetapan(q, spinner, vm) {
+    // query data bast
+    fetchBast(q, spinner, vm) {
       spinner(true);
 
       // call api
       this.api
-        .getPenetapan(q)
+        .getBAST(q)
         .then(e => {
           spinner(false);
           vm.setData(e.data.data);
@@ -133,19 +136,19 @@ export default {
         });
     },
 
-    // view detil penetapan
-    viewPenetapanDetail(penetapan) {
-      this.detailShown = penetapan;
+    // view detil bast
+    viewBastDetail(bast) {
+      this.detailShown = bast;
       this.$refs.modal.show();
     },
 
-    // download lampiran penetapan
-    downloadLampiranPenetapan(penetapan) {
+    // download lampiran bast
+    downloadLampiranBast(bast) {
       this.setBusyState(true)
-      this.api.downloadUri(`/penetapan/${penetapan.id}/excel`)
+      this.api.downloadUri(`/bast/${bast.id}/excel`)
       .then(e => {
         this.setBusyState(false)
-        const filename = penetapan.nomor_lengkap.replace('/\//gi', '-') + '.xlsx'
+        const filename = bast.nomor_lengkap.replace('/\//gi', '-') + '.xlsx'
         fileDownload(e.data, filename)
       })
       .catch(e => {
@@ -164,21 +167,14 @@ export default {
       return [
         // { label: '', key: 'showDetails' },
         { key: "nomor_lengkap", class: "text-center" },
-        { key: "tgl_dok", class: "text-center" },
-        "jenis",
+        { key: "tgl_dok", class:"text-center" },
+        { key: "ex_p2", label: 'Asal' },
         {
           label: "Total AWB",
           key: "total_entry_manifest",
           class: "text-center"
         },
-        { label: "Total Gate In", key: "total_gate_in", class: "text-center" },
-        {
-          label: "Total Belum Gate In",
-          key: "total_belum_gate_in",
-          class: "text-center"
-        },
-
-        "pejabat",
+        "petugas",
         {
           label: "",
           key: "act"

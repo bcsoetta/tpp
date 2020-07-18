@@ -1,8 +1,19 @@
 <template>
     <paginated-browser
         ref="browser"
-        :data-callback="fetchPenetapanAwb"
+        :data-callback="fetchBASTAwb"
     >
+        <!-- SLOT: custom control (hide manifest) -->
+        <template #append-search-param>
+                <b-col md="4">
+                    <label label-for="hide-manifest">
+                        <b-form-checkbox v-model="hideManifest" class="d-inline-block"/>
+                        Hide Manifest
+                    </label>
+                </b-col>
+            
+        </template>
+
         <!-- put table data awal in the middle -->
         <template #default="{ data, pagination }">
             <table-data-awal
@@ -13,7 +24,7 @@
 
                 :prependFields="prependFields"
 
-                :hideDataBc11="bdnMode"
+                :hideDataBc11="hideManifest"
             >
                 
             </table-data-awal>
@@ -39,7 +50,13 @@ export default {
 
         bdnMode: {
             type: Boolean,
-            default: false
+            default: true
+        }
+    },
+
+    data () {
+        return {
+            hideManifest: true
         }
     },
 
@@ -51,10 +68,10 @@ export default {
     methods: {
         ...mapMutations(['setBusyState']),
 
-        fetchPenetapanAwb (q, spinner, vm) {
+        fetchBASTAwb (q, spinner, vm) {
             spinner(true)
 
-            this.api.getPenetapanAwb(this.id, q)
+            this.api.getBASTAwb(this.id, q)
             .then(e => {
                 spinner(false)
                 vm.setData(e.data.data)
