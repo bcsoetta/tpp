@@ -19,97 +19,75 @@
             <b-button
                 variant="success"
                 class="shadow"
-                @click="loadData"
+                @click="loadData($refs.browser)"
             >
                 <font-awesome-icon icon="sync"/>
                 Refresh
             </b-button>
         </div>
         <hr>
-        <!-- form-select -->
-        <b-form-group
-            label-cols="6"
-            label="Tampilkan"
-            class="d-block"
-            style="width: 200px"
-        >
-            <b-form-select v-model="perPage" size="sm">
-                <b-form-select-option :value="1">1</b-form-select-option>
-                <b-form-select-option :value="5">5</b-form-select-option>
-                <b-form-select-option :value="10">10</b-form-select-option>
-                <b-form-select-option :value="25">25</b-form-select-option>
-            </b-form-select>
-        </b-form-group>
-        <!-- <pre>selected: {{ selected }}</pre> -->
+        
         <!-- paginated browser here -->
-        <table-data-awal
-            v-if="data.length"
-            :showNumber="false"
-            :showKeterangan="false"
-            :items="data"
-
-            read-only
-            :editable="false"
-            disable-controls
-            hideDataBc11
-
-            :per-page="perPage"
-            :current-page="currentPage"
-
-            :prependFields="['selected']"
-
-            @row-clicked="onRowClicked"
-            ref="table"
-            :tbody-tr-class="rowClass"
-            primary-key="id"
+        <paginated-browser 
+            manual
+            ref="browser"
+            @data-request="onDataRequest"
         >
-            <!-- selected cell display -->
-            <template #cell(selected)="{ item }">
-                <pre>{{ item.selected }}</pre>
-                <div class="text-center">
-                    <b-form-checkbox
-                        :checked="inSelection(item.id)"
-                        @change="e => onSelectionChange(e, item)"
-                    />
-                </div>
+
+            <template #default="{ data, pagination }">
+                <table-data-awal
+                    :showNumber="false"
+                    :showKeterangan="false"
+                    :items="data"
+
+                    read-only
+                    :editable="false"
+                    disable-controls
+                    hideDataBc11
+
+                    :per-page="pagination.number"
+                    :current-page="pagination.page"
+
+                    :prependFields="['selected']"
+
+                    @row-clicked="onRowClicked"
+                    ref="table"
+                    :tbody-tr-class="rowClass"
+                    primary-key="id"
+                >
+                    <!-- selected cell display -->
+                    <template #cell(selected)="{ item }">
+                        <pre>{{ item.selected }}</pre>
+                        <div class="text-center">
+                            <b-form-checkbox
+                                :checked="inSelection(item.id)"
+                                @change="e => onSelectionChange(e, item)"
+                            />
+                        </div>
+                    </template>
+
+                    <!-- selection header -->
+                    <template #head(selected)>
+                        <div class="text-center">
+                            <b-form-checkbox
+                                :checked="selected.length > 0"
+                                :indeterminate="selected.length > 0 && selected.length != data.length"
+
+                                @change="e => e ? selectAll() : clearSelection()"
+                            />
+                        </div>
+                    </template>
+                </table-data-awal>
             </template>
 
-            <!-- selection header -->
-            <template #head(selected)>
-                <div class="text-center">
-                    <b-form-checkbox
-                        :checked="selected.length > 0"
-                        :indeterminate="selected.length > 0 && selected.length != data.length"
-
-                        @change="e => e ? selectAll() : clearSelection()"
-                    />
-                </div>
-            </template>
-        </table-data-awal>
+        </paginated-browser>
 
         <!-- empty -->
-        <template v-else>
+        <!-- <template v-else>
             <b-alert show variant="warning">
                 Tidak ada AWB siap rekam BAST
             </b-alert>
-        </template>
-
-        <b-row>
-            <!-- 1st col, x of y from z -->
-            <b-col md="6" sm="12">
-                <span>Menampilkan <strong>{{ pageStart }}</strong> - <strong>{{ pageEnd }}</strong> dari <strong>{{ total }}</strong></span>
-            </b-col>
-            <b-col md="6" sm="12">
-                <div class="float-md-right float-sm-center">
-                    <b-pagination
-                        v-model="currentPage"
-                        :total-rows="total"
-                        :per-page="perPage"
-                        class="shadow"
-                    />
-                </div>
-            </b-col>
-        </b-row>
+        </template> -->
 
         <!-- Modal to record surat -->
         <b-modal
@@ -168,6 +146,7 @@
 </template>
 
 <script>
+import PaginatedBrowser from '@/components/PaginatedBrowser'
 import TableDataAwal from '@/components/TableDataAwal'
 import Datepicker from '@/components/Datepicker'
 import axiosErrorHandler from '../mixins/axiosErrorHandler'
@@ -182,7 +161,8 @@ export default {
 
     components: {
         TableDataAwal,
-        Datepicker
+        Datepicker,
+        PaginatedBrowser
     },
 
     data() {
@@ -216,17 +196,15 @@ export default {
         }
     },
 
-    created () {
-        this.loadData()
-    },
-
     methods: {
         ...mapMutations(['setBusyState']),
 
+        // is awb id in selection
         inSelection(id) {
             return this.selected.indexOf(id) >= 0
         },
 
+        // rowClass function
         rowClass(item) {
             if (this.inSelection(item.id)) {
                 return ["b-table-row-selected", "table-primary", "cursor-pointer"]
@@ -235,7 +213,19 @@ export default {
             }
         },
 
-        loadData () {
+        // when data is requested, or filter change
+        onDataRequest({q, spinner, vm}) {
+            console.log('request-data', q)
+            
+            // call load data internally if no data present
+            if (!this.data.length) {
+                this.loadData(vm)
+            }
+        },
+
+        // load data from backend
+        loadData (vm) {
+            console.log('loadData vm: ', vm)
             // clear seelction
             this.clearSelection()
 
@@ -244,12 +234,17 @@ export default {
             this.api.getAwb({
                 siap_rekam_bast: true,
                 dari_kep_bdn: true,
-                number: 1000
+                show_all: true
             })
             .then(e => {
                 this.setBusyState(false)
                 this.data = e.data.data
                 this.total = e.data.meta.pagination.total
+                // if vm is set
+                if (vm) {
+                    vm.setData(this.data)
+                    vm.setTotal(this.total)
+                }
             })
             .catch(e => {
                 this.setBusyState(false)
@@ -312,7 +307,7 @@ export default {
                 // refresh
                 this.$nextTick(() => {
                     this.$refs.modal.hide()
-                    this.loadData()
+                    this.loadData(this.$refs.browser)
                 })
             })
             .catch(e => {

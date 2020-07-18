@@ -120,8 +120,7 @@ export default {
             default: 10
         },
         dataCallback: {
-            type: Function,
-            required: true
+            type: Function
         },
         dateRange: {
             type: Boolean,
