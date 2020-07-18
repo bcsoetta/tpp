@@ -254,6 +254,10 @@ export default {
             this.loadData()
         },
         internalPage: function(nv, ov) {
+            if (nv < 1) {
+                this.internalPage = 1
+                return
+            }
             console.log('internal page changed from ', ov, ' to ', nv)
             this.loadData()
         }

@@ -96,6 +96,40 @@
       </template>
 
       <div v-if="result">
+        <!-- show nomor surat lengkap + tanggal, and who signed it -->
+        <b-row>
+          <!-- nomor -->
+          <b-col md="6">
+            <b-form-group label="Nomor Kep penetapan" description="nomor kep lengkap, e.g. KEP-XXX/KPU.03/BD.0301/2020">
+              <b-form-input
+                size="sm"
+                v-model="no_kep"
+                :debounce="1000"
+              />
+            </b-form-group>
+          </b-col>
+          <!-- Tanggal -->
+          <b-col md="2">
+            <b-form-group label="Tanggal Kep">
+              <datepicker
+                size="sm"
+                v-model="tgl_kep"
+                style="width: 128px"
+              />
+            </b-form-group>
+          </b-col>
+          <!-- SelectKasi -->
+          <b-col md="4">
+            <b-form-group label="Pejabat Penetapan">
+              <select-kasi 
+              v-model="pejabat_id_kep"
+              search-on-empty
+              />
+            </b-form-group>
+          </b-col>
+        </b-row>
+
+        <!-- show tables of them -->
         <table-data-awal 
           :items="result" 
           @delete="handleDelete"
@@ -134,6 +168,7 @@ import axiosErrorHandler from "../mixins/axiosErrorHandler";
 import TableDataAwal from "@/components/TableDataAwal";
 // import SelectTps from '@/components/SelectTps'
 import Datepicker from '@/components/Datepicker'
+import SelectKasi from '@/components/SelectKasi'
 
 export default {
   mixins: [axiosErrorHandler],
@@ -141,7 +176,8 @@ export default {
   components: {
     TableDataAwal,
     // SelectTps
-    Datepicker
+    Datepicker,
+    SelectKasi
   },
 
   data() {
@@ -151,6 +187,9 @@ export default {
 
       result: null,
       // kode_gudang: null,
+      no_kep: null,
+      tgl_kep: null,
+      pejabat_id_kep: null,
 
       tableReady: false,
       showAlert: false,
@@ -200,6 +239,9 @@ export default {
         const vm = this
 
         vm.api.storeAwb({
+          nomor_lengkap_dok : vm.no_kep,
+          tgl_dok : vm.tgl_kep,
+          pejabat_id : vm.pejabat_id_kep,
           entry_manifest: vm.result 
         }, {
           source: 'kep-bdn'

@@ -165,8 +165,8 @@ const router = new Router({
           name: 'BrowsePenetapanBtd',
           component: BrowsePenetapanBtd,
           meta: {
-            title: 'Browse Penetapan BTD',
-            breadcrumb: '🔍Browse Penetapan BTD'
+            title: 'Browse Penetapan (BTD/BDN)',
+            breadcrumb: '🔍Browse Penetapan (BTD/BDN)'
           }
         }
       ]

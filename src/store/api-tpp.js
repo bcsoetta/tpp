@@ -217,6 +217,12 @@ class ApiTpp {
     createBAST (kode_tps, data) {
         return this.instance.put(`tps/${kode_tps}/bast`, data)
     }
+
+    createBASTSpecific (data, params) {
+        return this.instance.post('/bast', data, {
+            params: params
+        })
+    }
 }
 
 export {

@@ -16,7 +16,7 @@
                         "to": "/hawb"
                     },
                     {
-                        "item": "Penetapan BTD",
+                        "item": "Penetapan (BTD/BDN)",
                         "icon": "fa-stamp",
                         "to": "/browse-penetapan-btd"
                     },

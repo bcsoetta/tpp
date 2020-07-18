@@ -6,6 +6,7 @@
                 variant="primary"
                 class="shadow"
                 :disabled="!selected.length"
+                v-b-modal.modal-bast
             >
                 <font-awesome-icon icon="plus-square"/>
                 <template v-if="selected.length">
@@ -42,6 +43,7 @@
         <!-- <pre>selected: {{ selected }}</pre> -->
         <!-- paginated browser here -->
         <table-data-awal
+            v-if="data.length"
             :showNumber="false"
             :showKeterangan="false"
             :items="data"
@@ -85,6 +87,13 @@
             </template>
         </table-data-awal>
 
+        <!-- empty -->
+        <template v-else>
+            <b-alert show variant="warning">
+                Tidak ada AWB siap rekam BAST
+            </b-alert>
+        </template>
+
         <b-row>
             <!-- 1st col, x of y from z -->
             <b-col md="6" sm="12">
@@ -103,11 +112,64 @@
         </b-row>
 
         <!-- Modal to record surat -->
+        <b-modal
+            id="modal-bast"
+            ref="modal"
+            size="xl"
+            title="Rekam BAST Barang SBP (ex P2)"
+            header-bg-variant="light"
+            footer-bg-variant="light"
+        >
+            <!-- footer -->
+            <template #modal-footer>
+                <b-button size="sm" variant="primary" @click="createBASTSpecific">
+                    <font-awesome-icon icon="save"/>
+                    Rekam
+                </b-button>
+            </template>
+
+            <!-- Nomor + tgl surat -->
+            <b-form-row>
+                <b-col md="8">
+                    <b-form-group label="Nomor Surat BAST" description="Wajib diisi: isikan nomor surat full">
+                        <b-form-input 
+                            size="sm"
+                            v-model="no_bast"
+                            required
+                        />
+                    </b-form-group>
+                </b-col>
+                <b-col md="4">
+                    <b-form-group label="Tanggal">
+                        <datepicker 
+                            size="sm"
+                            v-model="tgl_bast"
+                            style="width: 128px"
+                        />
+                    </b-form-group>
+                </b-col>
+            </b-form-row>
+            <!-- the table viewing filtered data -->
+            <b-form-group :label="'Selected AWB: ' + selected.length">
+                <table-data-awal
+                    :showKeterangan="false"
+                    :items="selectedAwb"
+
+                    read-only
+                    :editable="false"
+                    disable-controls
+                    hideDataBc11
+
+                    primary-key="id"
+                />
+            </b-form-group>
+        </b-modal>
     </div>
 </template>
 
 <script>
 import TableDataAwal from '@/components/TableDataAwal'
+import Datepicker from '@/components/Datepicker'
 import axiosErrorHandler from '../mixins/axiosErrorHandler'
 import niceties from '../mixins/niceties'
 import { mapGetters, mapMutations } from 'vuex'
@@ -119,7 +181,8 @@ export default {
     ],
 
     components: {
-        TableDataAwal
+        TableDataAwal,
+        Datepicker
     },
 
     data() {
@@ -130,7 +193,10 @@ export default {
             perPage: 10,
             currentPage: 1,
 
-            selected: []    // selected rows here
+            selected: [],    // selected rows here
+
+            no_bast: null,
+            tgl_bast: null
         }
     },
 
@@ -170,11 +236,15 @@ export default {
         },
 
         loadData () {
+            // clear seelction
+            this.clearSelection()
+
             this.setBusyState(true)
             // call api
             this.api.getAwb({
                 siap_rekam_bast: true,
-                dari_kep_bdn: true
+                dari_kep_bdn: true,
+                number: 1000
             })
             .then(e => {
                 this.setBusyState(false)
@@ -221,6 +291,34 @@ export default {
                 // add to selected
                 this.selected.push(item.id)
             }
+        },
+
+        // when bast is recorded
+        createBASTSpecific () {
+            this.setBusyState(true)
+
+            // call api
+            this.api.createBASTSpecific({
+                nomor_lengkap_dok: this.no_bast,
+                tgl_dok: this.tgl_bast,
+                entry_manifest: this.selected,
+                ex_p2: true
+            })
+            .then(e => {
+                this.setBusyState(false)
+                // show toast
+                this.showToast('Done', `Berhasil merekam BAST #${e.data.id} berisi ${e.data.total} AWB`, 'success')
+
+                // refresh
+                this.$nextTick(() => {
+                    this.$refs.modal.hide()
+                    this.loadData()
+                })
+            })
+            .catch(e => {
+                this.setBusyState(false)
+                this.handleError(e)
+            })
         }
     }
 }

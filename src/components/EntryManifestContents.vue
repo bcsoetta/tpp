@@ -53,6 +53,17 @@
           <br />WAKTU STATUS : (
           <strong>{{ data.short_last_status.created_at }}</strong>)
         </b-alert>
+
+        <!-- Tracking terakhir -->
+        <b-alert show variant="warning" v-if="data.last_tracking">
+          POSISI TERAKHIR : 
+          <b-badge
+            :variant="badgeVariant(data.last_tracking.data.lokasi.data.kode)"
+          >{{ data.last_tracking.data.lokasi.data.kode }}</b-badge> @ {{ data.last_tracking.data.created_at }}
+          <div class="text-center">
+            <strong>{{ data.last_tracking.data.lokasi.data.nama }}</strong>
+          </div>
+        </b-alert>
       </b-col>
     </b-row>
     <b-row class="border-bottom my-2">

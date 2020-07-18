@@ -13,10 +13,19 @@
           responsive="sm"
           bordered
           class="shadow"
+          
         >
+          <!-- pejabat -->
           <template #cell(pejabat)="row">
             <div>{{ row.item.pejabat.data.name }}</div>
             <div>{{ row.item.pejabat.data.nip }}</div>
+          </template>
+
+          <!-- jenis -->
+          <template #cell(jenis)="{ value }">
+            <div class="text-center">
+              <strong :class="{ 'text-danger': value=='KEP_BDN' }">{{ value }}</strong>
+            </div>
           </template>
 
           <!-- action -->
@@ -36,6 +45,7 @@
 
               <!-- print -->
               <b-button
+                :disabled="row.item.jenis != 'PENETAPAN_BTD'"
                 size="sm"
                 variant="dark"
                 class="shadow"
@@ -142,7 +152,9 @@ export default {
         this.setBusyState(false)
         this.handleError(e)
       })
-    }
+    },
+
+    
   },
 
   computed: {
@@ -153,6 +165,7 @@ export default {
         // { label: '', key: 'showDetails' },
         { key: "nomor_lengkap", class: "text-center" },
         "tgl_dok",
+        "jenis",
         {
           label: "Total AWB",
           key: "total_entry_manifest",
