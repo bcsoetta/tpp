@@ -15,19 +15,36 @@
                 </div>
             </b-card-header>
 
+            <!-- Footer, only for some tab -->
+            <template #footer v-if="tabId == 1">
+                <template v-if="tabId == 1">
+                    <b-button 
+                        variant="warning" 
+                        :disabled="dataAwb.pencacahan.data.is_locked"
+                        @click="updatePencacahan">
+                        <font-awesome-icon icon="save"/>
+                        Simpan Pencacahan
+                    </b-button>
+                </template>
+            </template>
+
             <!-- Body, use tabs -->
-            <b-tabs card lazy>
+            <b-tabs card lazy v-model="tabId">
                 <!-- Header -->
                 <b-tab title="Header" :active="activeTab == 'header'">
                     <entry-manifest-contents
                     v-if="dataAwb"
                     :data="dataAwb"
+                    :disabled="dataAwb.is_locked"
                     />
                 </b-tab>
 
                 <!-- Pencacahan -->
                 <b-tab title="Pencacahan" :active="activeTab == 'pencacahan'" v-if="dataAwb.pencacahan">
-                    some mundane shit here
+                    <pencacahan-contents
+                    :data="dataAwb.pencacahan.data"
+                    :disabled="dataAwb.pencacahan.data.is_locked"
+                    />
                 </b-tab>
 
                 <!-- Tracking -->
@@ -47,6 +64,8 @@ import axiosErrorHandler from '../mixins/axiosErrorHandler'
 
 import EntryManifestContents from '@/components/EntryManifestContents'
 
+import PencacahanContents from '@/components/PencacahanContents'
+
 export default {
     mixins: [
         axiosErrorHandler,
@@ -54,7 +73,8 @@ export default {
 
     components: {
         DocBanner,
-        EntryManifestContents
+        EntryManifestContents,
+        PencacahanContents
     },
 
     props: {
@@ -68,7 +88,8 @@ export default {
         return {
             dataAwb: {
                 id: this.id
-            }
+            },
+            tabId: null
         }
     },
 
@@ -82,6 +103,27 @@ export default {
             .then(e => {
                 this.setBusyState(false)
                 this.dataAwb = e.data.data
+            })
+            .catch(e => {
+                this.setBusyState(false)
+                this.handleError(e)
+            })
+        },
+
+        // update data pencacahan
+        updatePencacahan() {
+            // call backend
+            this.setBusyState(true)
+            this.api.putEndpoint(`/awb/${this.id}/pencacahan`, this.dataAwb.pencacahan.data)
+            .then(e => {
+                // success
+                this.setBusyState(false)
+                // toast
+                this.showToast('Success', 'Data Pencacahan berhasil diupdate', 'success')
+                // reload
+                this.$nextTick(() => {
+                    this.loadEntryManifest()
+                })
             })
             .catch(e => {
                 this.setBusyState(false)

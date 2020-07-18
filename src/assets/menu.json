@@ -71,7 +71,7 @@
                     {
                         "item": "Pencacahan",
                         "icon": "fa-boxes",
-                        "to": "/pencacahan"
+                        "to": "/hawb?show_bc11=false&show_bcp=true&filter=siap_pencacahan"
                     },
                     {
                         "item": "Laporan Pencacahan",

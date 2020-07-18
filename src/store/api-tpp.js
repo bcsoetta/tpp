@@ -31,6 +31,27 @@ class ApiTpp {
         return this.instance.get(endpoint)
     }
 
+    // call POST on /endpoint
+    postEndpoint (endpoint, data, params) {
+        return this.instance.post(endpoint, data, {
+            params: params
+        })
+    }
+
+    // call PUT on /endpoint
+    putEndpoint (endpoint, data, params) {
+        return this.instance.put(endpoint, data, {
+            params: params
+        })
+    }
+
+    // call DELETE on /endpoint
+    deleteEndpoint (endpoint, params) {
+        return this.instance.delete(endpoint, {
+            params: params
+        })
+    }
+
     //===================RESOURCE : PDF======================================================
     getPdf (doctype, id, param) {
         return this.instance.get('/pdf', {
