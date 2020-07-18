@@ -138,6 +138,10 @@ export default {
         searchBox: {
             type: Boolean,
             default: true
+        },
+        manual: {
+            type: Boolean,
+            default: false
         }
     },
     data () {
@@ -191,6 +195,16 @@ export default {
         ...mapMutations(['setBusyState']),
         // call it whenever data needs to be reloaded
         loadData () {
+            // if we're manual mode, just emit event and bail
+            if (this.manual) {
+                this.$emit('data-request', {
+                    q: this.browseData,
+                    spinner: this.setBusyState,
+                    vm: this
+                })
+                return
+            }
+
             console.log("Calling loadData...")
             if (this.dataCallback) {
                 console.log("Refreshing paginated-browser...")
