@@ -23,7 +23,7 @@
             <breadcrumb class="my-2" />
             <!-- <span class="h4" v-if="$route.meta.title">{{ this.$route.meta.title }}</span>
             <hr />-->
-            <h4 v-if="$route.meta.title" class="p-1" style="text-shadow: 1px 2px 12px rgba(125, 125, 225, 0.5); ">{{ this.$route.meta.title }}</h4>
+            <h4 v-if="pageTitle" class="p-1" style="text-shadow: 1px 2px 12px rgba(125, 125, 225, 0.5); ">{{ pageTitle }}</h4>
             <hr />
 
             <!-- Per route view -->
@@ -76,6 +76,11 @@ export default {
   },
 
   computed: {
+    pageTitle() {
+      // override if query is set
+      return this.$route.query.title || this.$route.meta.title
+    },
+
     menuOption() {
       var result = [];
       menuInput.forEach(e => {
