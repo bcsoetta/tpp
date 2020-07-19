@@ -4,21 +4,21 @@ export default {
             // make it a number?
             const variants = [
                 'primary', 
-                'secondary', 
                 'success', 
+                'secondary', 
                 'danger', 
+                'light',
                 'warning', 
+                'dark',
                 'info', 
-                'light', 
-                'dark'
             ];
 
-            var n = 0;
+            var n = Math.max(1, text.length);
             for (var i = 0; i < text.length; i++) {
-                n += text.charCodeAt(i) * ((i*2)+1)
+                n += ( text.charCodeAt(i) * variants.length);
+                n = n % 17;
             }
-            n = (n+3) % variants.length
-            return variants[n]
+            return variants[(n) % variants.length];
         }
     }
 }
