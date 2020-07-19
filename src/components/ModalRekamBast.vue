@@ -165,7 +165,7 @@ export default {
             .then(e => {
                 this.setBusyState(false)
                 // show toast
-                this.showToast('Done', `Berhasil merekam BAST #${e.data.id} berisi ${e.data.total} AWB`, 'success')
+                this.showToast('Done', `Berhasil merekam BAST Nomor ${e.data.nomor} berisi ${e.data.total} AWB`, 'success')
                 // close modal
                 this.$nextTick(() => {
                     this.$refs.modal.hide()
