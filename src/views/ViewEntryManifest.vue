@@ -47,6 +47,16 @@
                     />
                 </b-tab>
 
+                <!-- Lampiran -->
+                <b-tab title="Lampiran" :active="activeTab == 'lampiran'" v-if="dataAwb.lampiran">
+                    <attachment-bucket
+                        show
+                        :endpoint="`/awb/${dataAwb.id}/lampiran`"
+                        :disabled="dataAwb.is_locked"
+                        :title="`Lampiran AWB ${dataAwb.hawb}`"
+                    />
+                </b-tab>
+
                 <!-- Tracking -->
                 <b-tab title="Tracking" :active="activeTab == 'tracking'">
                     track it up
@@ -66,6 +76,8 @@ import EntryManifestContents from '@/components/EntryManifestContents'
 
 import PencacahanContents from '@/components/PencacahanContents'
 
+import AttachmentBucket from '@/components/AttachmentBucket'
+
 export default {
     mixins: [
         axiosErrorHandler,
@@ -74,7 +86,8 @@ export default {
     components: {
         DocBanner,
         EntryManifestContents,
-        PencacahanContents
+        PencacahanContents,
+        AttachmentBucket
     },
 
     props: {
