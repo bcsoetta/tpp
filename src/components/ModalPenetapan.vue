@@ -15,7 +15,7 @@
         <b-row>
             <!-- no + tgl surat -->
             <b-col md="5">
-                <b-form-group label="No surat" description="isi apabila nomor surat manual, kosongkan apabila ingin penomoran otomatis">
+                <b-form-group label="No surat" description="wajib isi, karena udh pake nadine jadi gk ada penomoran otomatis">
                     <b-form-input size="sm" v-model="no_dok_lengkap" />
                 </b-form-group>
             </b-col>
