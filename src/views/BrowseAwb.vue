@@ -33,7 +33,6 @@
                     :showKeterangan="false"
                     :items="data"
                     read-only
-                    editable
                     :appendFields="['tps']"
 
                     :hideDataBc11="!showManifest"
