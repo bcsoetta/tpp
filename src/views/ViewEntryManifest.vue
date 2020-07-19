@@ -35,7 +35,7 @@
                     <entry-manifest-contents
                     v-if="dataAwb"
                     :data="dataAwb"
-                    :disabled="dataAwb.is_locked"
+                    :disabled="true"
                     />
                 </b-tab>
 
