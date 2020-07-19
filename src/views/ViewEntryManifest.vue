@@ -64,7 +64,7 @@
 
                 <!-- Tracking -->
                 <b-tab title="Tracking" :active="activeTab == 'tracking'">
-                    track it up
+                    <tracking-timeline v-if="dataAwb.tracking" :data="dataAwb.tracking.data"/>
                 </b-tab>
 
             </b-tabs>
@@ -85,6 +85,8 @@ import AttachmentBucket from '@/components/AttachmentBucket'
 
 import StatusTimeline from '@/components/StatusTimeline'
 
+import TrackingTimeline from '@/components/TrackingTimeline'
+
 export default {
     mixins: [
         axiosErrorHandler,
@@ -95,7 +97,8 @@ export default {
         EntryManifestContents,
         PencacahanContents,
         AttachmentBucket,
-        StatusTimeline
+        StatusTimeline,
+        TrackingTimeline
     },
 
     props: {
