@@ -8,7 +8,7 @@ export default {
 
             var n = 0;
             for (var i = 0; i < text.length; i++) {
-                n += text.charCodeAt(i) * Math.pow(10, i)
+                n += text.charCodeAt(i) * Math.pow(2, i)
             }
             n = n % variants.length
             return variants[n]

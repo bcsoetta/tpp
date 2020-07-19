@@ -16,8 +16,8 @@
             </b-card-header>
 
             <!-- Footer, only for some tab -->
-            <template #footer v-if="tabId == 1">
-                <template v-if="tabId == 1">
+            <template #footer v-if="dataAwb.pencacahan">
+                <template v-if="dataAwb.pencacahan && tabId == 1">
                     <b-button 
                         variant="warning" 
                         :disabled="dataAwb.pencacahan.data.is_locked"
@@ -57,6 +57,11 @@
                     />
                 </b-tab>
 
+                <!-- Status -->
+                <b-tab title="Status" :active="activeTab == 'status'">
+                    <status-timeline v-if="dataAwb.status" :data="dataAwb.status.data"/>
+                </b-tab>
+
                 <!-- Tracking -->
                 <b-tab title="Tracking" :active="activeTab == 'tracking'">
                     track it up
@@ -78,6 +83,8 @@ import PencacahanContents from '@/components/PencacahanContents'
 
 import AttachmentBucket from '@/components/AttachmentBucket'
 
+import StatusTimeline from '@/components/StatusTimeline'
+
 export default {
     mixins: [
         axiosErrorHandler,
@@ -87,7 +94,8 @@ export default {
         DocBanner,
         EntryManifestContents,
         PencacahanContents,
-        AttachmentBucket
+        AttachmentBucket,
+        StatusTimeline
     },
 
     props: {
@@ -112,7 +120,9 @@ export default {
         loadEntryManifest() {
             // load current id
             this.setBusyState(true)
-            this.api.getAwbById(this.id)
+            this.api.getAwbById(this.id, {
+                include: 'status.detail.linkable'
+            })
             .then(e => {
                 this.setBusyState(false)
                 this.dataAwb = e.data.data

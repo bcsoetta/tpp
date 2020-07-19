@@ -14,7 +14,7 @@
         <!-- body -->
         <b-row>
             <!-- no + tgl surat -->
-            <b-col md="6">
+            <b-col md="5">
                 <b-form-group label="No surat" description="isi apabila nomor surat manual, kosongkan apabila ingin penomoran otomatis">
                     <b-form-input size="sm" v-model="no_dok_lengkap" />
                 </b-form-group>
@@ -26,10 +26,10 @@
                 </b-form-group>
             </b-col>
 
-            <b-col md="4">
+            <b-col md="5">
                 <b-form-group label="Kepala Seksi">
                     <select-kasi
-                        search-on-empty
+                        :search-on-empty="pejabat_id == null"
                         v-model="pejabat_id"
                     />
                 </b-form-group>
