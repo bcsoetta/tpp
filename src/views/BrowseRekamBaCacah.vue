@@ -85,6 +85,7 @@
                     :items="data"
 
                     :showBc11="false"
+                    :showPencacahan="true"
 
                     :per-page="pagination.number"
                     :current-page="pagination.page"
@@ -121,17 +122,6 @@
                         </div>
                     </template>
 
-                    <!-- Pencacahan -->
-                    <template #cell(pencacahan)="{ value }">
-                        <!-- draw a row for each detail? -->
-                        <div v-for="(barang, index) in value.data.barang.data" :key="barang.id">
-                            <div
-                                :class="['border', 'border-'+badgeVariant(barang.uraian.split(' ')[0]), 'p-1', { 'border-top' : index > 0, 'mt-1' : index > 0 }, 'font-weight-bold']"
-                            >
-                                <u><span v-if="barang.jumlah">{{ barang.jumlah }} {{ barang.jenis }} </span>{{ barang.uraian }}</u>
-                            </div>
-                        </div>
-                    </template>
                 </awb-flexi-table>
             </template>
         </paginated-browser>

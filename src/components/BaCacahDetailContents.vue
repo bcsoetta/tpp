@@ -8,6 +8,7 @@
         <template #default="{ data, pagination }">
             <awb-flexi-table
                 show-bcp
+                show-pencacahan
                 :items="data"
             />
         </template>

@@ -24,6 +24,12 @@
                         Show BCP
                     </label>
                 </b-col>
+                <b-col md="3">
+                    <label>
+                        <b-form-checkbox v-model="showPencacahan" class="d-inline-block"/>
+                        Show Pencacahan
+                    </label>
+                </b-col>
             </template>
 
             <!-- put table in the middle -->
@@ -32,6 +38,7 @@
                     :items="data"
                     :showBc11="showManifest"
                     :showBcp="showBcp"
+                    :showPencacahan="showPencacahan"
                 >
                     <!-- custom control when pencacahan is active -->
                     <template #additional-controls="{ row }">
@@ -78,6 +85,7 @@ export default {
         return {
             showManifest: true,
             showBcp: false,
+            showPencacahan: false,
 
             filter: {}
         }

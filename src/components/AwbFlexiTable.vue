@@ -96,6 +96,21 @@
             </div>
         </template>
 
+        <!-- Pencacahan -->
+        <template #cell(pencacahan)="{ value }">
+            <div v-if="value">
+                <!-- draw a row for each detail? -->
+                <div v-for="(barang, index) in value.data.barang.data" :key="barang.id">
+                    <div
+                        :class="['border', 'border-'+badgeVariant(barang.uraian.split(' ')[0]), 'p-1', { 'border-top' : index > 0, 'mt-1' : index > 0 }, 'font-weight-bold']"
+                    >
+                        <u><span v-if="barang.jumlah">{{ barang.jumlah }} {{ barang.jenis }} </span>{{ barang.uraian }}</u>
+                    </div>
+                </div>
+            </div>
+            <div v-else>-</div>
+        </template>
+
         <!-- TPS -->
         <template #cell(tps)="{ value }">
             <div v-if="value" v-b-tooltip.hover :title="value.data.nama">
@@ -159,6 +174,11 @@ export default {
             default: 1
         },
 
+        showPencacahan: {
+            type: Boolean,
+            default: false
+        },
+
         showTps: {
             type: Boolean,
             default: true
@@ -196,6 +216,7 @@ export default {
                 { key: 'awb', class: 'text-center'},
                 { key: 'importir', class: 'text-center'},
                 { key: 'barang', class: 'text-center'},
+                ...(this.showPencacahan ? [{ key: 'pencacahan', class: 'text-center' }] : []),
                 ...(this.showTps ? [{ key: 'tps', class: 'text-center'}] : []),
 
                 ...this.appendFields,
