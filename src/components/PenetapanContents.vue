@@ -26,7 +26,7 @@
     <b-row>
       <b-col md="6">
         <b-form-group label="Pejabat Penetapan">
-          <select-kasi
+          <select-user
             :disabled="disabled"
             v-model="data.pejabat.data.user_id"
             :initial-options="data.pejabat.data"
@@ -51,12 +51,12 @@
 
 <script>
 import Datepicker from "@/components/Datepicker";
-import SelectKasi from "@/components/SelectKasi";
+import SelectUser from "@/components/SelectUser";
 
 export default {
   components: {
     Datepicker,
-    SelectKasi
+    SelectUser
   },
 
   props: {

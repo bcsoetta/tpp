@@ -22,7 +22,7 @@
         </b-form-group>
 
         <b-form-group :label="'Select Kasi : ' + pejabat_id">
-          <select-kasi
+          <select-user
             search-on-empty
             v-model="pejabat_id"
           />
@@ -45,12 +45,12 @@
 
 <script>
 import SelectTps from '@/components/SelectTps'
-import SelectKasi from '@/components/SelectKasi'
+import SelectUser from '@/components/SelectUser'
 
 export default {
   components: {
     SelectTps,
-    SelectKasi
+    SelectUser
   },
 
   data () {

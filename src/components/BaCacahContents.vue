@@ -49,7 +49,7 @@
       <!-- pejabat info -->
       <b-col md="6">
         <b-form-group label="Pejabat">
-          <select-kasi
+          <select-user
             :disabled="disabled"
             v-model="data.pejabat.data.user_id"
             :initial-options="data.pejabat.data"
@@ -60,7 +60,7 @@
       <b-col md="6">
         <b-form-group label="Pelaksana">
           <!-- <pre>{{ data.pelaksana.data }}</pre> -->
-          <select-kasi 
+          <select-user 
             v-for="pelaksana in data.pelaksana.data"
             :key="pelaksana.user_id"
             v-model="pelaksana.user_id"
@@ -112,12 +112,12 @@
 
 <script>
 import Datepicker from "@/components/Datepicker";
-import SelectKasi from "@/components/SelectKasi";
+import SelectUser from "@/components/SelectUser";
 
 export default {
   components: {
     Datepicker,
-    SelectKasi
+    SelectUser
   },
 
   props: {

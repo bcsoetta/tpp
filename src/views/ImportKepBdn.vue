@@ -118,10 +118,10 @@
               />
             </b-form-group>
           </b-col>
-          <!-- SelectKasi -->
+          <!-- SelectUser -->
           <b-col md="4">
             <b-form-group label="Pejabat Penetapan">
-              <select-kasi 
+              <select-user 
               v-model="pejabat_id_kep"
               search-on-empty
               />
@@ -168,7 +168,7 @@ import axiosErrorHandler from "../mixins/axiosErrorHandler";
 import TableDataAwal from "@/components/TableDataAwal";
 // import SelectTps from '@/components/SelectTps'
 import Datepicker from '@/components/Datepicker'
-import SelectKasi from '@/components/SelectKasi'
+import SelectUser from '@/components/SelectUser'
 
 export default {
   mixins: [axiosErrorHandler],
@@ -177,7 +177,7 @@ export default {
     TableDataAwal,
     // SelectTps
     Datepicker,
-    SelectKasi
+    SelectUser
   },
 
   data() {

@@ -28,6 +28,13 @@ import axiosErrorHandler from '../mixins/axiosErrorHandler'
 export default {
     inheritAttrs: false,
 
+    props: {
+        role: {
+            type: String,
+            default: 'tpp.kasi'
+        }
+    },
+
     mixins: [
         axiosErrorHandler
     ],
@@ -46,7 +53,10 @@ export default {
         searchKasi(q, spinner, vm) {
             spinner(true)
 
-            this.api.getKasi(q)
+            this.api.getUser({
+                ...q,
+                role: this.role
+            })
             .then(e => {
                 spinner(false)
                 vm.setOptions(e.data.data)

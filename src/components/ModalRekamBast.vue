@@ -66,7 +66,7 @@ import TableDataAwal from '@/components/TableDataAwal'
 import { mapGetters, mapMutations } from 'vuex'
 import axiosErrorHandler from '../mixins/axiosErrorHandler'
 import PaginatedBrowser from '@/components/PaginatedBrowser'
-import SelectKasi from '@/components/SelectKasi'
+import SelectUser from '@/components/SelectUser'
 
 export default {
     inheritAttrs: false,
@@ -84,7 +84,7 @@ export default {
         Datepicker,
         TableDataAwal,
         PaginatedBrowser,
-        SelectKasi
+        SelectUser
     },
 
     data () {

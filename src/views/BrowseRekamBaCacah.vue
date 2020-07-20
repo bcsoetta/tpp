@@ -138,9 +138,56 @@
 
         <!-- Modal utk rekam data -->
         <b-modal
+            id="modal-ba-cacah"
             size="xl"
             title="Rekam Berita Acara Pencacahan"
+            footer-bg-variant="light"
+            header-bg-variant="light"
         >
+            <!-- footer -->
+            <template #modal-footer>
+                <b-button size="sm" variant="primary">
+                    <font-awesome-icon icon="save" />
+                    Rekam
+                </b-button>
+            </template>
+
+            <!-- nomor ba cacah + st in a row -->
+            <b-row>
+                <b-col md="4">
+                    <b-form-group label="Nomor Berita Acara" description="Isikan nomor BA penuh">
+                        <b-form-input 
+                            v-model="nomor_ba_cacah"
+                        />
+                    </b-form-group>
+                </b-col>
+                <b-col md="2">
+                    <b-form-group label="Tanggal">
+                        <datepicker
+                            v-model="tgl_ba_cacah"
+                        />
+                    </b-form-group>
+                </b-col>
+                <b-col md="4">
+                    <b-form-group label="Nomor Surat Tugas" description="Isikan nomor ST penuh">
+                        <b-form-input 
+                            v-model="nomor_st"
+                        />
+                    </b-form-group>
+                </b-col>
+                <b-col md="2">
+                    <b-form-group label="Tanggal">
+                        <datepicker
+                            v-model="tgl_st"
+                        />
+                    </b-form-group>
+                </b-col>
+            </b-row>
+            <b-row>
+                <!-- Select Penetapan -->
+                <b-col md="6">
+                </b-col>
+            </b-row>
         </b-modal>
     </div>
 </template>
@@ -148,6 +195,8 @@
 <script>
 import PaginatedBrowser from '@/components/PaginatedBrowser'
 import AwbFlexiTable from '@/components/AwbFlexiTable'
+
+import Datepicker from '@/components/Datepicker'
 
 import axiosErrorHandler from '../mixins/axiosErrorHandler'
 import niceties from '../mixins/niceties'
@@ -163,7 +212,8 @@ export default {
 
     components: {
         AwbFlexiTable,
-        PaginatedBrowser
+        PaginatedBrowser,
+        Datepicker
     },
 
     data() {

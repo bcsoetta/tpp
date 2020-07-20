@@ -217,6 +217,12 @@ class ApiTpp {
         })
     }
 
+    getUser (params) {
+        return this.instance.get('/sso', {
+            params: params
+        })
+    }
+
     // ========================PENETAPAN===============================================================
     getPenetapan (params) {
         return this.instance.get('/penetapan', {

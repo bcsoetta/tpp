@@ -108,7 +108,7 @@ export default {
             var filtered = this.data.filter(e => e.bcp.data.nomor_lengkap >= this.bcp_start && e.bcp.data.nomor_lengkap <= this.bcp_end)
 
             // push em to selection
-            this.clearSelection()
+            // this.clearSelection()
 
             filtered.forEach(e => this.selected.push(e.id))
         },
