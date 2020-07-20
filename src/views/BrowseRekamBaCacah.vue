@@ -6,11 +6,11 @@
                 variant="primary"
                 class="shadow"
                 :disabled="!selected.length"
-                v-b-modal.modal-bast
+                v-b-modal.modal-ba-cacah
             >
                 <font-awesome-icon icon="plus-square"/>
                 <template v-if="selected.length">
-                    Rekam Berita Acara atas <b-badge>{{ selected.length }}</b-badge> SBP
+                    Rekam Berita Acara atas <b-badge>{{ selected.length }}</b-badge> Pencacahan
                 </template>
                 <template v-else>
                     Tidak ada item terpilih
@@ -18,21 +18,67 @@
             </b-button>
             <b-button
                 variant="success"
-                class="shadow"
+                class="shadow my-1"
                 @click="loadData($refs.browser)"
             >
                 <font-awesome-icon icon="sync"/>
                 Refresh
             </b-button>
+            <b-button
+                variant="dark"
+                class="shadow my-1"
+                v-b-toggle.smart-select
+            >
+                <font-awesome-icon icon="radiation"/>
+                BCP Range Selection
+            </b-button>
         </div>
+
+        <!-- BCP Range Selection dialog -->
+        <b-collapse id="smart-select">
+            <hr>
+            <b-row>
+                <b-col md="6">
+                    <b-form-group label="Select Berdasarkan Range BCP" description="masukkan nomor BCP LENGKAP [BTD-2020/00002 .. BTD-2020/00012]">
+                        <b-input-group size="sm">
+                            <b-form-input
+                                class="text-center"
+                                placeholder="Nomor BCP awal..."
+                                :value="bcp_start"
+                                @input="e => bcp_start = e.toUpperCase().trim()"
+                            />
+                            <b-form-input
+                                class="text-center"
+                                placeholder="Nomor BCP akhir..."
+                                :value="bcp_end"
+                                @input="e => bcp_end = e.toUpperCase().trim()"
+                            />
+                            <template #append>
+                                <b-button variant="primary" @click="selectBCPRange">
+                                    SELECT!
+                                </b-button>
+                            </template>
+                        </b-input-group>
+                    </b-form-group>
+                </b-col>
+            </b-row>
+        </b-collapse>
+
         <hr>
-        
+        <!-- use PaginatedBrowser in offline mode? -->
         <!-- paginated browser here -->
         <paginated-browser 
             manual
             ref="browser"
             @data-request="onDataRequest"
         >
+            <template #append-search-param>
+                <b-col>
+                    <label>
+                        <b-form-checkbox v-model="showSelectedOnly" class="d-inline-block" />Show Selected Only {{showSelectedOnly}}
+                    </label>
+                </b-col>
+            </template>
 
             <template #default="{ data, pagination }">
                 <awb-flexi-table
@@ -44,6 +90,8 @@
                     :current-page="pagination.page"
 
                     :prependFields="['selected']"
+
+                    :appendFields="['pencacahan']"
 
                     @row-clicked="onRowClicked"
                     ref="table"
@@ -72,74 +120,29 @@
                             />
                         </div>
                     </template>
+
+                    <!-- Pencacahan -->
+                    <template #cell(pencacahan)="{ value }">
+                        <!-- draw a row for each detail? -->
+                        <div v-for="(barang, index) in value.data.barang.data" :key="barang.id">
+                            <div
+                                :class="['border', 'border-'+badgeVariant(barang.uraian.split(' ')[0]), 'p-1', { 'border-top' : index > 0, 'mt-1' : index > 0 }, 'font-weight-bold']"
+                            >
+                                <u><span v-if="barang.jumlah">{{ barang.jumlah }} {{ barang.jenis }} </span>{{ barang.uraian }}</u>
+                            </div>
+                        </div>
+                    </template>
                 </awb-flexi-table>
             </template>
 
         </paginated-browser>
-
-        <!-- empty -->
-        <!-- <template v-else>
-            <b-alert show variant="warning">
-                Tidak ada AWB siap rekam BAST
-            </b-alert>
-        </template> -->
-
-        <!-- Modal to record surat -->
-        <b-modal
-            id="modal-bast"
-            ref="modal"
-            size="xl"
-            title="Rekam BAST Barang SBP (ex P2)"
-            header-bg-variant="light"
-            footer-bg-variant="light"
-        >
-            <!-- footer -->
-            <template #modal-footer>
-                <b-button size="sm" variant="primary" @click="createBASTSpecific">
-                    <font-awesome-icon icon="save"/>
-                    Rekam
-                </b-button>
-            </template>
-
-            <!-- Nomor + tgl surat -->
-            <b-form-row>
-                <b-col md="8">
-                    <b-form-group label="Nomor Surat BAST" description="Wajib diisi: isikan nomor surat full">
-                        <b-form-input 
-                            size="sm"
-                            v-model="no_bast"
-                            required
-                        />
-                    </b-form-group>
-                </b-col>
-                <b-col md="4">
-                    <b-form-group label="Tanggal">
-                        <datepicker 
-                            size="sm"
-                            v-model="tgl_bast"
-                            style="width: 128px"
-                        />
-                    </b-form-group>
-                </b-col>
-            </b-form-row>
-            <!-- the table viewing filtered data -->
-            <b-form-group :label="'Selected AWB: ' + selected.length">
-                <awb-flexi-table
-                    :items="selectedAwb"
-                    :showBc11="false"
-                    primary-key="id"
-                />
-            </b-form-group>
-        </b-modal>
     </div>
 </template>
 
 <script>
 import PaginatedBrowser from '@/components/PaginatedBrowser'
-import TableDataAwal from '@/components/TableDataAwal'
 import AwbFlexiTable from '@/components/AwbFlexiTable'
 
-import Datepicker from '@/components/Datepicker'
 import axiosErrorHandler from '../mixins/axiosErrorHandler'
 import niceties from '../mixins/niceties'
 import { mapGetters, mapMutations } from 'vuex'
@@ -151,10 +154,8 @@ export default {
     ],
 
     components: {
-        TableDataAwal,
-        Datepicker,
-        PaginatedBrowser,
-        AwbFlexiTable
+        AwbFlexiTable,
+        PaginatedBrowser
     },
 
     data() {
@@ -166,9 +167,31 @@ export default {
             currentPage: 1,
 
             selected: [],    // selected rows here
+            showSelectedOnly: false,    // do we?
 
-            no_bast: null,
-            tgl_bast: null
+            // bcp selection
+            bcp_start: '',
+            bcp_end: '',
+
+            // data ba cacah
+            nomor_ba_cacah: null,
+            tgl_ba_cacah: null,
+
+            // nomor st
+            nomor_st: null,
+            tgl_st: null,
+
+            // pejabat_id
+            pejabat_id: null,
+
+            // pelaksana_id (s)
+            pelaksana_id: [],
+
+            // penetapan_id (s)
+            penetapan_id: [],
+
+            // bast_id (s)
+            bast_id: []
         }
     },
 
@@ -185,6 +208,21 @@ export default {
 
         selectedAwb () {
             return this.data.filter(e => (this.inSelection(e.id)))
+        }
+    },
+
+    watch: {
+        showSelectedOnly: {
+            handler(nv) {
+                if (nv) {
+                    // set data to be the selected
+                    this.$refs.browser.setData(this.selectedAwb)
+                    this.$refs.browser.setTotal(this.selectedAwb.length)
+                } else {
+                    this.$refs.browser.setData(this.data)
+                    this.$refs.browser.setTotal(this.data.length)
+                }
+            }
         }
     },
 
@@ -258,8 +296,7 @@ export default {
             this.setBusyState(true)
             // call api
             this.api.getAwb({
-                siap_rekam_bast: true,
-                dari_kep_bdn: true,
+                siap_rekam_ba_cacah: true,
                 show_all: true,
                 ...q
             })
@@ -315,6 +352,23 @@ export default {
             }
         },
 
+        // select bcp range
+        selectBCPRange () {
+            // both must be complete!
+            if (this.bcp_start.length != 14 || this.bcp_end.length != 14) {
+                this.showToast(`Error`, `Nomer range BCP tidak komplit`, 'danger')
+                return
+            }
+
+            // filter based on bcp
+            var filtered = this.data.filter(e => e.bcp.data.nomor_lengkap >= this.bcp_start && e.bcp.data.nomor_lengkap <= this.bcp_end)
+
+            // push em to selection
+            this.clearSelection()
+
+            filtered.forEach(e => this.selected.push(e.id))
+        },
+
         // when bast is recorded
         createBASTSpecific () {
             this.setBusyState(true)
@@ -331,7 +385,7 @@ export default {
                 // show toast
                 this.showToast('Done', `Berhasil merekam BAST #${e.data.id} berisi ${e.data.total} AWB`, 'success')
 
-                // refresh
+                // refresh and clear selection
                 this.$nextTick(() => {
                     this.$refs.modal.hide()
                     this.clearSelection()

@@ -33,6 +33,20 @@
                     :showBc11="showManifest"
                     :showBcp="showBcp"
                 >
+                    <!-- custom control when pencacahan is active -->
+                    <template #additional-controls="{ row }">
+                        <!-- TOMBOL CACAH -->
+                        <b-button 
+                            v-if="filter.siap_pencacahan"
+                            size="sm"
+                            variant="warning"
+                            class="shadow"
+                            v-b-tooltip.hover title="Mulai Cacah Barang"
+                            @click="mulaiPencacahan(row.item)"
+                        >
+                            <font-awesome-icon icon="boxes"/>
+                        </b-button>
+                    </template>
                 </awb-flexi-table>
             </template>
         </paginated-browser>
@@ -104,10 +118,10 @@ export default {
         },
 
         // mulai pencacahan
-        async mulaiPencacahan(id) {
+        async mulaiPencacahan(item) {
 
             var answer = await this.$bvModal.msgBoxConfirm(
-                `Mulai Pencacahan?`, {
+                `Mulai Pencacahan AWB: ${item.hawb}?`, {
                     title: `Pencacahan`,
                     size: 'md',
                     buttonSize: 'md',
@@ -121,6 +135,8 @@ export default {
             )
 
             if (!answer) return
+
+            const id = item.id
 
             // just call the api
             this.setBusyState(true)

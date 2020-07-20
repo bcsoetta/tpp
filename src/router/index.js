@@ -31,6 +31,8 @@ import BrowsePenetapanBtd from '@/views/BrowsePenetapanBtd'
 
 import ViewEntryManifest from '@/views/ViewEntryManifest'
 
+import BrowseRekamBaCacah from '@/views/BrowseRekamBaCacah'
+
 import store from '../store'
 
 // const axios = require('axios').default
@@ -114,6 +116,15 @@ const router = new Router({
           meta: {
             title: 'Rekam Berita Acara Serah Terima - Ex P2',
             breadcrumb: '🤝🏼Rekam Berita Acara Serah Terima - Ex P2'
+          }
+        },
+        {
+          path: 'rekam-ba-cacah',
+          name: 'RekamBACacah',
+          component: BrowseRekamBaCacah,
+          meta: {
+            title: 'Rekam Berita Acara Pencacahan',
+            breadcrumb: '🤝🏼Rekam Berita Acara Pencacahan'
           }
         },
         {

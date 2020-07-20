@@ -98,7 +98,7 @@
 
         <!-- TPS -->
         <template #cell(tps)="{ value }">
-            <div v-if="value">
+            <div v-if="value" v-b-tooltip.hover :title="value.data.nama">
                 <b-badge :variant="badgeVariant(value.data.kode)">{{ value.data.kode }}</b-badge>
             </div>
             <div v-else>-</div>
@@ -110,7 +110,13 @@
             <slot name="controls" :row="row">
 
                 <!-- view -->
-                <b-button variant="primary" size="sm" class="shadow my-1" :to="`/hawb/${row.item.id}`">
+                <b-button 
+                    variant="primary" 
+                    size="sm" 
+                    class="shadow my-1" 
+                    :to="`/hawb/${row.item.id}`"
+                    v-b-tooltip.hover title="Lihat detil"
+                >
                     <font-awesome-icon icon="eye"/>
                 </b-button>
 
