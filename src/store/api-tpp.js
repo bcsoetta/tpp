@@ -270,6 +270,12 @@ class ApiTpp {
         })
     }
 
+    getBACacahAwb (id, params) {
+        return this.instance.get(`/ba_cacah/${id}/awb`, {
+            params: params
+        })
+    }
+
     createBACacah (data, params) {
         return this.instance.post('/ba_cacah', data, {
             params: params

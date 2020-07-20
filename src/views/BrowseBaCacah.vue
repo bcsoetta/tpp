@@ -73,7 +73,8 @@
             </b-tab>
             <b-tab :title="`AWB (${detailShown.total_entry_manifest})`">
               <!-- <bast-detail-contents :id="detailShown.id" /> -->
-              Here be list of awb
+              <ba-cacah-detail-contents :id="detailShown.id" />
+              <!-- Here be list of awb -->
             </b-tab>
           </b-tabs>
         </b-card>
@@ -88,6 +89,7 @@ import { mapGetters, mapMutations } from "vuex";
 import PaginatedBrowser from "@/components/PaginatedBrowser";
 
 import BaCacahContents from '@/components/BaCacahContents'
+import BaCacahDetailContents from '@/components/BaCacahDetailContents'
 
 const fileDownload = require('js-file-download');
 
@@ -96,7 +98,8 @@ export default {
 
   components: {
     PaginatedBrowser,
-    BaCacahContents
+    BaCacahContents,
+    BaCacahDetailContents
   },
 
   data() {
