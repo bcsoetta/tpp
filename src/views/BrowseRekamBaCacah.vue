@@ -75,7 +75,7 @@
             <template #append-search-param>
                 <b-col>
                     <label>
-                        <b-form-checkbox v-model="showSelectedOnly" class="d-inline-block" />Show Selected Only {{showSelectedOnly}}
+                        <b-form-checkbox v-model="showSelectedOnly" class="d-inline-block" />Show Selected Only
                     </label>
                 </b-col>
             </template>
@@ -134,8 +134,14 @@
                     </template>
                 </awb-flexi-table>
             </template>
-
         </paginated-browser>
+
+        <!-- Modal utk rekam data -->
+        <b-modal
+            size="xl"
+            title="Rekam Berita Acara Pencacahan"
+        >
+        </b-modal>
     </div>
 </template>
 
@@ -145,12 +151,14 @@ import AwbFlexiTable from '@/components/AwbFlexiTable'
 
 import axiosErrorHandler from '../mixins/axiosErrorHandler'
 import niceties from '../mixins/niceties'
+import dataSelection from '../mixins/dataSelection'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
     mixins: [
         axiosErrorHandler,
-        niceties
+        niceties,
+        dataSelection
     ],
 
     components: {
@@ -159,19 +167,7 @@ export default {
     },
 
     data() {
-        return {
-            total: 0,
-            data: [],
-
-            perPage: 10,
-            currentPage: 1,
-
-            selected: [],    // selected rows here
-            showSelectedOnly: false,    // do we?
-
-            // bcp selection
-            bcp_start: '',
-            bcp_end: '',
+        return {           
 
             // data ba cacah
             nomor_ba_cacah: null,
@@ -198,94 +194,17 @@ export default {
     computed: {
         ...mapGetters(['api']),
 
-        pageStart () {
+        /* pageStart () {
             return (this.currentPage-1) * this.perPage + 1
         },
 
         pageEnd () {
             return Math.min(this.currentPage * this.perPage, this.total)
-        },
-
-        selectedAwb () {
-            return this.data.filter(e => (this.inSelection(e.id)))
-        }
-    },
-
-    watch: {
-        showSelectedOnly: {
-            handler(nv) {
-                if (nv) {
-                    // set data to be the selected
-                    this.$refs.browser.setData(this.selectedAwb)
-                    this.$refs.browser.setTotal(this.selectedAwb.length)
-                } else {
-                    this.$refs.browser.setData(this.data)
-                    this.$refs.browser.setTotal(this.data.length)
-                }
-            }
-        }
+        }, */
     },
 
     methods: {
         ...mapMutations(['setBusyState']),
-
-        // is awb id in selection
-        inSelection(id) {
-            return this.selected.indexOf(id) >= 0
-        },
-
-        // rowClass function
-        rowClass(item) {
-            if (this.inSelection(item.id)) {
-                return ["b-table-row-selected", "table-primary", "cursor-pointer"]
-            } else {
-                return ["cursor-pointer"]
-            }
-        },
-
-        // method to filter awb
-        filterAwb(data, q) {
-            var pass = true
-            // only worth noting is q, from, and to
-            if (q.q) {
-                q.q = q.q.toUpperCase()
-                pass = pass && (
-                    data.mawb.toUpperCase().indexOf(q.q) >= 0
-                    || data.hawb.toUpperCase().indexOf(q.q) >= 0 
-                    || data.nama_importir.toUpperCase().indexOf(q.q) >= 0
-                    )
-            }
-
-            if (q.from) {
-                pass = pass && (data.tgl_bc11 >= q.from)
-            }
-
-            if (q.to) {
-                pass = pass && (data.tgl_bc11 <= q.to)
-            }
-
-            return pass
-        },
-
-        // when data is requested, or filter change
-        onDataRequest({q, spinner, vm}) {
-            console.log('request-data', q)
-            
-            // call load data internally if no data present
-            if (!this.data.length) {
-                this.loadData(vm)
-            } else {
-                // might wann do manual query?
-                console.log("Gotta filter manually using: ", q)
-
-                var filtered = this.data.filter(e => this.filterAwb(e, q))
-                console.log('filtered length: ', filtered.length)
-
-                // set it
-                vm.setData(filtered)
-                vm.setTotal(filtered.length)
-            }
-        },
 
         // load data from backend
         loadData (vm, q) {
@@ -314,59 +233,6 @@ export default {
                 this.setBusyState(false)
                 this.handleError(e)
             })
-        },
-
-        // clear selection
-        clearSelection () {
-            this.selected = []
-        },
-
-        // select all
-        selectAll () {
-            this.selected = []
-            this.data.forEach(e => {
-                this.selected.push(e.id)
-            });
-        },
-
-        // when selection change
-        onSelectionChange (e, item) {
-            if (e) {
-                this.selected.push(item.id)
-            } else {
-                this.selected.splice(this.selected.indexOf(item.id), 1)
-            }
-        },
-
-        // when row clicked
-        onRowClicked (item) {
-            console.log('select-row', item)
-            
-            // if selected, remove
-            if (this.inSelection(item.id)) {
-                var idx = this.selected.indexOf(item.id)
-                this.selected.splice(idx, 1)
-            } else {
-                // add to selected
-                this.selected.push(item.id)
-            }
-        },
-
-        // select bcp range
-        selectBCPRange () {
-            // both must be complete!
-            if (this.bcp_start.length != 14 || this.bcp_end.length != 14) {
-                this.showToast(`Error`, `Nomer range BCP tidak komplit`, 'danger')
-                return
-            }
-
-            // filter based on bcp
-            var filtered = this.data.filter(e => e.bcp.data.nomor_lengkap >= this.bcp_start && e.bcp.data.nomor_lengkap <= this.bcp_end)
-
-            // push em to selection
-            this.clearSelection()
-
-            filtered.forEach(e => this.selected.push(e.id))
         },
 
         // when bast is recorded

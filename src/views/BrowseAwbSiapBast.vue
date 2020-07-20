@@ -24,7 +24,45 @@
                 <font-awesome-icon icon="sync"/>
                 Refresh
             </b-button>
+            <b-button
+                variant="dark"
+                class="shadow my-1"
+                v-b-toggle.smart-select
+            >
+                <font-awesome-icon icon="radiation"/>
+                BCP Range Selection
+            </b-button>
         </div>
+        <!-- BCP Range Selection dialog -->
+        <b-collapse id="smart-select">
+            <hr>
+            <b-row>
+                <b-col md="6">
+                    <b-form-group label="Select Berdasarkan Range BCP" description="masukkan nomor BCP LENGKAP [BTD-2020/00002 .. BTD-2020/00012]">
+                        <b-input-group size="sm">
+                            <b-form-input
+                                class="text-center"
+                                placeholder="Nomor BCP awal..."
+                                :value="bcp_start"
+                                @input="e => bcp_start = e.toUpperCase().trim()"
+                            />
+                            <b-form-input
+                                class="text-center"
+                                placeholder="Nomor BCP akhir..."
+                                :value="bcp_end"
+                                @input="e => bcp_end = e.toUpperCase().trim()"
+                            />
+                            <template #append>
+                                <b-button variant="primary" @click="selectBCPRange">
+                                    SELECT!
+                                </b-button>
+                            </template>
+                        </b-input-group>
+                    </b-form-group>
+                </b-col>
+            </b-row>
+        </b-collapse>
+
         <hr>
         
         <!-- paginated browser here -->
@@ -33,6 +71,13 @@
             ref="browser"
             @data-request="onDataRequest"
         >
+            <template #append-search-param>
+                <b-col>
+                    <label>
+                        <b-form-checkbox v-model="showSelectedOnly" class="d-inline-block" />Show Selected Only
+                    </label>
+                </b-col>
+            </template>
 
             <template #default="{ data, pagination }">
                 <awb-flexi-table
@@ -142,12 +187,14 @@ import AwbFlexiTable from '@/components/AwbFlexiTable'
 import Datepicker from '@/components/Datepicker'
 import axiosErrorHandler from '../mixins/axiosErrorHandler'
 import niceties from '../mixins/niceties'
+import dataSelection from '../mixins/dataSelection'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
     mixins: [
         axiosErrorHandler,
-        niceties
+        niceties,
+        dataSelection
     ],
 
     components: {
@@ -159,14 +206,6 @@ export default {
 
     data() {
         return {
-            total: 0,
-            data: [],
-
-            perPage: 10,
-            currentPage: 1,
-
-            selected: [],    // selected rows here
-
             no_bast: null,
             tgl_bast: null
         }
@@ -174,80 +213,10 @@ export default {
 
     computed: {
         ...mapGetters(['api']),
-
-        pageStart () {
-            return (this.currentPage-1) * this.perPage + 1
-        },
-
-        pageEnd () {
-            return Math.min(this.currentPage * this.perPage, this.total)
-        },
-
-        selectedAwb () {
-            return this.data.filter(e => (this.inSelection(e.id)))
-        }
     },
 
     methods: {
         ...mapMutations(['setBusyState']),
-
-        // is awb id in selection
-        inSelection(id) {
-            return this.selected.indexOf(id) >= 0
-        },
-
-        // rowClass function
-        rowClass(item) {
-            if (this.inSelection(item.id)) {
-                return ["b-table-row-selected", "table-primary", "cursor-pointer"]
-            } else {
-                return ["cursor-pointer"]
-            }
-        },
-
-        // method to filter awb
-        filterAwb(data, q) {
-            var pass = true
-            // only worth noting is q, from, and to
-            if (q.q) {
-                q.q = q.q.toUpperCase()
-                pass = pass && (
-                    data.mawb.toUpperCase().indexOf(q.q) >= 0
-                    || data.hawb.toUpperCase().indexOf(q.q) >= 0 
-                    || data.nama_importir.toUpperCase().indexOf(q.q) >= 0
-                    )
-            }
-
-            if (q.from) {
-                pass = pass && (data.tgl_bc11 >= q.from)
-            }
-
-            if (q.to) {
-                pass = pass && (data.tgl_bc11 <= q.to)
-            }
-
-            return pass
-        },
-
-        // when data is requested, or filter change
-        onDataRequest({q, spinner, vm}) {
-            console.log('request-data', q)
-            
-            // call load data internally if no data present
-            if (!this.data.length) {
-                this.loadData(vm)
-            } else {
-                // might wann do manual query?
-                console.log("Gotta filter manually using: ", q)
-
-                var filtered = this.data.filter(e => this.filterAwb(e, q))
-                console.log('filtered length: ', filtered.length)
-
-                // set it
-                vm.setData(filtered)
-                vm.setTotal(filtered.length)
-            }
-        },
 
         // load data from backend
         loadData (vm, q) {
@@ -277,42 +246,6 @@ export default {
                 this.setBusyState(false)
                 this.handleError(e)
             })
-        },
-
-        // clear selection
-        clearSelection () {
-            this.selected = []
-        },
-
-        // select all
-        selectAll () {
-            this.selected = []
-            this.data.forEach(e => {
-                this.selected.push(e.id)
-            });
-        },
-
-        // when selection change
-        onSelectionChange (e, item) {
-            if (e) {
-                this.selected.push(item.id)
-            } else {
-                this.selected.splice(this.selected.indexOf(item.id), 1)
-            }
-        },
-
-        // when row clicked
-        onRowClicked (item) {
-            console.log('select-row', item)
-            
-            // if selected, remove
-            if (this.inSelection(item.id)) {
-                var idx = this.selected.indexOf(item.id)
-                this.selected.splice(idx, 1)
-            } else {
-                // add to selected
-                this.selected.push(item.id)
-            }
         },
 
         // when bast is recorded

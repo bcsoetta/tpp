@@ -1,5 +1,5 @@
 export default {
-    methods: {
+    methods: {        
         badgeVariant(text) {
             // make it a number?
             const variants = [
