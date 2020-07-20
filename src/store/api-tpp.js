@@ -256,6 +256,25 @@ class ApiTpp {
             params: params
         })
     }
+
+    // ========================BA CACAH===============================================================
+    getBACacah (params) {
+        return this.instance.get('/ba_cacah', {
+            params: params
+        })
+    }
+
+    getBACacahById (id, params) {
+        return this.instance.get('/ba_cacah/' + id, {
+            params: params
+        })
+    }
+
+    createBACacah (data, params) {
+        return this.instance.post('/ba_cacah', data, {
+            params: params
+        })
+    }
 }
 
 export {

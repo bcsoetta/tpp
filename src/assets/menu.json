@@ -32,7 +32,7 @@
                             {
                                 "item": "Pencacahan",
                                 "icon": "fa-boxes",
-                                "to": "/browse-bap"
+                                "to": "/browse-ba-cacah"
                             }
                         ]
                     }
@@ -76,7 +76,7 @@
                     {
                         "item": "Rekam BA Pencacahan",
                         "icon": "fa-clipboard-check",
-                        "to": "/laporan-pencacahan"
+                        "to": "/rekam-ba-cacah"
                     }
                 ]
             }         

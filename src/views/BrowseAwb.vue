@@ -28,75 +28,12 @@
 
             <!-- put table in the middle -->
             <template #default="{ data, pagination }">
-                <table-data-awal
-                    :showNumber="false"
-                    :showKeterangan="false"
+                <awb-flexi-table
                     :items="data"
-                    read-only
-                    :appendFields="['tps']"
-
-                    :hideDataBc11="!showManifest"
-
-                    :prependFields="prependFields"
+                    :showBc11="showManifest"
+                    :showBcp="showBcp"
                 >
-                    <!-- slot for controls (total override) -->
-                    <template #controls="{ row }">
-                        <div class="text-center">
-                            <!-- View/Edit -->
-                            <b-button 
-                            size="sm" 
-                            variant="primary" 
-                            class="shadow" 
-                            v-b-tooltip.hover title="Edit/Lihat Detil"
-                            :to="`/hawb/${row.item.id}`"
-                            >
-                                <font-awesome-icon icon="pencil-alt"/>
-                            </b-button>
-
-                            <!-- Cacah (if filter.siap_pencacahan) -->
-                            <b-button
-                            v-if="filter.siap_pencacahan"
-                            size="sm"
-                            variant="warning"
-                            class="shadow"
-                            v-b-tooltip.hover title="Pencacahan"
-                            @click="mulaiPencacahan(row.item.id)"
-                            >
-                                <font-awesome-icon icon="boxes"/>
-                            </b-button>
-                        </div>
-                    </template>
-
-                    <!-- for BCP? -->
-                    <template #cell(bcp)="{ item }">
-                        <div v-if="item.bcp" class="text-center">
-                            <div>
-                                <b-badge :variant="item.bcp.data.jenis == 'BTD' ? 'primary' : 'danger'">
-                                    {{ item.bcp.data.nomor_lengkap }}
-                                </b-badge>
-                            </div>
-
-                            <div>
-                                <b-badge :variant="item.bcp.data.jenis == 'BTD' ? 'info' : 'warning'">
-                                    {{ item.bcp.data.tgl_dok }}
-                                </b-badge>
-                            </div>
-                        </div>
-                    </template>
-
-                    <!-- additional column -->
-                    <template #cell(tps)="row">
-                        <b-badge 
-                            v-if="row.item.tps"
-                            :id="`badge-${row.item.id}`" 
-                            :variant="badgeVariant(row.item.tps.data.kode)"
-                            v-b-tooltip.hover :title="row.item.tps.data.nama"
-                            >
-                            {{ row.item.tps.data.kode }}
-                        </b-badge>
-
-                    </template>
-                </table-data-awal>
+                </awb-flexi-table>
             </template>
         </paginated-browser>
     </div>
@@ -109,6 +46,8 @@ import niceties from '../mixins/niceties'
 import { mapGetters, mapMutations } from 'vuex'
 import PaginatedBrowser from '@/components/PaginatedBrowser'
 
+import AwbFlexiTable from '@/components/AwbFlexiTable'
+
 export default {
     mixins: [
         axiosErrorHandler,
@@ -117,7 +56,8 @@ export default {
 
     components: {
         TableDataAwal,
-        PaginatedBrowser
+        PaginatedBrowser,
+        AwbFlexiTable
     },
 
     data() {

@@ -25,6 +25,8 @@ import BrowseRekamBast from '@/views/BrowseRekamBast'
 import BrowseAwbSiapBast from '@/views/BrowseAwbSiapBast'
 import BrowseBast from '@/views/BrowseBast'
 
+import BrowseBaCacah from '@/views/BrowseBaCacah'
+
 import BrowsePenetapanBtd from '@/views/BrowsePenetapanBtd'
 
 import ViewEntryManifest from '@/views/ViewEntryManifest'
@@ -177,6 +179,15 @@ const router = new Router({
           meta: {
             title: 'Browse Berita Acara Penarikan/Serah Terima',
             breadcrumb: '🔍Browse BAP/BAST'
+          }
+        },
+        {
+          path: 'browse-ba-cacah',
+          name: 'BrowseBaCacah',
+          component: BrowseBaCacah,
+          meta: {
+            title: 'Browse Berita Acara Pencacahan',
+            breadcrumb: '🔍Browse Berita Acara Pencacahan'
           }
         }
       ]
