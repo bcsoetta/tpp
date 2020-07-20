@@ -14,18 +14,11 @@
         </div>
 
         <h5>Test Default prop override</h5>
-        <b-form-group :label="'Select TPS (ID): ' + tps_id">
-          <select-tps v-model="tps_id" />
+        <b-form-group :label="'Select Penetapan : ' + penetapan_id">
+          <select-penetapan v-model="penetapan_id" :search-on-empty="!penetapan_id"/>
         </b-form-group>
-        <b-form-group :label="'Select TPS (Kode): ' + tps_kode">
-          <select-tps v-model="tps_kode" :reduce="e => e.kode" />
-        </b-form-group>
-
-        <b-form-group :label="'Select Kasi : ' + pejabat_id">
-          <select-user
-            search-on-empty
-            v-model="pejabat_id"
-          />
+        <b-form-group :label="'Select BAST : ' + bast_id">
+          <select-bast v-model="bast_id" :search-on-empty="!bast_id"/>
         </b-form-group>
       </b-col>
     </b-form-row>
@@ -46,11 +39,15 @@
 <script>
 import SelectTps from '@/components/SelectTps'
 import SelectUser from '@/components/SelectUser'
+import SelectPenetapan from '@/components/SelectPenetapan'
+import SelectBast from '@/components/SelectBast'
 
 export default {
   components: {
     SelectTps,
-    SelectUser
+    SelectUser,
+    SelectPenetapan,
+    SelectBast
   },
 
   data () {
@@ -64,7 +61,9 @@ export default {
       gTarget: null,
       tps_id: null,
       tps_kode: null,
-      pejabat_id: null
+      pejabat_id: null,
+      penetapan_id: null,
+      bast_id: null
     }
   },
 
