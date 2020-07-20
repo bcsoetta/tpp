@@ -167,6 +167,7 @@ export default {
         { key: "nomor_st", label: 'Nomor ST', class: "text-center" },
         { key: "tgl_st", label: 'Tgl ST', class: "text-center" },
         "pejabat",
+        { key: "total_entry_manifest", label: 'Total Cacah', class: 'text-center' },
         {
           label: "",
           key: "act"

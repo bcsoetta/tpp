@@ -35,15 +35,10 @@
         >
 
             <template #default="{ data, pagination }">
-                <table-data-awal
-                    :showNumber="false"
-                    :showKeterangan="false"
+                <awb-flexi-table
                     :items="data"
 
-                    read-only
-                    :editable="false"
-                    disable-controls
-                    hideDataBc11
+                    :showBc11="false"
 
                     :per-page="pagination.number"
                     :current-page="pagination.page"
@@ -77,7 +72,7 @@
                             />
                         </div>
                     </template>
-                </table-data-awal>
+                </awb-flexi-table>
             </template>
 
         </paginated-browser>
@@ -129,15 +124,9 @@
             </b-form-row>
             <!-- the table viewing filtered data -->
             <b-form-group :label="'Selected AWB: ' + selected.length">
-                <table-data-awal
-                    :showKeterangan="false"
+                <awb-flexi-table
                     :items="selectedAwb"
-
-                    read-only
-                    :editable="false"
-                    disable-controls
-                    hideDataBc11
-
+                    :showBc11="false"
                     primary-key="id"
                 />
             </b-form-group>
@@ -148,6 +137,8 @@
 <script>
 import PaginatedBrowser from '@/components/PaginatedBrowser'
 import TableDataAwal from '@/components/TableDataAwal'
+import AwbFlexiTable from '@/components/AwbFlexiTable'
+
 import Datepicker from '@/components/Datepicker'
 import axiosErrorHandler from '../mixins/axiosErrorHandler'
 import niceties from '../mixins/niceties'
@@ -162,7 +153,8 @@ export default {
     components: {
         TableDataAwal,
         Datepicker,
-        PaginatedBrowser
+        PaginatedBrowser,
+        AwbFlexiTable
     },
 
     data() {

@@ -5,18 +5,16 @@
     >
         <!-- put table data awal in the middle -->
         <template #default="{ data, pagination }">
-            <table-data-awal
-                read-only
-                disable-controls
+            <awb-flexi-table
+
                 :items="data"
                 :start="pagination.start"
 
-                :prependFields="prependFields"
-
-                :hideDataBc11="bdnMode"
+                :showBc11="!bdnMode"
+                :showBcp="bdnMode"
             >
                 
-            </table-data-awal>
+            </awb-flexi-table>
         </template>
     </paginated-browser>
 </template>
@@ -26,6 +24,7 @@ import axiosErrorHandler from '../mixins/axiosErrorHandler'
 import { mapGetters, mapMutations } from 'vuex'
 import PaginatedBrowser from '@/components/PaginatedBrowser'
 import TableDataAwal from '@/components/TableDataAwal'
+import AwbFlexiTable from '@/components/AwbFlexiTable'
 
 
 export default {
@@ -45,7 +44,8 @@ export default {
 
     components: {
         PaginatedBrowser,
-        TableDataAwal
+        TableDataAwal,
+        AwbFlexiTable
     },
 
     methods: {

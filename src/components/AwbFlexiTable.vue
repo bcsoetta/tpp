@@ -180,8 +180,11 @@ export default {
                 ...(this.showNumber ? ['#'] : []),
                 ...this.prependFields,
                 ...(this.showBcp ? [{ label: 'No BCP', key: 'bcp', class: 'text-center'}] : []),
-                ...(this.showBc11 ? [{ label: 'Pos BC11', key:'bc11', class: 'text-center'}] : []),
-                { key: 'kd_flight', class: 'text-center'},
+                ...(this.showBc11 ? [
+                    { label: 'Pos BC11', key:'bc11', class: 'text-center'},
+                    { key: 'kd_flight', class: 'text-center'}
+                ] : []),
+                
                 { key: 'koli', class: 'text-center'},
                 { key: 'brutto', class: 'text-center', label: 'Berat (Kg)'},
                 { key: 'awb', class: 'text-center'},
