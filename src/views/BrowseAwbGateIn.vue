@@ -53,9 +53,12 @@ import axiosErrorHandler from '../mixins/axiosErrorHandler'
 import { mapGetters, mapMutations } from 'vuex'
 import PaginatedBrowser from '@/components/PaginatedBrowser'
 
+import niceties from '../mixins/niceties'
+
 export default {
     mixins: [
-        axiosErrorHandler
+        axiosErrorHandler,
+        niceties
     ],
 
     components: {
@@ -88,21 +91,6 @@ export default {
                 spinner(false)
                 this.handleError(e)
             })
-        },
-
-        // generate random consistent badge
-        badgeVariant(text) {
-            // make it a number?
-            const variants = [
-                'primary', 'secondary', 'success', 'danger', 'warning', 'info','light','dark'
-            ];
-
-            var n = 0;
-            for (var i=0; i<text.length; i++ ) {
-                n += text.charCodeAt(i) * Math.pow(10, i)
-            }
-            n = n % variants.length
-            return variants[n]
         },
 
         // proses gate in

@@ -21,7 +21,7 @@
                         "to": "/browse-penetapan-btd"
                     },
                     {
-                        "item": "Laporan/Berita Acara",
+                        "item": "Berita Acara",
                         "icon": "fa-file-alt",
                         "children": [
                             {
@@ -74,7 +74,7 @@
                         "to": "/hawb?show_bc11=false&show_bcp=true&filter=siap_pencacahan&title=Browse%20AWB%20Belum%20Cacah"
                     },
                     {
-                        "item": "Laporan Pencacahan",
+                        "item": "Rekam BA Pencacahan",
                         "icon": "fa-clipboard-check",
                         "to": "/laporan-pencacahan"
                     }

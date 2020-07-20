@@ -213,6 +213,30 @@ export default {
             }
         },
 
+        // method to filter awb
+        filterAwb(data, q) {
+            var pass = true
+            // only worth noting is q, from, and to
+            if (q.q) {
+                q.q = q.q.toUpperCase()
+                pass = pass && (
+                    data.mawb.toUpperCase().indexOf(q.q) >= 0
+                    || data.hawb.toUpperCase().indexOf(q.q) >= 0 
+                    || data.nama_importir.toUpperCase().indexOf(q.q) >= 0
+                    )
+            }
+
+            if (q.from) {
+                pass = pass && (data.tgl_bc11 >= q.from)
+            }
+
+            if (q.to) {
+                pass = pass && (data.tgl_bc11 <= q.to)
+            }
+
+            return pass
+        },
+
         // when data is requested, or filter change
         onDataRequest({q, spinner, vm}) {
             console.log('request-data', q)
@@ -220,11 +244,21 @@ export default {
             // call load data internally if no data present
             if (!this.data.length) {
                 this.loadData(vm)
+            } else {
+                // might wann do manual query?
+                console.log("Gotta filter manually using: ", q)
+
+                var filtered = this.data.filter(e => this.filterAwb(e, q))
+                console.log('filtered length: ', filtered.length)
+
+                // set it
+                vm.setData(filtered)
+                vm.setTotal(filtered.length)
             }
         },
 
         // load data from backend
-        loadData (vm) {
+        loadData (vm, q) {
             console.log('loadData vm: ', vm)
             // clear seelction
             this.clearSelection()
@@ -234,7 +268,8 @@ export default {
             this.api.getAwb({
                 siap_rekam_bast: true,
                 dari_kep_bdn: true,
-                show_all: true
+                show_all: true,
+                ...q
             })
             .then(e => {
                 this.setBusyState(false)

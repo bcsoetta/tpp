@@ -15,7 +15,7 @@
         <b-row>
             <!-- no + tgl surat -->
             <b-col md="6">
-                <b-form-group label="No surat" description="isi apabila nomor surat manual, kosongkan apabila ingin penomoran otomatis">
+                <b-form-group label="No surat" description="penomoran manual utk menghindari konflik dengan BA lain pada seksi ybs">
                     <b-form-input size="sm" v-model="no_dok_lengkap" />
                 </b-form-group>
             </b-col>
