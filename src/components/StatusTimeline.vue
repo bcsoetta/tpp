@@ -109,4 +109,19 @@ export default {
     position: relative;
 }
 
+@media (max-width: 768px) {
+    .w-25, .w-50 {
+        width: 100% !important;
+    }
+
+    .status-node .d-flex {
+        display: block !important;
+    }
+
+    .status-node .flex-grow-1 {
+        display: block;
+        width: 100%;
+    }
+}
+
 </style>
