@@ -16,8 +16,9 @@
             </b-card-header>
 
             <!-- Footer, only for some tab -->
-            <template #footer v-if="dataAwb.pencacahan">
-                <template v-if="dataAwb.pencacahan && tabId == 1">
+            <template #footer v-if="dataAwb.pencacahan && tabId == 1">
+                <template>
+                    <!-- save pencacahan -->
                     <b-button 
                         variant="warning" 
                         :disabled="dataAwb.pencacahan.data.is_locked"
@@ -25,6 +26,16 @@
                         <font-awesome-icon icon="save"/>
                         Simpan Pencacahan
                     </b-button>
+
+                    <!-- save pencacahan -->
+                    <b-button 
+                        
+                        to="/hawb?show_bc11=false&show_bcp=true&filter=siap_pencacahan&title=Browse%20AWB%20Belum%20Cacah"
+                        >
+                        <font-awesome-icon icon="boxes"/>
+                        Cacah Barang Lain
+                    </b-button>
+
                 </template>
             </template>
 

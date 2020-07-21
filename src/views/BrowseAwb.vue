@@ -128,7 +128,7 @@ export default {
         // mulai pencacahan
         async mulaiPencacahan(item) {
 
-            var answer = await this.$bvModal.msgBoxConfirm(
+            /* var answer = await this.$bvModal.msgBoxConfirm(
                 `Mulai Pencacahan AWB: ${item.hawb}?`, {
                     title: `Pencacahan`,
                     size: 'md',
@@ -142,7 +142,7 @@ export default {
                 }
             )
 
-            if (!answer) return
+            if (!answer) return */
 
             const id = item.id
 
