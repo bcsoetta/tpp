@@ -63,7 +63,16 @@
                         "to": "/rekam-ba-cacah"
                     }
                 ]
-            }, 
+            }
+        ]
+    },
+    {
+        "section": "Browse Data",
+        "role": "PELAKSANA,KASI,CONSOLE"
+    },
+    {
+        "role": "PELAKSANA,KASI,CONSOLE",
+        "list":[
             {
                 "item": "Browse",
                 "icon": "fa-search",

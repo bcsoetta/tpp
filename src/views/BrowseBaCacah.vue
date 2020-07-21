@@ -59,6 +59,7 @@
       header-bg-variant="light"
       footer-bg-variant="light"
       size="xl"
+      dialog-class="fullscreen"
       hide-footer
     >
       <!-- custom title? -->
