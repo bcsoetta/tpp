@@ -7,41 +7,23 @@
         >
             <!-- put table in the middle -->
             <template #default="{ data, pagination }">
-                <table-data-awal
-                    :showNumber="false"
-                    :showKeterangan="false"
+                <awb-flexi-table
                     :items="data"
-                    read-only
-                    editable
-                    :appendFields="['tps']"
+                    :showBc11="true"
+                    :showBcp="true"
                 >
-                    <!-- slot for controls (total override) -->
-                    <template #controls="{ row }">
-                        <div class="text-center">
-                            <b-button 
-                                size="sm" 
-                                variant="primary" 
-                                class="shadow" 
-                                v-b-tooltip.hover title="Proses Gate In"
-                                @click="prosesGateIn(row.item)">
-                                <font-awesome-icon icon="warehouse"/>
-                            </b-button>
-                        </div>
-                    </template>
-
-                    <!-- additional column -->
-                    <template #cell(tps)="row">
-                        <b-badge 
-                            v-if="row.item.tps"
-                            :id="`badge-${row.item.id}`" 
-                            :variant="badgeVariant(row.item.tps.data.kode)"
-                            v-b-tooltip.hover :title="row.item.tps.data.nama"
+                    <template #additional-controls="{ row }">
+                        <b-button 
+                            variant="dark"
+                            class="shadow my-1"
+                            size="sm"
+                            @click="prosesGateIn(row.item)"
+                            v-b-tooltip.hover title="Proses Gate In"
                             >
-                            {{ row.item.tps.data.kode }}
-                        </b-badge>
-
+                            <font-awesome-icon icon="warehouse"/>
+                        </b-button>
                     </template>
-                </table-data-awal>
+                </awb-flexi-table>
             </template>
         </paginated-browser>
     </div>
@@ -49,6 +31,7 @@
 
 <script>
 import TableDataAwal from '@/components/TableDataAwal'
+import AwbFlexiTable from '@/components/AwbFlexiTable'
 import axiosErrorHandler from '../mixins/axiosErrorHandler'
 import { mapGetters, mapMutations } from 'vuex'
 import PaginatedBrowser from '@/components/PaginatedBrowser'
@@ -63,7 +46,8 @@ export default {
 
     components: {
         TableDataAwal,
-        PaginatedBrowser
+        PaginatedBrowser,
+        AwbFlexiTable
     },
 
     data() {

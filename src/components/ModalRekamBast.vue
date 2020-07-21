@@ -27,12 +27,6 @@
             </b-col>
         </b-row>
 
-        <!-- table data awal -->
-        <!-- <table-data-awal 
-        :items="data.siap_penetapan.data" 
-        read-only
-        @delete="e => { $emit('delete', data.siap_penetapan.data[e]) }"
-        /> -->
         <paginated-browser
             :search-date-range="false"
             :search-box="false"
@@ -41,12 +35,25 @@
         >
             <!-- custom rendering   -->
             <template #default="{ data, pagination }">
-                <table-data-awal
-                    :items="data"
+               
+                <awb-flexi-table
                     :start="pagination.start"
-                    read-only
-                    @delete="e => { handleDelete(data[e]) }"
-                />
+                    show-number
+                    :items="data"    
+                >
+                    <!-- delete button -->
+                    <template #additional-controls="{ row }">
+                        <b-button 
+                            variant="danger"
+                            class="shadow"
+                            size="sm"
+                            v-b-tooltip title="Delete AWB"
+                            @click="handleDelete(row.item)"
+                        >
+                            <font-awesome-icon icon="trash-alt"/>
+                        </b-button>
+                    </template>
+                </awb-flexi-table>
             </template>
         </paginated-browser>
 
@@ -63,6 +70,7 @@
 <script>
 import Datepicker from '@/components/Datepicker'
 import TableDataAwal from '@/components/TableDataAwal'
+import AwbFlexiTable from '@/components/AwbFlexiTable'
 import { mapGetters, mapMutations } from 'vuex'
 import axiosErrorHandler from '../mixins/axiosErrorHandler'
 import PaginatedBrowser from '@/components/PaginatedBrowser'
@@ -84,7 +92,8 @@ export default {
         Datepicker,
         TableDataAwal,
         PaginatedBrowser,
-        SelectUser
+        SelectUser,
+        AwbFlexiTable
     },
 
     data () {
