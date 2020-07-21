@@ -280,6 +280,7 @@
 
                             :per-page="pagination.number"
                             :current-page="pagination.page"
+                            show-pencacahan
                             />
                     </template>
                 </paginated-browser>
