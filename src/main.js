@@ -22,7 +22,8 @@ import {
    faFileAlt, faFileArchive, faTools, faBars, faShippingFast, faDatabase,
    faWarehouse, faSearchLocation, faFileExcel, faBoxes, faTasks, faDollyFlatbed,
    faHandshake,
-   faClipboardCheck
+   faClipboardCheck,
+   faSpinner,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -33,7 +34,7 @@ library.add(faCalendarAlt, faLock, faLockOpen, faUserCircle,
    faPrint, faCloudDownloadAlt, faHandPaper, faMapMarkerAlt, faRadiation, faUserSecret,
    faSync, faCamera, faUpload, faFileAlt, faFileArchive, faTools, faBars, faShippingFast,
    faDatabase, faWarehouse, faSearchLocation, faFileExcel, faBoxes, faTasks, faDollyFlatbed,
-   faHandshake, faClipboardCheck)
+   faHandshake, faClipboardCheck, faSpinner)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 // Bootstrap

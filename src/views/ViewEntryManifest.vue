@@ -9,6 +9,7 @@
                     <!-- some controls here? -->
                     <div class="flex-grow-1 text-right">
                         <b-button size="sm" variant="success" class="shadow my-2" @click="loadEntryManifest">
+                            <font-awesome-icon icon="spinner"/>
                             Refresh
                         </b-button>
                     </div>
