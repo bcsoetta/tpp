@@ -124,6 +124,7 @@
               <select-user 
               v-model="pejabat_id_kep"
               search-on-empty
+              role="tpp.kep_maker"
               />
             </b-form-group>
           </b-col>

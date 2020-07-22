@@ -103,13 +103,32 @@ export default {
             }
         },
         loginReady () {
-            if (this.sso.attached) {
-                this.loginStatus = ''
-                // return true
-            }
             return this.loginStatus.length == 0
         }
     },
+
+    watch: {
+        'sso.attached': {
+            immediate: true,
+            handler(nv) {
+                if (nv) {
+                    this.loginStatus = ''
+                } else {
+                    this.loginStatus = 'ATTACHING...'
+
+                    var timer = setInterval(() => {
+                        if (this.sso.attached) {
+                            clearInterval(timer)
+                            return
+                        }
+                        console.log('Attempt to attach...')
+                        this.sso.attach()
+                    }, 4000)
+                }
+            }
+        }
+    },
+
     methods: {
         processLogin () {
             if (!this.loginReady) {
