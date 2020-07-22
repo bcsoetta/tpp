@@ -65,7 +65,7 @@
         <!-- 2nd row, content -->
         <b-row class="my-2 position-relative">
             <b-col>
-                <slot :data="internalData" :pagination="paginationData" v-if="dataLength">
+                <slot :data="internalData" :pagination="paginationData" :viewData="viewData" v-if="dataLength">
                     There's {{ dataLength }} data here. But no render components provided. SHieet
                 </slot>
                 <slot name="no-data" v-if="!dataLength">
@@ -188,6 +188,12 @@ export default {
                 page: this.internalPage,
                 total: this.totalRows
             }
+        },
+        viewData () {
+            return this.internalData.filter((e, index) => {
+                console.log('filtering: ', e, ' idx:', index, ` range: ${this.start} .. ${this.end}`)
+                return (index+1) >= this.start && (index+1) <= this.end
+            })
         }
     },
     methods: {

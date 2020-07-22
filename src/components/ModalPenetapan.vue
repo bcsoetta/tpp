@@ -8,7 +8,7 @@
     >
         <!-- custom rendering -->
         <template #modal-title>
-            Penetapan BTD untuk barang dari Gudang {{ data.nama }} (<strong>{{ data.kode }}</strong>)
+            Penetapan BTD untuk barang dari TPS (<strong>{{ tpsList }} </strong>)
         </template>
 
         <!-- body -->
@@ -90,7 +90,7 @@ export default {
 
     props: {
         data: {
-            type: Object,
+            type: Array,
             required: true
         }
     },
@@ -112,7 +112,12 @@ export default {
     },
 
     computed: {
-        ...mapGetters(['api'])
+        ...mapGetters(['api']),
+
+        tpsList() {
+            console.log('tps list: ', this.data)
+            return this.data.map(e => e.kode).join(',')
+        }
     },
 
     methods: {
@@ -122,7 +127,7 @@ export default {
         fetchAwbSiapPenetapan(q, spinner, vm) {
             spinner(true)
 
-            this.api.getAwbSiapPenetapan(this.data.kode, q)
+            this.api.getAwbSiapPenetapan(this.tpsList, q)
             .then(e => {
                 spinner(false)
                 vm.setData(e.data.data)
@@ -175,7 +180,7 @@ export default {
             this.setBusyState(true)
 
             // call api
-            this.api.createPenetapan(this.data.kode, {
+            this.api.createPenetapan(this.tpsList, {
                 nomor_lengkap_dok: this.no_dok_lengkap,
                 tgl_dok: this.tgl_dok,
                 pejabat_id: this.pejabat_id
