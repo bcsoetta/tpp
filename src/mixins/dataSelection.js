@@ -19,8 +19,8 @@ export default {
             handler(nv) {
                 if (nv) {
                     // set data to be the selected
-                    this.$refs.browser.setData(this.selectedAwb)
-                    this.$refs.browser.setTotal(this.selectedAwb.length)
+                    this.$refs.browser.setData(this.selectedData)
+                    this.$refs.browser.setTotal(this.selectedData.length)
                 } else {
                     this.$refs.browser.setData(this.data)
                     this.$refs.browser.setTotal(this.data.length)
@@ -30,14 +30,14 @@ export default {
     },
 
     computed: {
-        selectedAwb () {
+        selectedData () {
             return this.data.filter(e => (this.inSelection(e.id)))
-        }
+        },
     },
 
     methods: {
         // method to filter awb
-        filterAwb(data, q) {
+        filterData(data, q) {
             var pass = true
             // only worth noting is q, from, and to
             if (q.q) {
@@ -124,7 +124,7 @@ export default {
                 // might wann do manual query?
                 console.log("Gotta filter manually using: ", q)
 
-                var filtered = (this.showSelectedOnly ? this.selectedAwb : this.data).filter(e => this.filterAwb(e, q))
+                var filtered = (this.showSelectedOnly ? this.selectedData : this.data).filter(e => this.filterData(e, q))
                 // if only show selected?
                 console.log('filtered length: ', filtered.length)
 
@@ -132,6 +132,7 @@ export default {
                 vm.setData(filtered)
                 vm.setTotal(filtered.length)
             }
+
         },
 
         // rowClass function
