@@ -170,7 +170,7 @@
             <!-- the table viewing filtered data -->
             <b-form-group :label="'Selected AWB: ' + selected.length">
                 <awb-flexi-table
-                    :items="selectedAwb"
+                    :items="selectedData"
                     :showBc11="false"
                     primary-key="id"
                 />

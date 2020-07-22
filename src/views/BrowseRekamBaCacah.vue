@@ -267,11 +267,11 @@
 
             <!-- the paginated browser in offline mode? -->
             <hr>
-            <b-form-group :label="`AWB Terpilih: (${selectedAwb.length})`">
+            <b-form-group :label="`AWB Terpilih: (${selectedData.length})`">
                 <paginated-browser
                     manual
                     ref="browserModal"
-                    @data-request="onRequestSelectedAwb"
+                    @data-request="onRequestselectedData"
                 >
                     <template #default="{ data, pagination }">
                         <awb-flexi-table
@@ -360,8 +360,8 @@ export default {
     methods: {
         ...mapMutations(['setBusyState']),
 
-        onRequestSelectedAwb({q, spinner, vm}) {
-            var filtered = this.selectedAwb.filter(e => this.filterAwb(e, q))
+        onRequestselectedData({q, spinner, vm}) {
+            var filtered = this.selectedData.filter(e => this.filterData(e, q))
             vm.setData(filtered)
             vm.setTotal(filtered.length)
         },
