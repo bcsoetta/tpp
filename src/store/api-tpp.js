@@ -240,6 +240,13 @@ class ApiTpp {
         return this.instance.put(`/tps/${kode_tps}/penetapan`, data)
     }
 
+    editSuratPenetapan (id, nomor, tanggal) {
+        return this.instance.patch(`/penetapan/${id}`, {
+            nomor_lengkap_dok: nomor,
+            tgl_dok: tanggal
+        })
+    }
+
     // ========================BAST===============================================================
     getBAST (params) {
         return this.instance.get('/bast', {

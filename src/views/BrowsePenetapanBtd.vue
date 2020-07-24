@@ -31,6 +31,19 @@
           <!-- action -->
           <template #cell(act)="row">
             <div class="text-center">
+              <!-- edit nomor surat (only when nomor surat is in specific pattern) -->
+              <b-button
+                size="sm"
+                variant="warning"
+                class="shadow"
+                v-b-tooltip.hover 
+                title="Edit Nomor dan Tanggal Surat (FIX)"
+                v-if="isNomorSuratEditable(row.item)"
+                @click="openModalEditSurat(row.item)"
+              >
+                <font-awesome-icon icon="pencil-alt"/>
+              </b-button>
+
               <!-- open modal -->
               <b-button
                 size="sm"
@@ -85,6 +98,47 @@
         </b-card>
       </template>
     </b-modal>
+
+    <!-- modal utk edit nomo+tgl surat -->
+    <b-modal
+      id="nomor-surat"
+      ref="modalNomorSurat"
+      header-bg-variant="light"
+      footer-bg-variant="light"
+      centered
+      title="Edit Nomor dan Tanggal Surat (FIX)"
+    >
+      <!-- nomor surat -->
+      <b-form-group label="Nomor Surat Penetapan">
+        <template #description>
+          isi nomor surat lengkap (case insensitive). Harus diawali <strong>S-</strong> <em>atau</em> <strong>KEP-</strong>
+        </template>
+
+        <b-form-input 
+          v-model="nomor_lengkap"
+        />
+      </b-form-group>
+
+      <!-- tanggal surat -->
+      <b-form-group label="Tanggal Surat Penetapan">
+        <datepicker 
+          v-model="tgl_dok"
+          style="max-width: 150px"
+        />
+      </b-form-group>
+
+      <!-- Simpan -->
+      <template #modal-footer>
+          <b-button
+            size="sm"
+            variant="primary"
+            @click="editSuratPenetapan"
+          >
+            <font-awesome-icon icon="save"/>
+            Simpan
+          </b-button>
+      </template>
+    </b-modal>
   </div>
 </template>
 
@@ -94,6 +148,7 @@ import { mapGetters, mapMutations } from "vuex";
 import PaginatedBrowser from "@/components/PaginatedBrowser";
 import PenetapanDetailContents from "@/components/PenetapanDetailContents";
 import PenetapanContents from "@/components/PenetapanContents";
+import Datepicker from '@/components/Datepicker'
 
 const fileDownload = require('js-file-download');
 
@@ -103,12 +158,17 @@ export default {
   components: {
     PaginatedBrowser,
     PenetapanDetailContents,
-    PenetapanContents
+    PenetapanContents,
+    Datepicker
   },
 
   data() {
     return {
-      detailShown: null
+      detailShown: null,
+
+      nomor_lengkap: null,
+      tgl_dok: null,
+      edit_id: null
     };
   },
 
@@ -154,7 +214,45 @@ export default {
       })
     },
 
-    
+    // cek apakah nomor surat bisa diedit
+    isNomorSuratEditable(item) {
+      return item.nomor_lengkap.match(/PENETAPAN\s-\s\d+/i)
+    },
+
+    // edit nomor surat
+    openModalEditSurat(item) {
+      this.nomor_lengkap = item.nomor_lengkap
+      this.tgl_dok = item.tgl_dok
+      this.edit_id = item.id
+      // buka modal
+      this.$nextTick(() => {
+        this.$refs.modalNomorSurat.show()
+      })
+    },
+
+    // panggil api
+    editSuratPenetapan() {
+      this.setBusyState(true)
+      // go ahead
+      this.api.editSuratPenetapan(this.edit_id, this.nomor_lengkap, this.tgl_dok)
+      .then(e => {
+        // success, tell them?
+        this.setBusyState(false)
+        // show toast and close modal
+        this.showToast('Edit Success', `Nomor surat penetapan berhasil diubah ke ${this.nomor_lengkap} tanggal ${this.tgl_dok}`, 'success')
+        // and refresh
+        this.$nextTick(() => {
+          this.$refs.modalNomorSurat.hide()
+          this.$refs.browser.stayAtCurrentPage(0)
+          // also, reset data
+          this.edit_id = this.nomor_lengkap = this.tgl_dok = null
+        })
+      })
+      .catch(e => {
+        this.setBusyState(false)
+        this.handleError(e)
+      })
+    }
   },
 
   computed: {

@@ -15,13 +15,21 @@
         <b-row>
             <!-- no + tgl surat -->
             <b-col md="5">
-                <b-form-group label="No surat" description="wajib isi, karena udh pake nadine jadi gk ada penomoran otomatis">
+                <b-form-group label="No surat">
+                    <template #description>
+                        <strong>isi dengan benar</strong> atau <strong>kosongkan (kalau belum ada nomor surat)</strong>, <em>(bisa diedit nomor suratnya nanti)</em>
+                    </template>
+
                     <b-form-input size="sm" v-model="no_dok_lengkap" />
                 </b-form-group>
             </b-col>
 
             <b-col md="2">
                 <b-form-group label="Tgl surat">
+                    <template #description>
+                        <strong>wajib</strong> diisi, <em>bisa diedit</em> nanti pada saat update nomor surat
+                    </template>
+
                     <datepicker size="sm" v-model="tgl_dok" />
                 </b-form-group>
             </b-col>
