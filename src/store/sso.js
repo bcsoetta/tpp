@@ -26,6 +26,17 @@ class SSO {
 
     // attach, make it async
     async attach() {
+        // clear session cookies first?
+        console.log('clearing cookies. before: ', document.cookie)
+        const cookie = require('cookie')
+
+        document.cookie = cookie.serialize('sso_token_11','',{
+            expires: new Date(0),
+            sameSite: 'none'
+        })
+
+        console.log('cookies now: ', document.cookie)
+
         var me = this
         var ret = await $.ajax({
             url: '/static/sso/api.php?command=attach',

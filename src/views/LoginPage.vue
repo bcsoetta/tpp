@@ -167,9 +167,12 @@ export default {
                     // this.$store.commit('setLokasi', this.lokasi)
 
                     // redirect to home?
-                    this.$router.push({
-                        path: '/'
-                    }, () => {})
+                    setTimeout(() => {
+                        
+                        this.$router.push({
+                            path: '/'
+                        }, () => {})
+                    }, 500)
                 })
                 .catch( (e) => {
                     console.log('login error')

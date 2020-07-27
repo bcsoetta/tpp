@@ -77,7 +77,7 @@ abstract class Server
         $linkedId = $this->cache->get($sid);
 
         if (!$linkedId) {
-            return $this->fail("The broker session id isn't attached to a user session", 403);
+            return $this->fail("The broker session id isn't attached to a user session, FUCKK", 403);
         }
 
         if (session_status() === PHP_SESSION_ACTIVE) {
@@ -96,16 +96,7 @@ abstract class Server
          */
         protected function getBrokerSessionID()
         {
-            if (!function_exists('getallheaders')) {
-                $headers = array();
-                foreach ($_SERVER as $name => $value) {
-                   if (substr($name, 0, 5) == 'HTTP_') {
-                       $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
-                   }
-                }
-            } else {
-                $headers = getallheaders();
-            }
+            $headers = getallheaders();
 
             if (isset($headers['Authorization']) &&  strpos($headers['Authorization'], 'Bearer') === 0) {
                 $headers['Authorization'] = substr($headers['Authorization'], 7);
