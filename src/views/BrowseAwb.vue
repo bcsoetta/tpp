@@ -38,7 +38,11 @@
                     :items="data"
                     :showBc11="showManifest"
                     :showBcp="showBcp"
+                    :sortBcp="showBcp"
                     :showPencacahan="showPencacahan"
+
+                    no-local-sorting
+                    @sort-changed="onSortChanged"
                 >
                     <!-- custom control when pencacahan is active -->
                     <template #additional-controls="{ row }">
@@ -87,7 +91,8 @@ export default {
             showBcp: false,
             showPencacahan: false,
 
-            filter: {}
+            filter: {},
+            orderBy: []
         }
     },
 
@@ -112,7 +117,10 @@ export default {
             // call api
             this.api.getAwb({
                 ...q,
-                ...this.filter
+                ...this.filter,
+                ...{
+                    orderBy: this.orderBy.join(',')
+                }
             })
             .then(e => {
                 spinner(false)
@@ -160,6 +168,17 @@ export default {
                 this.setBusyState(false)
                 this.handleError(e)
             })
+        },
+
+        // when sorting changes
+        onSortChanged(ctx) {
+            console.log('Sorting changed:', ctx)
+
+            // change the sortBy query
+            this.orderBy = []
+            this.orderBy.push(`${ctx.sortBy}|${ctx.sortDesc ? 'desc' : 'asc'}`)
+
+            console.log('orderBy: ', this.orderBy)
         }
     },
 
@@ -189,6 +208,12 @@ export default {
         filter: {
             handler(nv) {
                 // just reload data
+                this.$refs.browser.loadData()
+            }
+        },
+
+        orderBy: {
+            handler(nv) {
                 this.$refs.browser.loadData()
             }
         }

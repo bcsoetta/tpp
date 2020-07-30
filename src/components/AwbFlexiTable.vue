@@ -164,6 +164,11 @@ export default {
             default: true
         },
 
+        sortBcp: {
+            type: Boolean,
+            default: false
+        },
+
         showNumber: {
             type: Boolean,
             default: false
@@ -205,7 +210,7 @@ export default {
             return [
                 ...(this.showNumber ? ['#'] : []),
                 ...this.prependFields,
-                ...(this.showBcp ? [{ label: 'No BCP', key: 'bcp', class: 'text-center'}] : []),
+                ...(this.showBcp ? [{ label: 'No BCP', key: 'bcp', class: 'text-center', sortable: this.sortBcp}] : []),
                 ...(this.showBc11 ? [
                     { label: 'Pos BC11', key:'bc11', class: 'text-center'},
                     { key: 'kd_flight', class: 'text-center'}
