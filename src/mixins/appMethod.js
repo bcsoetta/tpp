@@ -5,7 +5,7 @@ const axios = require('axios')
 export default {
     data () {
         return {
-            profileUrl : 'https://apps.bcsoetta.org/',
+            profileUrl : 'https://intra.bcsoetta.org/',
             // viewSelectLocation: false
         }
     },
