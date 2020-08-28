@@ -44,7 +44,7 @@ export default {
                 q.q = q.q.toUpperCase()
                 pass = pass && (
                     data.mawb.toUpperCase().indexOf(q.q) >= 0
-                    || data.hawb.toUpperCase().indexOf(q.q) >= 0 
+                    || (data.hawb ? data.hawb.toUpperCase().indexOf(q.q) >= 0 : true)
                     || data.nama_importir.toUpperCase().indexOf(q.q) >= 0
                     )
             }
@@ -123,6 +123,7 @@ export default {
             } else {
                 // might wann do manual query?
                 console.log("Gotta filter manually using: ", q)
+                console.log('filter raw', (this.showSelectedOnly ? this.selectedData : this.data))
 
                 var filtered = (this.showSelectedOnly ? this.selectedData : this.data).filter(e => this.filterData(e, q))
                 // if only show selected?

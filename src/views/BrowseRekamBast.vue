@@ -39,7 +39,7 @@
         <modal-rekam-bast 
         size="xl" 
         id="modal-rekam-bast" 
-        :data="dataRekamBAST" 
+        :data-tps="dataRekamBAST" 
         v-if="dataRekamBAST" 
         @delete="handleDelete"
         @rekam-bast="onRekamBASTDone"

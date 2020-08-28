@@ -8,7 +8,7 @@
         striped
         hover
         bordered
-        responsive="sm"
+        responsive
 
         v-bind="$attrs"
         v-on="$listeners"

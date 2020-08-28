@@ -27,22 +27,129 @@
             </b-col>
         </b-row>
 
-        <paginated-browser
+        <!-- <paginated-browser
             :search-date-range="false"
             :search-box="false"
             :data-callback="fetchAwbSiapRekamBAST"
             ref="browserAwb"
+        > -->
+        <!-- button to record this -->
+        <div class="my-2">
+            <!-- <b-button
+                variant="primary"
+                class="shadow"
+                :disabled="!selected.length"
+                v-b-modal.modal-ba-cacah
+            >
+                <font-awesome-icon icon="plus-square"/>
+                <template v-if="selected.length">
+                    Rekam Berita Acara atas <b-badge>{{ selected.length }}</b-badge> Pencacahan
+                </template>
+                <template v-else>
+                    Tidak ada item terpilih
+                </template>
+            </b-button> -->
+            <b-button
+                variant="success"
+                class="shadow my-1"
+                @click="loadData($refs.browser)"
+            >
+                <font-awesome-icon icon="sync"/>
+                Refresh
+            </b-button>
+            <b-button
+                variant="dark"
+                class="shadow my-1"
+                v-b-toggle.smart-select
+            >
+                <font-awesome-icon icon="radiation"/>
+                BCP Range Selection
+            </b-button>
+        </div>
+
+        <!-- BCP Range Selection dialog -->
+        <b-collapse id="smart-select">
+            <hr>
+            <b-row>
+                <b-col md="6">
+                    <b-form-group label="Select Berdasarkan Range BCP" description="masukkan nomor BCP LENGKAP [BTD-2020/00002 .. BTD-2020/00012]">
+                        <b-input-group size="sm">
+                            <b-form-input
+                                class="text-center"
+                                placeholder="Nomor BCP awal..."
+                                :value="bcp_start"
+                                @input="e => bcp_start = e.toUpperCase().trim()"
+                            />
+                            <b-form-input
+                                class="text-center"
+                                placeholder="Nomor BCP akhir..."
+                                :value="bcp_end"
+                                @input="e => bcp_end = e.toUpperCase().trim()"
+                            />
+                            <template #append>
+                                <b-button variant="primary" @click="selectBCPRange">
+                                    SELECT!
+                                </b-button>
+                            </template>
+                        </b-input-group>
+                    </b-form-group>
+                </b-col>
+            </b-row>
+        </b-collapse>
+
+        <hr>
+
+        <paginated-browser
+            manual
+            ref="browser"
+            @data-request="onDataRequest"
         >
+            <template #append-search-param>
+                <b-col>
+                    <label>
+                        <b-form-checkbox v-model="showSelectedOnly" class="d-inline-block" />Show Selected Only
+                    </label>
+                </b-col>
+            </template>
             <!-- custom rendering   -->
             <template #default="{ data, pagination }">
                
                 <awb-flexi-table
-                    :start="pagination.start"
-                    show-number
-                    :items="data"    
+                    :per-page="pagination.number"
+                    :current-page="pagination.page"
+                    
+                    :items="data"   
+
+                    :prependFields="['selected']"
+                    :tbody-tr-class="rowClass"
+                    @row-clicked="onRowClicked"
+                    primary-key="id"
                 >
+                    <!-- selected cell display -->
+                    <template #cell(selected)="{ item }">
+                        <pre>{{ item.selected }}</pre>
+                        <div class="text-center">
+                            <b-form-checkbox
+                                :checked="inSelection(item.id)"
+                                @change="e => onSelectionChange(e, item)"
+                            />
+                        </div>
+                    </template>
+
+                    <!-- selection header -->
+                    <template #head(selected)>
+                        <div class="text-center">
+                            <b-form-checkbox
+                                :checked="selected.length > 0"
+                                :indeterminate="selected.length > 0 && selected.length != data.length"
+
+                                @change="e => e ? selectAll() : clearSelection()"
+                            />
+                        </div>
+                    </template>
+
                     <!-- delete button -->
-                    <template #additional-controls="{ row }">
+                    <!-- <template #additional-controls="{ row }">
                         <b-button 
                             variant="danger"
                             class="shadow"
@@ -52,16 +159,21 @@
                         >
                             <font-awesome-icon icon="trash-alt"/>
                         </b-button>
-                    </template>
+                    </template> -->
                 </awb-flexi-table>
             </template>
         </paginated-browser>
 
         <!-- footer -->
         <template #modal-footer>
-            <b-button variant="danger" size="sm" @click="createBAST">
+            <b-button variant="danger" size="sm" @click="createBAST" :disabled="!selected.length">
                 <font-awesome-icon icon="pencil-alt"/>
-                Rekam
+                <span v-if="!selected.length">
+                    Pilih HAWB dulu
+                </span>
+                <span v-else>
+                    Rekam BAST untuk <b-badge>{{ selected.length }}</b-badge> AWB
+                </span>
             </b-button>
         </template>
     </b-modal>
@@ -75,14 +187,18 @@ import { mapGetters, mapMutations } from 'vuex'
 import axiosErrorHandler from '../mixins/axiosErrorHandler'
 import PaginatedBrowser from '@/components/PaginatedBrowser'
 import SelectUser from '@/components/SelectUser'
+import dataSelection from '../mixins/dataSelection'
 
 export default {
     inheritAttrs: false,
 
-    mixins: [ axiosErrorHandler ],
+    mixins: [ 
+        axiosErrorHandler,
+        dataSelection
+    ],
 
     props: {
-        data: {
+        dataTps: {
             type: Object,
             required: true
         }
@@ -110,18 +226,31 @@ export default {
     methods: {
         ...mapMutations(['setBusyState']),
 
+        onRequestselectedData({q, spinner, vm}) {
+            var filtered = this.selectedData.filter(e => this.filterData(e, q))
+            vm.setData(filtered)
+            vm.setTotal(filtered.length)
+        },
+
         // grab data
-        fetchAwbSiapRekamBAST(q, spinner, vm) {
+        loadData(vm, q) {
+            const spinner = this.setBusyState
             spinner(true)
 
-            this.api.getAwbSiapRekamBAST(this.data.kode, q)
+            this.api.getAwbSiapRekamBAST(this.dataTps.kode, q)
             .then(e => {
                 spinner(false)
-                vm.setData(e.data.data)
-                vm.setTotal(e.data.meta.pagination.total)
+                this.data = e.data.data
+                this.total = e.data.meta.pagination.total
+
+                if (vm) {
+                    vm.setData(this.data)
+                    vm.setTotal(this.total)
+                }
             })
             .catch(e => {
                 spinner(false)
+                alert('FUGG')
                 this.handleError(e)
             })
         },
@@ -166,10 +295,15 @@ export default {
         createBAST () {
             this.setBusyState(true)
 
+            // console.log('selected', this.selected)
+
+            // return
+
             // call api
-            this.api.createBAST(this.data.kode, {
+            this.api.createBAST(this.dataTps.kode, {
                 nomor_lengkap_dok: this.no_dok_lengkap,
-                tgl_dok: this.tgl_dok
+                tgl_dok: this.tgl_dok,
+                entry_manifest_id: this.selected
             })
             .then(e => {
                 this.setBusyState(false)
