@@ -8,7 +8,7 @@
     >
         <!-- custom rendering -->
         <template #modal-title>
-            Rekam BAST untuk barang dari Gudang {{ data.nama }} (<strong>{{ data.kode }}</strong>)
+            Rekam BAST untuk barang dari Gudang {{ dataTps.nama }} (<strong>{{ dataTps.kode }}</strong>)
         </template>
 
         <!-- body -->
