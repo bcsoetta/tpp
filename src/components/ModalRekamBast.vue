@@ -237,7 +237,10 @@ export default {
             const spinner = this.setBusyState
             spinner(true)
 
-            this.api.getAwbSiapRekamBAST(this.dataTps.kode, q)
+            this.api.getAwbSiapRekamBAST(this.dataTps.kode, {
+                show_all: true,
+                ...q
+            })
             .then(e => {
                 spinner(false)
                 this.data = e.data.data
