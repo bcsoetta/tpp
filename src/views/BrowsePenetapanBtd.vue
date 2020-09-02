@@ -30,7 +30,7 @@
 
           <!-- tps -->
           <template #cell(tps)="{ item }">
-            <div v-if="item">
+            <div v-if="item.tps">
               <b-badge 
                 :variant="badgeVariant(item.tps.data.kode)"
                 v-b-tooltip.hover
