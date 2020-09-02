@@ -8,6 +8,14 @@
 
                     <!-- some controls here? -->
                     <div class="flex-grow-1 text-right">
+                        <b-button size="sm" variant="danger" class="shadow my-2" v-if="hasRole('CONSOLE')" 
+                        @click="rollbackGateIn"
+                        :disabled="dataAwb.short_last_status.status != 'GATE-IN'"
+                        >
+                            <font-awesome-icon icon="undo-alt"/>
+                            Rollback Gate-In
+                        </b-button>
+
                         <b-button size="sm" variant="success" class="shadow my-2" @click="loadEntryManifest">
                             <font-awesome-icon icon="sync"/>
                             Refresh
@@ -88,6 +96,7 @@
 import DocBanner from '@/components/DocBanner'
 import { mapGetters, mapMutations } from 'vuex'
 import axiosErrorHandler from '../mixins/axiosErrorHandler'
+import userChecker from '../mixins/userChecker'
 
 import EntryManifestContents from '@/components/EntryManifestContents'
 
@@ -102,6 +111,7 @@ import TrackingTimeline from '@/components/TrackingTimeline'
 export default {
     mixins: [
         axiosErrorHandler,
+        userChecker
     ],
 
     components: {
@@ -167,6 +177,39 @@ export default {
                 this.setBusyState(false)
                 this.handleError(e)
             })
+        },
+
+        async rollbackGateIn() {
+            var result = await this.$bvModal.msgBoxConfirm(
+                `Yakin mau rollback Gate In #${this.dataAwb.hawb || this.dataAwb.mawb}?`, {
+                    title: `Rollback Gate In`,
+                    size: 'md',
+                    buttonSize: 'md',
+                    okVariant: 'danger',
+                    okTitle: 'YES',
+                    cancelTitle: 'NO',
+                    footerClass: 'p-2',
+                    hideHeaderClose: false,
+                    centered: true
+                }
+            )
+
+            if (result) {
+                // just delete rollback, and refresh
+                this.setBusyState(true)
+
+                this.api.rollbackGateInAwb(this.dataAwb.id)
+                .then(e => {
+                    this.setBusyState(false)
+                    this.$nextTick(() => {
+                        this.loadEntryManifest()
+                    })
+                })
+                .catch(e => {
+                    this.setBusyState(false)
+                    this.handleError(e)
+                })
+            }
         }
     },
 

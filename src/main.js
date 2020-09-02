@@ -24,6 +24,7 @@ import {
    faHandshake,
    faClipboardCheck,
    faSpinner,
+   faUndoAlt,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -34,7 +35,7 @@ library.add(faCalendarAlt, faLock, faLockOpen, faUserCircle,
    faPrint, faCloudDownloadAlt, faHandPaper, faMapMarkerAlt, faRadiation, faUserSecret,
    faSync, faCamera, faUpload, faFileAlt, faFileArchive, faTools, faBars, faShippingFast,
    faDatabase, faWarehouse, faSearchLocation, faFileExcel, faBoxes, faTasks, faDollyFlatbed,
-   faHandshake, faClipboardCheck, faSpinner)
+   faHandshake, faClipboardCheck, faSpinner, faUndoAlt)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 // Bootstrap

@@ -210,6 +210,10 @@ class ApiTpp {
         return this.instance.put(`/awb/${id}/gate-in`)
     }
 
+    rollbackGateInAwb (id) {
+        return this.instance.delete(`/awb/${id}/gate-in`)
+    }
+
     // =====================SSO USER ENDPOINTS=========================================================
     getKasi (params) {
         return this.instance.get('/kasi', {
