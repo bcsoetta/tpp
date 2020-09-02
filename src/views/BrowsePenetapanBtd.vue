@@ -28,6 +28,17 @@
             </div>
           </template>
 
+          <!-- tps -->
+          <template #cell(tps)="{ item }">
+            <div v-if="item">
+              <b-badge 
+                :variant="badgeVariant(item.tps.data.kode)"
+                v-b-tooltip.hover
+                :title="item.tps.data.nama"
+              >{{ item.tps.data.kode }}</b-badge>
+            </div>
+          </template>
+
           <!-- action -->
           <template #cell(act)="row">
             <div class="text-center">
@@ -144,6 +155,8 @@
 
 <script>
 import axiosErrorHandler from "../mixins/axiosErrorHandler";
+import niceties from '../mixins/niceties'
+
 import { mapGetters, mapMutations } from "vuex";
 import PaginatedBrowser from "@/components/PaginatedBrowser";
 import PenetapanDetailContents from "@/components/PenetapanDetailContents";
@@ -153,7 +166,7 @@ import Datepicker from '@/components/Datepicker'
 const fileDownload = require('js-file-download');
 
 export default {
-  mixins: [axiosErrorHandler],
+  mixins: [axiosErrorHandler, niceties],
 
   components: {
     PaginatedBrowser,
@@ -277,6 +290,7 @@ export default {
         },
 
         "pejabat",
+        { label: "TPS", key: "tps", class: "text-center" },
         {
           label: "",
           key: "act"
