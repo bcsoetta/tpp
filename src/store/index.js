@@ -27,7 +27,10 @@ export default new Vuex.Store({
 
         // referensi
         tps: [], // masih kosong,
-        fetchTps: null
+        fetchTps: null,
+
+        refDokPenyelesaian: [], // empty
+        fetchRefDokPenyelesaian: null
     },
     mutations: {
         setSidebarActive(state, payload) {
@@ -65,6 +68,13 @@ export default new Vuex.Store({
             state.fetchTps = payload
             state.fetchTps.then(e => {
                 state.tps = e.data.data
+            })
+        },
+
+        setFetchRefDokPenyelesaian(state, payload) {
+            state.fetchRefDokPenyelesaian = payload
+            state.fetchRefDokPenyelesaian.then(e => {
+                state.refDokPenyelesaian = e.data.data
             })
         }
     },
@@ -128,6 +138,10 @@ export default new Vuex.Store({
         tps: (state) => {
             return state.tps
         },
+
+        refDokPenyelesaian: (state) => {
+            return state.refDokPenyelesaian
+        }
     },
     actions: {
         fetchTps (context) {
@@ -140,6 +154,14 @@ export default new Vuex.Store({
             }
 
             return context.state.fetchTps
+        },
+
+        fetchRefDokPenyelesaian (context) {
+            if (!context.state.fetchRefDokPenyelesaian) {
+                context.commit('setFetchRefDokPenyelesaian', context.getters.api.getRefDokPenyelesaian())
+            }
+
+            return context.state.fetchRefDokPenyelesaian
         }
     }
 })

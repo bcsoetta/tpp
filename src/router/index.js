@@ -33,6 +33,8 @@ import ViewEntryManifest from '@/views/ViewEntryManifest'
 
 import BrowseRekamBaCacah from '@/views/BrowseRekamBaCacah'
 
+import BrowseRefDokPenyelesaian from '@/views/BrowseRefDokPenyelesaian'
+
 import store from '../store'
 
 // const axios = require('axios').default
@@ -172,6 +174,15 @@ const router = new Router({
           meta: {
             title: 'Browse TPS',
             breadcrumb: '🔍Browse TPS'
+          }
+        },
+        {
+          path: 'referensi-dokumen-penyelesaian',
+          name: 'BrowsRefDokPenyelesaian',
+          component: BrowseRefDokPenyelesaian,
+          meta: {
+            title: 'Browse Referensi Dokumen Penyelesaian',
+            breadcrumb: '🔍Browse Referensi Dokumen Penyelesaian'
           }
         },
         {

@@ -298,6 +298,27 @@ class ApiTpp {
             params: params
         })
     }
+
+    // ===========================UMUM===============================================
+    getSettings () {
+        return this.instance.get('/setting')
+    }
+
+    getRefDokPenyelesaian () {
+        return this.instance.get('/referensi-dokumen-penyelesaian')
+    }
+
+    createRefDokPenyelesaian (data) {
+        return this.instance.post('/referensi-dokumen-penyelesaian', data)
+    }
+
+    deleteRefDokPenyelesaian (id) {
+        return this.instance.delete(`/referensi-dokumen-penyelesaian/${id}`)
+    }
+
+    updateRefDokPenyelesaian (data) {
+        return this.instance.put(`/referensi-dokumen-penyelesaian/${data.id}`, data)
+    }
 }
 
 export {

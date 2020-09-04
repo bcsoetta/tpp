@@ -127,6 +127,11 @@
                         "item": "Lokasi/Rak",
                         "icon": "fa-search-location",
                         "to": "/lokasi"
+                    },
+                    {
+                        "item": "Jenis Dok Penyelesaian",
+                        "icon": "fa-file-alt",
+                        "to": "/referensi-dokumen-penyelesaian"
                     }
                 ]
             }

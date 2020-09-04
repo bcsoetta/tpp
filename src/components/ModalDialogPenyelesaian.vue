@@ -28,7 +28,8 @@
             <b-col md="8">
                 <b-form-group label="Jenis Dokumen Penyelesaian">
                     <v-select
-                    :options="options"
+                    :options="refDokPenyelesaian"
+                    label="nama"
                     v-model="jenis_dok"
                     />
                 </b-form-group>
@@ -58,6 +59,7 @@ import axiosErrorHandler from '../mixins/axiosErrorHandler'
 
 import Datepicker from './Datepicker'
 import vSelect from 'vue-select'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     inheritAttrs: false,
@@ -75,13 +77,7 @@ export default {
 
     data () {
         return {
-            options: [
-                "SPPB PIB",
-                "SPPB BC23",
-                "REEKSPOR",
-                "SPPBMCP",
-                "BC 16"
-            ],
+            options: null,
 
             jenis_dok: null,
             no_dok: null,
@@ -90,9 +86,23 @@ export default {
     },
 
     methods: {
+        ...mapActions(['fetchRefDokPenyelesaian']),
+
         clearFields() {
             this.jenis_dok = this.no_dok = this.tgl_dok = null
         }
+    },
+
+    computed: {
+        ...mapGetters(['refDokPenyelesaian'])
+    },
+
+    created() {
+        // fetch dok penyelesaian
+        this.fetchRefDokPenyelesaian()
+        .catch(e => {
+            this.handleError(e)
+        })
     }
 }
 </script>

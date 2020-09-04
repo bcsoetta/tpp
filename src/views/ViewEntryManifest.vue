@@ -11,7 +11,7 @@
                         <!-- rollback gate in -->
                         <b-button size="sm" variant="danger" class="shadow my-2" v-if="hasRole('CONSOLE')" 
                         @click="rollbackGateIn"
-                        :disabled="dataAwb.short_last_status.status != 'GATE-IN'"
+                        :disabled="dataAwb.short_last_status && dataAwb.short_last_status.status != 'GATE-IN'"
                         >
                             <font-awesome-icon icon="undo-alt"/>
                             Rollback Gate-In
