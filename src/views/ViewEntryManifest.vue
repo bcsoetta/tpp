@@ -8,6 +8,7 @@
 
                     <!-- some controls here? -->
                     <div class="flex-grow-1 text-right">
+                        <!-- rollback gate in -->
                         <b-button size="sm" variant="danger" class="shadow my-2" v-if="hasRole('CONSOLE')" 
                         @click="rollbackGateIn"
                         :disabled="dataAwb.short_last_status.status != 'GATE-IN'"
@@ -16,6 +17,13 @@
                             Rollback Gate-In
                         </b-button>
 
+                        <!-- gate out -->
+                        <b-button size="sm" variant="primary" class="shadow my-2" v-b-modal.dialog-penyelesaian :disabled="isLocked">
+                            <font-awesome-icon icon="door-open"/>
+                            Rekam Penyelesaian (GateOut)
+                        </b-button>
+
+                        <!-- refresh -->
                         <b-button size="sm" variant="success" class="shadow my-2" @click="loadEntryManifest">
                             <font-awesome-icon icon="sync"/>
                             Refresh
@@ -89,6 +97,15 @@
 
             </b-tabs>
         </b-card>
+
+        <!-- modal dialog penyelesaian -->
+        <modal-dialog-penyelesaian
+            :dataId="id"
+            ref="modal"
+            id="dialog-penyelesaian"
+            centered
+            size="lg"
+        />
     </div>
 </template>
 
@@ -108,6 +125,8 @@ import StatusTimeline from '@/components/StatusTimeline'
 
 import TrackingTimeline from '@/components/TrackingTimeline'
 
+import ModalDialogPenyelesaian from '@/components/ModalDialogPenyelesaian'
+
 export default {
     mixins: [
         axiosErrorHandler,
@@ -120,7 +139,8 @@ export default {
         PencacahanContents,
         AttachmentBucket,
         StatusTimeline,
-        TrackingTimeline
+        TrackingTimeline,
+        ModalDialogPenyelesaian
     },
 
     props: {
@@ -219,6 +239,10 @@ export default {
         // get active tab from query string
         activeTab() {
             return this.$route.query.tab || 'header'
+        },
+
+        isLocked() {
+            return this.dataAwb.is_locked
         }
     },
 
