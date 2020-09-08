@@ -23,9 +23,10 @@
       </b-col>
     </b-row>
     <!-- DATA ST -->
-    <b-row>
+    
+    <!-- <b-row> -->
       <!-- nomor + tgl -->
-      <b-col md="8">
+      <!-- <b-col md="8">
         <b-form-group label="Nomor Surat Tugas">
           <b-form-input 
           :disabled="disabled" 
@@ -33,9 +34,9 @@
           size="sm"
           />
         </b-form-group>
-      </b-col>
+      </b-col> -->
       <!-- tanggal -->
-      <b-col md="4">
+      <!-- <b-col md="4">
           <b-form-group label="Tanggal">
             <datepicker 
             :disabled="disabled"
@@ -44,7 +45,8 @@
             />
           </b-form-group>
       </b-col>
-    </b-row>
+    </b-row> -->
+    
     <b-row>
       <!-- pejabat info -->
       <b-col md="6">

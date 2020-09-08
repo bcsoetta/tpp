@@ -160,7 +160,7 @@
                         />
                     </b-form-group>
                 </b-col>
-                <b-col md="4">
+                <!-- <b-col md="4">
                     <b-form-group label="Nomor Surat Tugas" description="Isikan nomor ST penuh">
                         <b-form-input 
                             v-model="nomor_st"
@@ -173,7 +173,7 @@
                             v-model="tgl_st"
                         />
                     </b-form-group>
-                </b-col>
+                </b-col> -->
             </b-row>
             <b-row>
                 <!-- Select Penetapan -->
