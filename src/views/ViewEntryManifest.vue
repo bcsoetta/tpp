@@ -20,7 +20,7 @@
                         <!-- gate out -->
                         <b-button size="sm" variant="primary" class="shadow my-2" v-b-modal.dialog-penyelesaian :disabled="isLocked">
                             <font-awesome-icon icon="door-open"/>
-                            Rekam Penyelesaian (GateOut)
+                            Rekam Penyelesaian
                         </b-button>
 
                         <!-- refresh -->
@@ -95,16 +95,22 @@
                     <tracking-timeline v-if="dataAwb.tracking" :data="dataAwb.tracking.data"/>
                 </b-tab>
 
+                <!-- Penyelesaian -->
+                <b-tab title="Penyelesaian" :active="activeTab == 'penyelesaian'" v-if="dataAwb.penyelesaian && dataAwb.penyelesaian.data.length">
+                    <penyelesaian-contents :data="dataAwb.penyelesaian.data[0]"/>
+                </b-tab>
+
             </b-tabs>
         </b-card>
 
         <!-- modal dialog penyelesaian -->
         <modal-dialog-penyelesaian
             :dataId="id"
-            ref="modal"
+            ref="modalPenyelesaian"
             id="dialog-penyelesaian"
             centered
             size="lg"
+            @store-penyelesaian="storePenyelesaian"
         />
     </div>
 </template>
@@ -127,6 +133,8 @@ import TrackingTimeline from '@/components/TrackingTimeline'
 
 import ModalDialogPenyelesaian from '@/components/ModalDialogPenyelesaian'
 
+import PenyelesaianContents from '../components/PenyelesaianContents'
+
 export default {
     mixins: [
         axiosErrorHandler,
@@ -140,7 +148,8 @@ export default {
         AttachmentBucket,
         StatusTimeline,
         TrackingTimeline,
-        ModalDialogPenyelesaian
+        ModalDialogPenyelesaian,
+        PenyelesaianContents
     },
 
     props: {
@@ -230,6 +239,24 @@ export default {
                     this.handleError(e)
                 })
             }
+        },
+
+        storePenyelesaian(data) {
+            this.setBusyState(true)
+
+            this.api.storePenyelesaian(this.id, data)
+            .then(e => {
+                this.setBusyState(false)
+                this.$bvModal.hide('dialog-penyelesaian')
+                this.$nextTick(() => {
+                    // close modal and reload
+                    this.loadEntryManifest()
+                })
+            })
+            .catch(e => {
+                this.setBusyState(false)
+                this.handleError(e)
+            })
         }
     },
 

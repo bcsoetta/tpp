@@ -214,6 +214,10 @@ class ApiTpp {
         return this.instance.delete(`/awb/${id}/gate-in`)
     }
 
+    storePenyelesaian (id, data) {
+        return this.instance.put(`/awb/${id}/penyelesaian`, data)
+    }
+
     // =====================SSO USER ENDPOINTS=========================================================
     getKasi (params) {
         return this.instance.get('/kasi', {

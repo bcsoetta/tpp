@@ -17,7 +17,7 @@
                 Clear
             </b-button>
 
-            <b-button variant="primary" size="sm">
+            <b-button variant="primary" size="sm" @click="storePenyelesaian">
                 <font-awesome-icon icon="save"/>
                 Simpan
             </b-button>
@@ -27,10 +27,8 @@
         <b-row>
             <b-col md="8">
                 <b-form-group label="Jenis Dokumen Penyelesaian">
-                    <v-select
-                    :options="refDokPenyelesaian"
-                    label="nama"
-                    v-model="jenis_dok"
+                    <select-dok-penyelesaian
+                        v-model="jenis_dok"
                     />
                 </b-form-group>
             </b-col>
@@ -58,8 +56,9 @@
 import axiosErrorHandler from '../mixins/axiosErrorHandler'
 
 import Datepicker from './Datepicker'
-import vSelect from 'vue-select'
-import { mapGetters, mapActions } from 'vuex'
+// import vSelect from 'vue-select'
+import SelectDokPenyelesaian from './SelectDokPenyelesaian'
+
 
 export default {
     inheritAttrs: false,
@@ -72,7 +71,7 @@ export default {
 
     components: {
         Datepicker,
-        vSelect
+        SelectDokPenyelesaian
     },
 
     data () {
@@ -86,23 +85,17 @@ export default {
     },
 
     methods: {
-        ...mapActions(['fetchRefDokPenyelesaian']),
-
         clearFields() {
             this.jenis_dok = this.no_dok = this.tgl_dok = null
+        },
+
+        storePenyelesaian() {
+            this.$emit('store-penyelesaian', {
+                nomor_lengkap_dok: this.no_dok,
+                tgl_dok: this.tgl_dok,
+                jenis_dokumen: this.jenis_dok
+            })
         }
-    },
-
-    computed: {
-        ...mapGetters(['refDokPenyelesaian'])
-    },
-
-    created() {
-        // fetch dok penyelesaian
-        this.fetchRefDokPenyelesaian()
-        .catch(e => {
-            this.handleError(e)
-        })
     }
 }
 </script>
