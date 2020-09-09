@@ -61,6 +61,16 @@
                         "item": "Rekam BA Pencacahan",
                         "icon": "fa-clipboard-check",
                         "to": "/rekam-ba-cacah"
+                    },
+                    {
+                        "item": "Rekam PNBP",
+                        "icon": "💲",
+                        "to": "/hawb?show_bcp=true&filter=siap_pnbp&title=Rekam%20PNBP"
+                    },
+                    {
+                        "item": "Gate Out",
+                        "icon": "fa-door-open",
+                        "to": "/hawb?show_bcp=true&filter=siap_gate_out&title=Rekam%20Gate%20Out"
                     }
                 ]
             }
@@ -102,6 +112,11 @@
                                 "to": "/browse-ba-cacah"
                             }
                         ]
+                    },
+                    {
+                        "item": "PNBP",
+                        "icon": "💲",
+                        "to": "/pnbp"
                     }
                 ]
             }     

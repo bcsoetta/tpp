@@ -57,10 +57,41 @@
                         >
                             <font-awesome-icon icon="boxes"/>
                         </b-button>
+
+                        <!-- TOMBOL GATE OUT -->
+                        <b-button
+                            v-if="filter.siap_gate_out"
+                            size="sm"
+                            variant="danger"
+                            class="shadow"
+                            v-b-tooltip.hover title="Gate Out Barang (!)"
+                            @click="gateOutAwb(row.item)"
+                        >
+                            <font-awesome-icon icon="door-open"/>
+                        </b-button>
+
+                        <!-- TOMBOL REKAM PNBP -->
+                        <b-button
+                            v-if="filter.siap_pnbp"
+                            size="sm"
+                            variant="dark"
+                            class="shadow"
+                            v-b-tooltip.hover title="Rekam PNBP (!)"
+                            @click="rekamPNBP(row.item)"
+                        >
+                            💲
+                        </b-button>
                     </template>
                 </awb-flexi-table>
             </template>
         </paginated-browser>
+
+        <!-- modal rekam PNBP -->
+        <modal-rekam-pnbp
+            :awb-id="pnbpId"
+            id="modal-rekam-pnbp"
+            @hidden="pnbpId = null"
+        />
     </div>
 </template>
 
@@ -73,6 +104,8 @@ import PaginatedBrowser from '@/components/PaginatedBrowser'
 
 import AwbFlexiTable from '@/components/AwbFlexiTable'
 
+import ModalRekamPnbp from '../components/ModalRekamPnbp'
+
 export default {
     mixins: [
         axiosErrorHandler,
@@ -82,7 +115,8 @@ export default {
     components: {
         TableDataAwal,
         PaginatedBrowser,
-        AwbFlexiTable
+        AwbFlexiTable,
+        ModalRekamPnbp
     },
 
     data() {
@@ -92,7 +126,9 @@ export default {
             showPencacahan: false,
 
             filter: {},
-            orderBy: []
+            orderBy: [],
+
+            pnbpId: null
         }
     },
 
@@ -179,6 +215,50 @@ export default {
             this.orderBy.push(`${ctx.sortBy}|${ctx.sortDesc ? 'desc' : 'asc'}`)
 
             console.log('orderBy: ', this.orderBy)
+        },
+
+        // gate out awb
+        async gateOutAwb(item) {
+            var answer = await this.$bvModal.msgBoxConfirm(
+                `Gate Out AWB: ${item.hawb || item.mawb}?`, {
+                    title: `Gate Out`,
+                    size: 'md',
+                    buttonSize: 'md',
+                    okVariant: 'danger',
+                    okTitle: 'YES',
+                    cancelTitle: 'NO',
+                    footerClass: 'p-2',
+                    hideHeaderClose: false,
+                    centered: true
+                }
+            )
+
+            if (!answer) return
+
+            // process it?
+            this.setBusyState(true)
+            this.api.gateOutAwb(item.id)
+            .then(e => {
+                this.setBusyState(false)
+                this.$nextTick(() => {
+                    this.$refs.browser.loadData()
+                    this.showToast(
+                        'Gate Out Berhasil',
+                        `Gate out AWB ${item.hawb||item.mawb} berhasil dilakukan`,
+                        'success'
+                    )
+                })
+            })
+            .catch(e => {
+                this.setBusyState(false)
+                this.handleError(e)
+            })
+        },
+
+        // Rekam PNBP
+        rekamPNBP(item) {
+            this.pnbpId = item.id
+            this.$bvModal.show('modal-rekam-pnbp')
         }
     },
 

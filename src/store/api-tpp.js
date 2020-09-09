@@ -218,6 +218,10 @@ class ApiTpp {
         return this.instance.put(`/awb/${id}/penyelesaian`, data)
     }
 
+    gateOutAwb (id) {
+        return this.instance.put(`awb/${id}/gate-out`)
+    }
+
     // =====================SSO USER ENDPOINTS=========================================================
     getKasi (params) {
         return this.instance.get('/kasi', {
@@ -322,6 +326,25 @@ class ApiTpp {
 
     updateRefDokPenyelesaian (data) {
         return this.instance.put(`/referensi-dokumen-penyelesaian/${data.id}`, data)
+    }
+
+    // ========================PNBP===============================================================
+    getPnbp (params) {
+        return this.instance.get('/pnbp', {
+            params: params
+        })
+    }
+    
+    getPnbpById (id, params) {
+        return this.instance.get(`/pnbp/${id}`, {
+            params: params
+        })
+    }
+
+    precalculatePnbp (id, params) {
+        return this.instance.get(`/awb/${id}/pnbp-mockup`, {
+            params: params
+        })
     }
 }
 
