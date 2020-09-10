@@ -91,6 +91,7 @@
             :awb-id="pnbpId"
             id="modal-rekam-pnbp"
             @hidden="pnbpId = null"
+            @rekam-pnbp="storePnbp"
         />
     </div>
 </template>
@@ -255,10 +256,37 @@ export default {
             })
         },
 
-        // Rekam PNBP
+        // Munculkan modal rekam PNBP
         rekamPNBP(item) {
             this.pnbpId = item.id
             this.$bvModal.show('modal-rekam-pnbp')
+        },
+
+        // Simpan PNBP ke backend
+        storePnbp(data) {
+            console.log('rekam-pnbp', data)
+
+            // just call the api
+            this.setBusyState(true)
+            this.api.storePnbp(data)
+            .then(e => {
+                this.setBusyState(false)
+                // close dialog
+                this.$bvModal.hide('modal-rekam-pnbp')
+                // reload
+                this.$nextTick(() => {
+                    this.$refs.browser.loadData()
+                    this.showToast(
+                        'Data telah direkam',
+                        `Perekaman PNBP berhasil dengan nomor:  ${e.data.data.nomor_lengkap_dok} tanggal ${e.data.data.tgl_dok}`,
+                        'success'
+                    )
+                })
+            })
+            .catch(e => {
+                this.setBusyState(false)
+                this.handleError(e)
+            })
         }
     },
 

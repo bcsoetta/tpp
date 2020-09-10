@@ -346,6 +346,10 @@ class ApiTpp {
             params: params
         })
     }
+
+    storePnbp (data) {
+        return this.instance.post('/pnbp', data)
+    }
 }
 
 export {

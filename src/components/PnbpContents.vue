@@ -4,7 +4,7 @@
         <b-row>
             <!-- nomor dok -->
             <b-col md="6">
-                <b-form-group label="Nomor PNBP">
+                <b-form-group label="Nomor PNBP" description="penomoran otomatis">
                     <b-form-input
                         :disabled="readOnly"
                         v-model="dataPnbp.nomor_lengkap_dok"
@@ -39,6 +39,9 @@
                 </b-form-group>
             </b-col>
 
+        </b-row>
+
+        <b-row>
             <!-- kode_surat -->
             <b-col md="3">
                 <b-form-group label="Kode Penomoran">
@@ -89,10 +92,12 @@
         </b-row>
 
         <!-- 2nd row, pertaining to calculation -->
+        <hr>
         <b-row>
             <b-col md="10" offset-md="1">
                 <!-- fill it with table? -->
-                <table class="table table-bordered table-striped shadow">
+                <div class="table-responsive shadow rounded">
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr class="text-center bg-dark text-light">
                             <th>Item Perhitungan</th>
@@ -122,14 +127,15 @@
                             </td>
                         </tr>
                         <!-- Total Sewa -->
-                        <tr>
-                            <td>Total Nilai Sewa penimbunan barang di TPP</td>
+                        <tr class="bg-success text-light">
+                            <td>Nilai Sewa Gudang di TPP: ({{ dataPnbp.total_hari }} hari x {{ dataPnbp.entry_manifest.data.brutto | formatCurrency(2) }} kgs x {{ dataPnbp.tarif_pnbp | formatCurrency(2) | displayRupiah }})</td>
                             <td class="text-right">
-                                {{ dataPnbp.nilai_sewa | formatCurrency(2) | displayRupiah }}
+                                <strong>{{ dataPnbp.nilai_sewa | formatCurrency(2) | displayRupiah }}</strong>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                </div>
             </b-col>
         </b-row>
     </div>

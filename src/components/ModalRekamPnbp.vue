@@ -16,7 +16,7 @@
                 :disabled="busy"
                 variant="primary"
                 size="sm"
-                @click="$emit()"
+                @click="rekamPnbp"
             >
                 💲 Rekam PNBP
             </b-button>
@@ -106,6 +106,33 @@ export default {
                     this.handleError(e)
                 })
             }
+        },
+
+        rekamPnbp() {
+            // error check and then store
+            if (!this.dataPnbp.nama_bidang) {
+                this.showToast('error', 'Nama Bidang Harap Diisi', 'danger')
+                return
+            }
+            if (!this.dataPnbp.nama_jabatan) {
+                this.showToast('error', 'Nama Seksi Harap Diisi', 'danger')
+                return
+            }
+            if (!this.dataPnbp.nama_jabatan) {
+                this.showToast('error', 'Nama Seksi Harap Diisi', 'danger')
+                return
+            }
+            if (!this.dataPnbp.kode_surat) {
+                this.showToast('error', 'Kode Surat Harap Diisi', 'danger')
+                return
+            }
+            if (!this.dataPnbp.pejabat_id) {
+                this.showToast('error', 'Pejabat ttd harap dipilih', 'danger')
+                return
+            }
+
+            // emit
+            this.$emit('rekam-pnbp', this.dataPnbp)
         }
     },
 
