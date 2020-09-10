@@ -1,30 +1,5 @@
 <template>
     <div>
-        <b-row>
-            <!-- Kondisi barang -->
-            <b-col md="6">
-                <b-form-group label="Kondisi Barang">
-                    <b-form-radio-group 
-                        size="sm"
-                        :options="kondisiBarangOpts"
-                        v-model="data.kondisi_barang"
-                        :disabled="disabled"
-                    />
-                </b-form-group>
-            </b-col>
-            <!-- Peruntukan AWal -->
-            <b-col md="3">
-                <b-form-group label="Peruntukan Awal">
-                    <v-select
-                        :options="peruntukanAwalOpts"
-                        v-model="data.peruntukan_awal"
-                        taggable
-                        :disabled="disabled"
-                    />
-                </b-form-group>
-            </b-col>
-        </b-row>
-        <hr>
         <b-form-group label="Detil Pencacahan">
             <b-table
                 small
@@ -110,6 +85,31 @@
             </b-button>
         </b-form-group>
         <!-- <pre>{{ data }}</pre> -->
+        <hr>
+        <b-row>
+            <!-- Kondisi barang -->
+            <b-col md="6">
+                <b-form-group label="Kondisi Barang">
+                    <b-form-radio-group 
+                        size="sm"
+                        :options="kondisiBarangOpts"
+                        v-model="data.kondisi_barang"
+                        :disabled="disabled"
+                    />
+                </b-form-group>
+            </b-col>
+            <!-- Peruntukan AWal -->
+            <b-col md="3">
+                <b-form-group label="Peruntukan Awal">
+                    <v-select
+                        :options="peruntukanAwalOpts"
+                        v-model="data.peruntukan_awal"
+                        taggable
+                        :disabled="disabled"
+                    />
+                </b-form-group>
+            </b-col>
+        </b-row>
     </div>
 </template>
 

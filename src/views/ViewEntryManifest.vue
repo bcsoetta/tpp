@@ -100,6 +100,18 @@
                     <penyelesaian-contents :data="dataAwb.penyelesaian.data[0]"/>
                 </b-tab>
 
+                <!-- PNBP -->
+                <b-tab title="PNBP" :active="activeTab == 'pnbp'" v-if="dataAwb.pnbp">
+                    <pnbp-contents :mockupMode="false" :dataPnbp="dataAwb.pnbp.data"/>
+                    <hr>
+                    <attachment-bucket
+                        show
+                        :endpoint="`/pnbp/${dataAwb.pnbp.data.id}/lampiran`"
+                        disabled
+                        :title="`Lampiran PNBP #${dataAwb.pnbp.data.id}`"
+                    />
+                </b-tab>
+
             </b-tabs>
         </b-card>
 
@@ -135,6 +147,8 @@ import ModalDialogPenyelesaian from '@/components/ModalDialogPenyelesaian'
 
 import PenyelesaianContents from '../components/PenyelesaianContents'
 
+import PnbpContents from '../components/PnbpContents'
+
 export default {
     mixins: [
         axiosErrorHandler,
@@ -149,7 +163,8 @@ export default {
         StatusTimeline,
         TrackingTimeline,
         ModalDialogPenyelesaian,
-        PenyelesaianContents
+        PenyelesaianContents,
+        PnbpContents
     },
 
     props: {

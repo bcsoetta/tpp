@@ -350,6 +350,22 @@ class ApiTpp {
     storePnbp (data) {
         return this.instance.post('/pnbp', data)
     }
+
+    tandaiLunasPnbp (id) {
+        return this.instance.patch(`/pnbp/${id}`, [
+            {
+                op: 'tandai-lunas'
+            }
+        ])
+    }
+
+    perbaruiPnbp (id) {
+        return this.instance.patch(`/pnbp/${id}`, [
+            {
+                op: 'perbarui-pungutan'
+            }
+        ])
+    }
 }
 
 export {

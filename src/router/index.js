@@ -35,6 +35,8 @@ import BrowseRekamBaCacah from '@/views/BrowseRekamBaCacah'
 
 import BrowseRefDokPenyelesaian from '@/views/BrowseRefDokPenyelesaian'
 
+import BrowsePnbp from '@/views/BrowsePnbp'
+
 import store from '../store'
 
 // const axios = require('axios').default
@@ -210,6 +212,15 @@ const router = new Router({
           meta: {
             title: 'Browse Berita Acara Pencacahan',
             breadcrumb: '🔍Browse Berita Acara Pencacahan'
+          }
+        },
+        {
+          path: 'pnbp',
+          name: 'BrowsePnbp',
+          component: BrowsePnbp,
+          meta: {
+            title: 'Browse PNBP',
+            breadcrumb: '💲Browse PNBP'
           }
         }
       ]

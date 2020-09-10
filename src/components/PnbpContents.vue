@@ -46,7 +46,7 @@
             <b-col md="3">
                 <b-form-group label="Kode Penomoran">
                     <v-select
-                        :disabed="!mockupMode && readOnly"
+                        :disabled="!mockupMode && readOnly"
                         :options="opsiKodeSurat"
                         v-model="dataPnbp.kode_surat"
                         />
@@ -59,7 +59,7 @@
                     <b-col>
                     <b-form-group label="Kode Bidang">
                         <v-select
-                            :disabed="!mockupMode && readOnly"
+                            :disabled="!mockupMode && readOnly"
                             :options="opsiBidang"
                             v-model="dataPnbp.nama_bidang"
                             />
@@ -70,7 +70,7 @@
                     <b-col>
                     <b-form-group label="Kode Seksi">
                         <v-select
-                            :disabed="!mockupMode && readOnly"
+                            :disabled="!mockupMode && readOnly"
                             :options="opsiJabatan"
                             v-model="dataPnbp.nama_jabatan"
                             />
@@ -109,7 +109,7 @@
                         <tr>
                             <td>Brutto</td>
                             <td class="text-right">
-                                {{ dataPnbp.entry_manifest.data.brutto | formatCurrency(2) }} kg
+                                {{ dataPnbp.brutto | formatCurrency(2) }} kg
                             </td>
                         </tr>
                         <!-- Total Hari -->
@@ -128,7 +128,7 @@
                         </tr>
                         <!-- Total Sewa -->
                         <tr class="bg-success text-light">
-                            <td>Nilai Sewa Gudang di TPP: ({{ dataPnbp.total_hari }} hari x {{ dataPnbp.entry_manifest.data.brutto | formatCurrency(2) }} kgs x {{ dataPnbp.tarif_pnbp | formatCurrency(2) | displayRupiah }})</td>
+                            <td>Nilai Sewa Gudang di TPP: ({{ dataPnbp.total_hari }} hari x {{ dataPnbp.brutto | formatCurrency(2) }} kgs x {{ dataPnbp.tarif_pnbp | formatCurrency(2) | displayRupiah }})</td>
                             <td class="text-right">
                                 <strong>{{ dataPnbp.nilai_sewa | formatCurrency(2) | displayRupiah }}</strong>
                             </td>
