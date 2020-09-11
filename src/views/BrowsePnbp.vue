@@ -88,6 +88,17 @@
                             <font-awesome-icon icon="dollar-sign"/>
                             Perbarui nilai PNBP
                         </b-button>
+
+                        <!-- cetak PDF -->
+                        <b-button
+                        variant="dark"
+                        size="sm"
+                        class="shadow mb-1"
+                        @click="printPnbp(item)"
+                        >
+                            <font-awesome-icon icon="print"/>
+                            Print
+                        </b-button>
                     </template>
 
                 </b-table>
@@ -139,12 +150,23 @@
                 </div>
             </template>
         </b-modal>
+
+        <!-- Untuk nampilin PDF -->
+        <modal-view-pdf
+            :url="pdfUrl"
+            :altFilename="altFilename"
+            :title="'Cetak Lembar PNBP'"
+            v-model="showPdf"
+        />
+
     </div>
 </template>
 
 <script>
 import AttachmentBucket from '../components/AttachmentBucket'
 import PaginatedBrowser from '../components/PaginatedBrowser'
+import ModalViewPdf from '../components/ModalViewPdf'
+
 import axiosErrorHandler from '../mixins/axiosErrorHandler'
 import niceties from '../mixins/niceties'
 import { mapMutations, mapGetters } from 'vuex'
@@ -157,7 +179,8 @@ export default {
 
     components: {
         PaginatedBrowser,
-        AttachmentBucket
+        AttachmentBucket,
+        ModalViewPdf
     },
 
     methods: {
@@ -250,6 +273,12 @@ export default {
                 this.setBusyState(false)
                 this.handleError(e)
             })
+        },
+
+        // cetak PDF
+        printPnbp(item) {
+            this.pdfUrl = this.api.generatePdfUrl('pnbp', item.id)
+            this.showPdf = true
         }
     },
 
@@ -277,7 +306,11 @@ export default {
     data () {
         return {
             // shownId: null,
-            activePnbp: null
+            activePnbp: null,
+
+            pdfUrl: null,
+            showPdf: false,
+            altFilename: 'PNBP.pdf'
         }
     }
 }
