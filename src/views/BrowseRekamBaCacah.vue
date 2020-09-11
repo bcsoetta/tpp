@@ -98,6 +98,8 @@
                     ref="table"
                     :tbody-tr-class="rowClass"
                     primary-key="id"
+
+                    sort-bcp
                 >
                     <!-- selected cell display -->
                     <template #cell(selected)="{ item }">
