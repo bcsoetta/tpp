@@ -178,8 +178,8 @@ export default {
     computed: {
         opsiBidang () {
             return [
-                'BIDANG PFPC I',
-                'BIDANG PFPC II',
+                'Bidang PFPC I',
+                'Bidang PFPC II',
             ]
         },
 
