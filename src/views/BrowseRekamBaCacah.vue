@@ -283,6 +283,8 @@
                             :per-page="pagination.number"
                             :current-page="pagination.page"
                             show-pencacahan
+
+                            sort-bcp
                             />
                     </template>
                 </paginated-browser>
