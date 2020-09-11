@@ -10,6 +10,11 @@
                 show-bcp
                 show-pencacahan
                 :items="data"
+
+                sort-bcp
+                no-local-sorting
+                @sort-changed="onSortChanged"
+
             />
         </template>
     </paginated-browser>
@@ -32,6 +37,12 @@ export default {
         },
     },
 
+    data () {
+        return {
+            orderBy: []
+        }
+    },
+
     components: {
         PaginatedBrowser,
         AwbFlexiTable
@@ -43,7 +54,12 @@ export default {
         fetchBaCacahAwb (q, spinner, vm) {
             spinner(true)
 
-            this.api.getBACacahAwb(this.id, q)
+            this.api.getBACacahAwb(this.id, {
+                ...q,
+                ...{
+                    orderBy: this.orderBy.join(',')
+                }
+            })
             .then(e => {
                 spinner(false)
                 vm.setData(e.data.data)
@@ -53,11 +69,30 @@ export default {
                 spinner(false)
                 this.handleError(e)
             })
-        }
+        },
+
+        // when sorting changes
+        onSortChanged(ctx) {
+            console.log('Sorting changed:', ctx)
+
+            // change the sortBy query
+            this.orderBy = []
+            this.orderBy.push(`${ctx.sortBy}|${ctx.sortDesc ? 'desc' : 'asc'}`)
+
+            console.log('orderBy: ', this.orderBy)
+        },
     },
 
     computed: {
         ...mapGetters(['api']),
+    },
+
+    watch: {
+        orderBy: {
+            handler(nv) {
+                this.$refs.browser.loadData()
+            }
+        }
     }
 }
 </script>
