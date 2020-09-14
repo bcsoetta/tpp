@@ -12,7 +12,11 @@
 
                 :showBc11="!bdnMode"
                 :showBcp="bdnMode"
+
+                show-number
             >
+
+                <!-- add numbering? -->
                 
             </awb-flexi-table>
         </template>
