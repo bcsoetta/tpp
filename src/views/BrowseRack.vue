@@ -30,6 +30,9 @@
                 bordered
                 head-variant="dark"
                 class="shadow"
+
+                no-local-sorting
+                @sort-changed="onSortChanged"
                 >
                     <!-- special render -->
                     <template #cell(number)="{ index }">
@@ -47,8 +50,8 @@
                     </template>
 
                     <!-- awb_count -->
-                    <template #cell(awb_count)="{ item }">
-                        0 AWB
+                    <template #cell(total_awb)="{ value }">
+                        <span><b-badge>{{ value }}</b-badge> AWB</span>
                     </template>
 
                     <!-- act -->
@@ -58,8 +61,9 @@
                         variant="primary"
                         size="sm"
                         class="shadow my-1"
+                        @click="modalViewDetail(item)"
                         >
-                            <font-awesome-icon icon="eye"/>
+                            <font-awesome-icon icon="clipboard-check"/>
                         </b-button>
 
                         <!-- update -->
@@ -106,12 +110,40 @@
         <!-- just show rack-contents -->
             <rack-contents :data="rack"/>
         </b-modal>
+
+        <!-- modal utk lihat list awb -->
+        <b-modal
+            id="modal-view-awb"
+            :title="`List AWB yang ada di rak - ${rack.kode} (${rack.total_awb})`"
+            size="xl"
+            header-bg-variant="light"
+            hide-footer
+        >
+            <paginated-browser
+            ref="awb_browser"
+            :data-callback="getDetailAwb"
+            >
+                <template #default="{ data, pagination }">
+                    <awb-flexi-table
+                
+                        :items="data"
+                        :start="pagination.start"
+
+                        show-bc11
+                        show-bcp
+                    >
+                        
+                    </awb-flexi-table>
+                </template>
+            </paginated-browser>
+        </b-modal>
     </div>
 </template>
 
 <script>
 import PaginatedBrowser from '../components/PaginatedBrowser'
 import RackContents from '../components/RackContents'
+import AwbFlexiTable from '../components/AwbFlexiTable'
 import { mapGetters, mapMutations } from 'vuex'
 import axiosErrorHandler from '../mixins/axiosErrorHandler'
 import niceties from '../mixins/niceties'
@@ -130,13 +162,16 @@ export default {
     
     components: {
         PaginatedBrowser,
-        RackContents
+        RackContents,
+        AwbFlexiTable
     },
 
     data () {
         return {
             mode: 'add',
-            rack: cloneDeep(defaultRack)
+            rack: cloneDeep(defaultRack),
+
+            orderBy: null
         }
     },
 
@@ -146,7 +181,28 @@ export default {
         getRack(q, spinner, vm) {
             this.setBusyState(true)
             // call api
-            this.api.getRack(q)
+            this.api.getRack({
+                ...q,
+                orderBy: this.orderBy
+            })
+            .then(e => {
+                this.setBusyState(false)
+                vm.setData(e.data.data)
+                vm.setTotal(e.data.meta.pagination.total)
+            })
+            .catch(e => {
+                this.setBusyState(false)
+                this.handleError(e)
+            })
+        },
+
+        // get detail awb
+        getDetailAwb(q, spinner, vm) {
+            this.setBusyState(true)
+            this.api.getAwb({
+                ...q,
+                rack_id: this.rack.id
+            })
             .then(e => {
                 this.setBusyState(false)
                 vm.setData(e.data.data)
@@ -171,6 +227,12 @@ export default {
             this.mode = 'edit'
             this.rack = item
             this.$bvModal.show('modal-add')
+        },
+
+        // modal view detail
+        modalViewDetail(item) {
+            this.rack = item
+            this.$bvModal.show('modal-view-awb')
         },
 
         // input data rak baru
@@ -255,6 +317,16 @@ export default {
                     this.handleError(e)
                 })
             }
+        },
+
+        // when sorting change
+        onSortChanged(e) {
+            console.log('sort changed', e)
+            this.orderBy = null
+            if (e.sortBy) {
+                var query = `${e.sortBy}|` + (e.sortDesc ? 'desc' : 'asc')
+                this.orderBy = query
+            }
         }
     },
 
@@ -264,11 +336,19 @@ export default {
         fields() {
             return [
                 { key: 'number', label: '#' },
-                { key: 'kode', class: 'text-center' },
+                { key: 'kode', class: 'text-center', sortable:true },
                 { key: 'visual_data', class: 'text-center' },
-                { key: 'awb_count', class: 'text-center' },
+                { key: 'total_awb', class: 'text-center', sortable:true },
                 { key: 'act', class: 'text-center' }
             ]
+        }
+    },
+
+    watch: {
+        orderBy: {
+            handler() {
+                this.$refs.browser.loadData()
+            }
         }
     }
 }

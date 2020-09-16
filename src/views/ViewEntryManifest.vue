@@ -23,6 +23,12 @@
                             Rekam Penyelesaian
                         </b-button>
 
+                        <!-- update rack -->
+                        <b-button size="sm" variant="warning" class="shadow my-2" v-b-modal.dialog-racking :disabled="!canUpdateRack">
+                            <font-awesome-icon icon="search-location"/>
+                            Update Racking
+                        </b-button>
+
                         <!-- refresh -->
                         <b-button size="sm" variant="success" class="shadow my-2" @click="loadEntryManifest">
                             <font-awesome-icon icon="sync"/>
@@ -124,6 +130,16 @@
             size="lg"
             @store-penyelesaian="storePenyelesaian"
         />
+
+        <!-- modal racking -->
+        <modal-racking
+            :data="dataAwb"
+            ref="modalRacking"
+            id="dialog-racking"
+            centered
+            size="sm"
+            @update-rack="updateRack"
+        />
     </div>
 </template>
 
@@ -149,6 +165,8 @@ import PenyelesaianContents from '../components/PenyelesaianContents'
 
 import PnbpContents from '../components/PnbpContents'
 
+import ModalRacking from '@/components/ModalRacking'
+
 export default {
     mixins: [
         axiosErrorHandler,
@@ -164,7 +182,8 @@ export default {
         TrackingTimeline,
         ModalDialogPenyelesaian,
         PenyelesaianContents,
-        PnbpContents
+        PnbpContents,
+        ModalRacking
     },
 
     props: {
@@ -272,6 +291,29 @@ export default {
                 this.setBusyState(false)
                 this.handleError(e)
             })
+        },
+
+        // update rack
+        updateRack(data) {
+            // alert(data)
+            console.log(data)
+            this.setBusyState(true)
+            // call api
+            this.api.awbUpdateRack(data.entry_manifest_id, data.rack_id)
+            .then(e => {
+                this.setBusyState(false)
+                // ok, just close modal and refresh
+                this.$bvModal.hide('dialog-racking')
+                // load again
+                this.$nextTick(() => {
+                    // reload
+                    this.loadEntryManifest()
+                })
+            })
+            .catch(e => {
+                this.setBusyState(false)
+                this.handleError(e)
+            })
         }
     },
 
@@ -285,6 +327,10 @@ export default {
 
         isLocked() {
             return this.dataAwb.is_locked
+        },
+
+        canUpdateRack() {
+            return !this.dataAwb.is_locked && this.dataAwb.waktu_gate_in && !this.dataAwb.waktu_gate_out
         }
     },
 

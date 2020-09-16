@@ -31,13 +31,23 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col>
+          <b-col md="6">
             <b-form-group label="Waktu Gate-In" class="thick">
               <b-form-input
                 size="sm"
                 :disabled="disabled"
                 class="text-center text-info"
                 :value="data.waktu_gate_in"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="6">
+            <b-form-group label="Waktu Gate-Out" class="thick">
+              <b-form-input
+                size="sm"
+                :disabled="disabled"
+                class="text-center text-danger"
+                :value="data.waktu_gate_out"
               />
             </b-form-group>
           </b-col>

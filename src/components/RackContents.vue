@@ -3,7 +3,7 @@
         <b-row>
             <!-- kode -->
             <b-col md="6">
-                <b-form-group label="Kode" description="harus unik">
+                <b-form-group label="Kode" description="harus unik, formatnya: X## (karakter diikuti dua digit), misal X03">
                     <b-form-input v-model="data.kode" :disabled="disabled"/>
                 </b-form-group>
             </b-col>

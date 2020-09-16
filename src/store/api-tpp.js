@@ -219,7 +219,13 @@ class ApiTpp {
     }
 
     gateOutAwb (id) {
-        return this.instance.put(`awb/${id}/gate-out`)
+        return this.instance.put(`/awb/${id}/gate-out`)
+    }
+
+    awbUpdateRack (id, rack_id) {
+        return this.instance.patch(`/awb/${id}`,[
+            { op: 'update-rack', data: { 'rack_id': rack_id } }
+        ])
     }
 
     // =====================SSO USER ENDPOINTS=========================================================
