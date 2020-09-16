@@ -33,6 +33,9 @@
         </b-popover>
       </template>
     </div>
+    <b-form-group label="Rack" :description="`current rack_id: ${rack_id}`">
+      <select-rack v-model="rack_id"/>
+    </b-form-group>
   </div>
 </template>
 
@@ -41,13 +44,15 @@ import SelectTps from '@/components/SelectTps'
 import SelectUser from '@/components/SelectUser'
 import SelectPenetapan from '@/components/SelectPenetapan'
 import SelectBast from '@/components/SelectBast'
+import SelectRack from '../components/SelectRack'
 
 export default {
   components: {
     SelectTps,
     SelectUser,
     SelectPenetapan,
-    SelectBast
+    SelectBast,
+    SelectRack
   },
 
   data () {
@@ -63,7 +68,8 @@ export default {
       tps_kode: null,
       pejabat_id: null,
       penetapan_id: null,
-      bast_id: null
+      bast_id: null,
+      rack_id: null
     }
   },
 

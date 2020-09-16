@@ -141,7 +141,7 @@
                     {
                         "item": "Lokasi/Rak",
                         "icon": "fa-search-location",
-                        "to": "/lokasi"
+                        "to": "/rack"
                     },
                     {
                         "item": "Jenis Dok Penyelesaian",

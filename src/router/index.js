@@ -37,6 +37,8 @@ import BrowseRefDokPenyelesaian from '@/views/BrowseRefDokPenyelesaian'
 
 import BrowsePnbp from '@/views/BrowsePnbp'
 
+import BrowseRack from '@/views/BrowseRack'
+
 import store from '../store'
 
 // const axios = require('axios').default
@@ -221,6 +223,15 @@ const router = new Router({
           meta: {
             title: 'Browse PNBP',
             breadcrumb: '💲Browse PNBP'
+          }
+        },
+        {
+          path: 'rack',
+          name: 'BrowseRack',
+          component: BrowseRack,
+          meta: {
+            title: 'Browse Rak',
+            breadcrumb: '🗄️Browse Rak'
           }
         }
       ]

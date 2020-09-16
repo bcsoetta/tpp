@@ -30,7 +30,10 @@ export default new Vuex.Store({
         fetchTps: null,
 
         refDokPenyelesaian: [], // empty
-        fetchRefDokPenyelesaian: null
+        fetchRefDokPenyelesaian: null,
+
+        rack: [],
+        fetchRack: null
     },
     mutations: {
         setSidebarActive(state, payload) {
@@ -75,6 +78,13 @@ export default new Vuex.Store({
             state.fetchRefDokPenyelesaian = payload
             state.fetchRefDokPenyelesaian.then(e => {
                 state.refDokPenyelesaian = e.data.data
+            })
+        },
+
+        setFetchRack(state, payload) {
+            state.fetchRack = payload
+            state.fetchRack.then(e => {
+                state.rack = e.data.data
             })
         }
     },
@@ -141,6 +151,10 @@ export default new Vuex.Store({
 
         refDokPenyelesaian: (state) => {
             return state.refDokPenyelesaian
+        },
+
+        rack: (state) => {
+            return state.rack
         }
     },
     actions: {
@@ -162,6 +176,14 @@ export default new Vuex.Store({
             }
 
             return context.state.fetchRefDokPenyelesaian
+        },
+
+        fetchRack (context) {
+            if (!context.state.fetchRack) {
+                context.commit('setFetchRack', context.getters.api.getRack({
+                    show_all: true
+                }))
+            }
         }
     }
 })

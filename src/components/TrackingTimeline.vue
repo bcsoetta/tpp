@@ -12,7 +12,7 @@
                 <p class="text-left">
                     <strong>{{ tracking.lokasi.data.nama }}</strong>
                 </p>
-                <blockquote>Tracking updated by <b-badge>{{ tracking.petugas.data.name }}</b-badge></blockquote>
+                <blockquote v-if="tracking.petugas">Tracking updated by <b-badge>{{ tracking.petugas.data.name }}</b-badge></blockquote>
             </b-alert>
         </div>
     </div>

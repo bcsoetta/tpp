@@ -366,6 +366,37 @@ class ApiTpp {
             }
         ])
     }
+
+    // =================================RACK=========================================================
+    getRack (params) {
+        return this.instance.get('/rack', {
+            params: params
+        })
+    }
+
+    getRackById (id, params) {
+        return this.instance.get(`/rack/${id}`, {
+            params: params
+        })
+    }
+
+    getRackByKode (kode, params) {
+        return this.instance.get(`/rack/${kode}`, {
+            params: params
+        })
+    }
+
+    storeRack (data) {
+        return this.instance.post('/rack', data)
+    }
+
+    updateRack (id, data) {
+        return this.instance.put(`/rack/${id}`, data)
+    }
+
+    destroyRack (id) {
+        return this.instance.delete(`/rack/${id}`)
+    }
 }
 
 export {
