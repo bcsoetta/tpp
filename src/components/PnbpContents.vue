@@ -13,9 +13,9 @@
             </b-col>
             <!-- tgl dok -->
             <b-col md="2">
-                <b-form-group label="Tgl Dok">
+                <b-form-group label="Tgl PNBP">
                     <datepicker
-                        :disabled="readOnly"
+                        :disabled="!mockupMode && readOnly"
                         v-model="dataPnbp.tgl_dok"
                     />
                 </b-form-group>
@@ -49,6 +49,15 @@
                         :disabled="!mockupMode && readOnly"
                         :options="opsiKodeSurat"
                         v-model="dataPnbp.kode_surat"
+                        />
+                </b-form-group>
+
+                <!-- nomor urut -->
+                <b-form-group label="Nomor Urut PNBP" description="angka saja, misal 312">
+                    <b-form-input 
+                        type="number" 
+                        v-model.number="dataPnbp.no_dok" 
+                        :disabled="!mockupMode && readOnly"
                         />
                 </b-form-group>
             </b-col>
