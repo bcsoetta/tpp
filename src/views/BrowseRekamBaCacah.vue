@@ -381,6 +381,7 @@ export default {
             this.api.getAwb({
                 siap_rekam_ba_cacah: true,
                 show_all: true,
+                exclude: 'keterangan,status,barang,tracking,pencacahan,lampiran,penyelesaian,pnbp,last_tracking',
                 ...q
             })
             .then(e => {
