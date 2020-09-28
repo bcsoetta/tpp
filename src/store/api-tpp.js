@@ -228,6 +228,10 @@ class ApiTpp {
         ])
     }
 
+    awbSiapBMNCount () {
+        return this.instance.get('/awb/siap_bmn')
+    }
+
     // =====================SSO USER ENDPOINTS=========================================================
     getKasi (params) {
         return this.instance.get('/kasi', {
