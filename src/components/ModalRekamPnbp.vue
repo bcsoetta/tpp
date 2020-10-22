@@ -35,6 +35,7 @@
             </p> -->
             <pnbp-contents
                 :data-pnbp="dataPnbp"
+                @recalculate="precalculatePnbp"
             />
         </template>
     </b-modal>
@@ -79,7 +80,8 @@ export default {
                 pejabat_id: null,
                 nama_bidang: null,
                 nama_jabatan: null,
-                kode_surat: null
+                kode_surat: null,
+                manual: false
             }
         }
     },
@@ -94,12 +96,18 @@ export default {
             if (this.awbId) {
                 this.busy = true
                 // load it
+                // let oldManual = this.dataPnbp.manual
+
                 this.api.precalculatePnbp(this.awbId, {
-                    include: 'entry_manifest'
+                    include: 'entry_manifest',
+                    tgl_gate_out: this.dataPnbp.tgl_gate_out,
+                    manual: this.dataPnbp.manual
                 })
                 .then(e => {
                     this.busy = false
                     this.dataPnbp = e.data.data
+                    // restore manual flag
+                    // this.dataPnbp.manual = oldManual
                 })
                 .catch(e => {
                     this.busy = false
