@@ -364,8 +364,36 @@ export default {
     methods: {
         ...mapMutations(['setBusyState']),
 
+        filterData(data, q) {
+            var pass = true
+            // only worth noting is q, from, and to
+            if (q.q) {
+                q.q = q.q.toUpperCase()
+                pass = pass && (
+                    data.mawb.toUpperCase().indexOf(q.q) >= 0
+                    || (data.hawb ? data.hawb.toUpperCase().indexOf(q.q) >= 0 : true)
+                    || data.nama_importir.toUpperCase().indexOf(q.q) >= 0
+                    )
+            }
+
+            // store data pencacahan (tgl aja)
+            var tgl_cacah = data.short_last_status.status == 'PENCACAHAN' ? data.short_last_status.created_at.split(" ")[0] : null
+
+            // console.log(`${data.id} tgl cacah = ${tgl_cacah}`)
+
+            if (q.from) {
+                pass = pass && (String(tgl_cacah) >= String(q.from))
+            }
+
+            if (q.to) {
+                pass = pass && (String(tgl_cacah) <= String(q.to))
+            }
+
+            return pass
+        },
+
         onRequestselectedData({q, spinner, vm}) {
-            var filtered = this.selectedData.filter(e => this.filterData(e, q))
+            var filtered = this.selectedData.filter(e => this.filterDataPencacahan(e, q))
             vm.setData(filtered)
             vm.setTotal(filtered.length)
         },
