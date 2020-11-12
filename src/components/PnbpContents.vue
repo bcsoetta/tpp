@@ -33,8 +33,9 @@
             <b-col md="2">
                 <b-form-group label="Tgl GateOut">
                     <datepicker
-                        :disabled="readOnly"
+                        :disabled="readOnly && !mockupMode"
                         v-model="dataPnbp.tgl_gate_out"
+                        @input="$emit('recalculate')"
                     />
                 </b-form-group>
             </b-col>
@@ -97,6 +98,17 @@
                         :search-on-empty="!dataPnbp.pejabat_id"
                     />
                 </b-form-group>
+
+                <div>
+                    <b-form-checkbox
+                    v-model="dataPnbp.manual"
+                    :value="true"
+                    :unchecked-value="false"
+                    :disabled="!mockupMode && readOnly"
+                    >
+                    Manual
+                    </b-form-checkbox>
+                </div>
             </b-col>
         </b-row>
 
