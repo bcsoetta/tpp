@@ -78,10 +78,10 @@
     },
     {
         "section": "Browse Data",
-        "role": "PELAKSANA,KASI,CONSOLE"
+        "role": "PELAKSANA,KASI,CONSOLE,BROWSER"
     },
     {
-        "role": "PELAKSANA,KASI,CONSOLE",
+        "role": "PELAKSANA,KASI,CONSOLE,BROWSER",
         "list":[
             {
                 "item": "Browse",
